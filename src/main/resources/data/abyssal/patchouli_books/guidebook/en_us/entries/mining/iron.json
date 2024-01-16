@@ -1,0 +1,21 @@
+{
+  "name": "Mining Iron",
+  "icon": "minecraft:iron_ingot",
+  "category": "abyssal:mining",
+  "pages": [
+    {
+      "type": "patchouli:smelting",
+      "recipe": "abyssal:iron_nuggets_from_smelting_poor_iron",
+      "text": "Step 1: Acquire poor raw iron."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:blast_furnace",
+      "text": "Step 2: Acquire a blast furnace."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Step 3: Blast raw iron or poor raw iron in your blast furnace. You receive 50% more iron if blasting poor iron as opposed to smelting it."
+    }
+  ]
+}

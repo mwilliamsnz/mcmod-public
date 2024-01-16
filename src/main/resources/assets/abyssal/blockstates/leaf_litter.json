@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      {"model": "abyssal:block/leaf_litter"},
+      {"model": "abyssal:block/leaf_litter", "y": 90},
+      {"model": "abyssal:block/leaf_litter", "y": 180},
+      {"model": "abyssal:block/leaf_litter", "y": 270}
+    ]
+  }
+}

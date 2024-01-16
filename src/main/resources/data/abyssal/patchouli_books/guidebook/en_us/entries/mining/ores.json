@@ -1,0 +1,11 @@
+{
+  "name": "Where are the ores?",
+  "icon": "minecraft:gold_ore",
+  "category": "abyssal:mining",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The natural frequency of coal, copper, iron, and gold is lower in most places than in vanilla. However, certain areas will have very high quantities of one type of ore. These ore-rich regions cover roughly 15% of the overworld's area. If you find larger or more frequent ore veins than usual, be sure to note the location and return to set up a mine."
+    }
+  ]
+}

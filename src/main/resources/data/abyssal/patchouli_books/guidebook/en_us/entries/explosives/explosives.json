@@ -1,0 +1,16 @@
+{
+  "name": "Explosives",
+  "icon": "minecraft:tnt",
+  "category": "abyssal:explosives",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Powder barrels cause more damage to players and other creatures than TNT does, but cause less damage to the terrain."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:powder_barrel",
+      "recipe2": "minecraft:tnt"
+    }
+  ]
+}

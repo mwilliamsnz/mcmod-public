@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": ["minecraft:old_growth_spruce_taiga","minecraft:old_growth_pine_taiga"],
+  "features": [
+    "abyssal:elder_pine"
+  ],
+  "step": "vegetal_decoration"
+}

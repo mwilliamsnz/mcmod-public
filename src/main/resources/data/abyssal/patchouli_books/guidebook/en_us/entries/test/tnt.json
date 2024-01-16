@@ -1,0 +1,15 @@
+{
+  "name": "TNT",
+  "icon": "minecraft:tnt",
+  "category": "abyssal:test_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Now crafted with nitroglycerine jelly, dropped by creepers in place of gunpowder."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:tnt"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ono",
+    "ngn",
+    "ono"
+  ],
+  "key": {
+    "o": {
+      "item": "abyssal:onyx_dust"
+    },
+    "n": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "minecraft:netherite_ingot"
+  }
+}

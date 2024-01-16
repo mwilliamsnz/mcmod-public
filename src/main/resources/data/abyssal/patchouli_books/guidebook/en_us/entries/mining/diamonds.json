@@ -1,0 +1,41 @@
+{
+  "name": "Diamonds",
+  "icon": "minecraft:diamond",
+  "category": "abyssal:mining",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "If you have mined some diamonds by now, you may have noticed that they usually don't drop full-sized diamonds, and that you can't use your diamonds to craft anything (sorry). Instead, you must craft diamond-reinforced ingots. If you have lots of larger diamonds and no tiny ones, consider making a Lapidary Table, as detailed in the gems chapter."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:diamond_ingot",
+      "recipe2": "minecraft:enchanting_table"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:jukebox",
+      "recipe2": "minecraft:diamond_sword"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:diamond_pickaxe",
+      "recipe2": "minecraft:diamond_shovel"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:diamond_axe",
+      "recipe2": "minecraft:diamond_hoe"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:diamond_helmet",
+      "recipe2": "minecraft:diamond_chestplate"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:diamond_leggings",
+      "recipe2": "minecraft:diamond_boots"
+    }
+  ]
+}

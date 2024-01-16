@@ -1,0 +1,48 @@
+{
+  "name": "Silvered Gem Blocks",
+  "icon": "abyssal:silvered_diamond_slate",
+  "category": "abyssal:gems",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Oh God oh fuck there are even more gem blocks"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_slate_only_ingot",
+      "recipe2": "abyssal:silvered_garnet_slate_combined"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_garnet_slate_only_ingot",
+      "recipe2": "abyssal:silvered_garnet_slate_only_gem"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_diamond_slate_combined",
+      "recipe2": "abyssal:silvered_diamond_slate_only_ingot"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_diamond_slate_only_gem"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_onyx_slate_combined",
+      "recipe2": "abyssal:silvered_onyx_slate_only_ingot"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_onyx_slate_only_gem"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_purplegem_slate_combined",
+      "recipe2": "abyssal:silvered_purplegem_slate_only_ingot"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:silvered_purplegem_slate_only_gem"
+    }
+  ]
+}

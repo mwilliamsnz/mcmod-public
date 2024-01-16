@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:forest",
+    "minecraft:dark_forest",
+    "minecraft:windswept_forest",
+    "minecraft:swamp",
+    {
+      "id": "pumkinpie:black_forest",
+      "required": false
+    }
+  ]
+}

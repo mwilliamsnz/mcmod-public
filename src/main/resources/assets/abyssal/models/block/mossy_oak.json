@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "minecraft:block/oak_log_top",
+    "down": "minecraft:block/oak_log_top",
+    "south": "abyssal:block/mossy_oak_log_top",
+    "north": "minecraft:block/oak_log",
+    "east": "abyssal:block/mossy_oak_log_right",
+    "west": "abyssal:block/mossy_oak_log_left"
+  }
+}

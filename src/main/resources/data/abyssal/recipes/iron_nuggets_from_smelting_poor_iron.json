@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "group": "iron_nugget",
+  "ingredient": {
+    "item": "abyssal:poor_iron"
+  },
+  "result": "minecraft:iron_nugget",
+  "count": 2,
+  "experience": 0.2,
+  "cookingtime": 200
+}

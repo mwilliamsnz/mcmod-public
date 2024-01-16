@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "minecraft:river",
+    "minecraft:swamp",
+    "minecraft:plains",
+    "minecraft:forest",
+    "abyssal:dense_forest"
+  ],
+  "features": [
+    "abyssal:reeds"
+  ],
+  "step": "vegetal_decoration"
+}

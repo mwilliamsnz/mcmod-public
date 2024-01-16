@@ -1,0 +1,31 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "abyssal:sulfur",
+    "abyssal:nitre",
+    "abyssal:ore_coal_upper_reduced",
+    "abyssal:ore_coal_lower_reduced",
+    "abyssal:ore_coal_extra",
+    "abyssal:ore_copper_reduced",
+    "abyssal:ore_copper_extra",
+    "abyssal:ore_iron_reduced",
+    "abyssal:ore_iron_upper_reduced",
+    "abyssal:ore_iron_extra",
+    "abyssal:ore_poor_iron",
+    "abyssal:ore_poor_iron_wide",
+    "abyssal:ore_poor_iron_extra",
+    "abyssal:ore_silver",
+    "abyssal:ore_silver_extra",
+    "abyssal:ore_gold_reduced",
+    "abyssal:mountain_gold",
+    "abyssal:ore_gold_extra",
+    "abyssal:garnet_cluster",
+    "abyssal:gem_cluster",
+    "abyssal:onyx_cluster",
+    "abyssal:ore_garnets_extra",
+    "abyssal:ore_gems_extra",
+    "abyssal:ore_emeralds_extra"
+  ],
+  "step": "underground_ores"
+}

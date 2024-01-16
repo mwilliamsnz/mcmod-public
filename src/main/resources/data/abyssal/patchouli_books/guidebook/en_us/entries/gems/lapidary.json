@@ -1,0 +1,15 @@
+{
+  "name": "Lapidary Table",
+  "icon": "abyssal:lapidary_table",
+  "category": "abyssal:gems",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "In order to make diamond equipment, you will want to construct a lapidary table. In it, you can crack larger gems into smaller gems. Each gem can be cut into up to four of the size below it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:lapidary_table"
+    }
+  ]
+}

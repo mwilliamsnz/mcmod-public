@@ -1,0 +1,8 @@
+{
+  "parent": "abyssal:block/template_shrub",
+  "textures": {
+    "top": "abyssal:block/shrub_top",
+    "side": "abyssal:block/shrub_side"
+  },
+  "render_type": "cutout"
+}

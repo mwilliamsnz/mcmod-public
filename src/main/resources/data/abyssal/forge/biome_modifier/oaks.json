@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#abyssal:has_many_oaks",
+  "features": [
+    "abyssal:mossy_oak_log"
+  ],
+  "step": "vegetal_decoration"
+}

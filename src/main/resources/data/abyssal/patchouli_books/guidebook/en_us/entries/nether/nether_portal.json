@@ -1,0 +1,16 @@
+{
+  "name": "Nether Portal",
+  "icon": "minecraft:nether_portal",
+  "category": "abyssal:nether",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "In order to light your nether portal, you must find some onyx gems deep underground and construct a portal torch."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:portal_lighter",
+      "recipe2": "abyssal:portal_lighter_from_fire_charge"
+    }
+  ]
+}

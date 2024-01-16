@@ -1,0 +1,15 @@
+{
+  "name": "Powered Rails",
+  "icon": "minecraft:powered_rail",
+  "category": "abyssal:test_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Now crafted with copper."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:powered_rail"
+    }
+  ]
+}

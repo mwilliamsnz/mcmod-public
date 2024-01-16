@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 2
+      },
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "quality": 3,
+          "weight": 1,
+          "name": "abyssal:big_cluster_garnets"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "quality": 1,
+          "weight": 2,
+          "name": "abyssal:small_cluster_garnets"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 3,
+          "name": "abyssal:tiny_cluster_garnets"
+        }
+      ]
+    }
+  ]
+}

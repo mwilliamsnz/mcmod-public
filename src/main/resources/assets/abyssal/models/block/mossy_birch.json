@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "minecraft:block/birch_log_top",
+    "down": "minecraft:block/birch_log_top",
+    "south": "abyssal:block/mossy_birch_log_top",
+    "north": "minecraft:block/birch_log",
+    "east": "abyssal:block/mossy_birch_log_right",
+    "west": "abyssal:block/mossy_birch_log_left"
+  }
+}

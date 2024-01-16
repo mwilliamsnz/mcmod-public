@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "abyssal:nether_onyx_cluster"
+  ],
+  "step": "underground_ores"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Gunpowder",
+  "icon": "minecraft:gunpowder",
+  "category": "abyssal:explosives",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gunpowder is no longer dropped by creepers. Instead, you can craft it from charcoal, saltpetre, and sulfur. You'll find saltpetre in nitre ore, and sulfur near lava-level underground."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "minecraft:gunpowder"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "abyssal:block/corn_seed5"
+  },
+  "render_type": "cutout"
+}

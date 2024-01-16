@@ -1,0 +1,7 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "abyssal:block/brush"
+  },
+  "render_type": "cutout"
+}

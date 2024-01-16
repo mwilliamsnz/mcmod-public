@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "abyssal:corn_seed"
+        }
+      ]
+    },
+    {
+      "rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "abyssal:corn",
+          "conditions": [
+            {
+              "condition": "random_chance",
+              "chance": 0.7
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "block_state_property",
+          "block": "abyssal:corn_seed",
+          "properties": {
+            "age": 7
+          }
+        }
+      ]
+    }
+  ]
+}

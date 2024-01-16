@@ -1,0 +1,21 @@
+{
+  "name": "Gem Blocks",
+  "icon": "abyssal:garnet_slate",
+  "category": "abyssal:gems",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Oh God oh fuck there are a lot of gem blocks"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:garnet_slate",
+      "recipe2": "abyssal:diamond_slate"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "abyssal:purplegem_slate",
+      "recipe2": "abyssal:onyx_slate"
+    }
+  ]
+}

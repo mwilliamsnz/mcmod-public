@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "abyssal:block/mossy_birch",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "abyssal:block/mossy_birch_vertical"
+    },
+    "axis=z": {
+      "model": "abyssal:block/mossy_birch",
+      "x": 90
+    }
+  }
+}
