@@ -185,6 +185,9 @@
   "item_group.abyssal.misc": "Gamer Items",
   "item_group.abyssal.items": "Magical Trinkets",
   "attribute.name.generic.magic_resist": "Magic Resistance",
-  "attribute.name.generic.ability_power": "Ability Power"
+  "attribute.name.generic.ability_power": "Ability Power",
+
+  "generator.abyssal.temperate": "Temperate",
+  "generator.abyssal.temperate_compat": "Haunted Temperate"
 
 }
