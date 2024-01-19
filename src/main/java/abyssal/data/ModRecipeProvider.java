@@ -194,6 +194,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
                 .save(recipeOutput, new ResourceLocation("minecraft", "clock"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, Items.LIGHT_WEIGHTED_PRESSURE_PLATE)
+                .pattern("n")
+                .pattern("p")
+                .define('n', Items.GOLD_NUGGET)
+                .define('p', ItemTags.WOODEN_PRESSURE_PLATES)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "light_weighted_pressure_plate"));
+
         templateCopy(recipeOutput, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, Items.NETHERRACK);
         templateCopy(recipeOutput, Items.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, Items.COBBLESTONE);
         templateCopy(recipeOutput, Items.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE, Items.SANDSTONE);
