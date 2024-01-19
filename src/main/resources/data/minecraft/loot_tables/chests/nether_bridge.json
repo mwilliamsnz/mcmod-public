@@ -12,6 +12,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
+          "quality": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -28,6 +29,7 @@
         {
           "type": "minecraft:item",
           "weight": 1,
+          "quality": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -44,6 +46,7 @@
         {
           "type": "minecraft:item",
           "weight": 5,
+          "quality": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -76,6 +79,7 @@
         {
           "type": "minecraft:item",
           "weight": 2,
+          "quality": 2,
           "name": "minecraft:diamond"
         },
         {
@@ -113,6 +117,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": 15,
           "functions": [
             {
               "function": "minecraft:set_count",

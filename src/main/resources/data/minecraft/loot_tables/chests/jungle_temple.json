@@ -12,6 +12,7 @@
         {
           "type": "minecraft:item",
           "weight": 3,
+          "quality": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -28,6 +29,7 @@
         {
           "type": "minecraft:item",
           "weight": 3,
+          "quality": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -44,6 +46,7 @@
         {
           "type": "minecraft:item",
           "weight": 3,
+          "quality": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -76,6 +79,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": 15,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -124,13 +128,14 @@
         {
           "type": "minecraft:item",
           "weight": 10,
+          "quality": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 7.0
+                "min": 1.0,
+                "max": 5.0
               },
               "add": false
             }
@@ -140,6 +145,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": -5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -172,6 +178,7 @@
         {
           "type": "minecraft:item",
           "weight": 20,
+          "quality": -5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -188,6 +195,7 @@
         {
           "type": "minecraft:item",
           "weight": 16,
+          "quality": -5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -204,6 +212,7 @@
         {
           "type": "minecraft:item",
           "weight": 16,
+          "quality": -8,
           "functions": [
             {
               "function": "minecraft:set_count",

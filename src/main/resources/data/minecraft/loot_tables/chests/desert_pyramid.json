@@ -10,6 +10,7 @@
       "bonus_rolls": 0.0,
       "entries": [
         {
+          "quality": 1,
           "type": "minecraft:item",
           "name": "minecraft:diamond"
         },
@@ -32,6 +33,7 @@
         {
           "type": "minecraft:item",
           "weight": 5,
+          "quality": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -48,6 +50,7 @@
         {
           "type": "minecraft:item",
           "weight": 5,
+          "quality": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -80,6 +83,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": 20,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -112,6 +116,7 @@
         {
           "type": "minecraft:item",
           "weight": 25,
+          "quality": -8,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -128,6 +133,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
+          "quality": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -144,6 +150,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": -4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -160,6 +167,7 @@
         {
           "type": "minecraft:item",
           "weight": 25,
+          "quality": -8,
           "functions": [
             {
               "function": "minecraft:set_count",
