@@ -131,8 +131,8 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             bootstrap.register(cfk("heath_vegetation"), new ConfiguredFeature<>(Feature.RANDOM_PATCH, HEATHER_SPREAD));
 
                             bootstrap.register(cfk("surface_moss"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
-                                            12, PlacementUtils.filtered(
+                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, new RandomPatchConfiguration(
+                                            20, 5, 3, PlacementUtils.filtered(
                                                     Feature.SIMPLE_BLOCK,
                                                     new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.MOSS_CARPET)),BlockPredicate.allOf(
                                                             BlockPredicate.ONLY_IN_AIR_PREDICATE,
@@ -140,6 +140,17 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                                                     BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.DIRT),
                                                                     BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.LOGS),
                                                                     BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.MOSSY_COBBLESTONE)
+                                                            )
+                                                    ))
+                                    )));
+
+                            bootstrap.register(cfk("clover"),
+                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, new RandomPatchConfiguration(30, 3, 2, PlacementUtils.filtered(
+                                                    Feature.SIMPLE_BLOCK,
+                                                    new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.CLOVER.get())), BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                                            BlockPredicate.anyOf(
+                                                                    BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.GRASS_BLOCK)
                                                             )
                                                     ))
                                     )));
@@ -177,6 +188,23 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                                     )
                                             ),
                                             BlockPredicate.matchesBlocks(List.of(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.COARSE_DIRT)),
+                                            UniformInt.of(2, 6),
+                                            2)));
+
+                            bootstrap.register(cfk("disk_mud"),
+                                    new ConfiguredFeature<>(ModGeneration.RAGGED_DISK.get(), new DiskConfiguration(
+                                            new RuleBasedBlockStateProvider(
+                                                    BlockStateProvider.simple(Blocks.DIRT),
+                                                    List.of(new RuleBasedBlockStateProvider.Rule(
+                                                            BlockPredicate.not(
+                                                                    BlockPredicate.anyOf(
+                                                                            BlockPredicate.solid(Direction.UP.getNormal())
+                                                                    )
+                                                            ),
+                                                            BlockStateProvider.simple(Blocks.MUD))
+                                                    )
+                                            ),
+                                            BlockPredicate.matchesBlocks(List.of(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.COARSE_DIRT, Blocks.SAND)),
                                             UniformInt.of(2, 6),
                                             2)));
 
@@ -318,7 +346,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     ));
                             bootstrap.register(pfk("brush"),
                                     new PlacedFeature(configured.getOrThrow(cfk("brush")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.7D, 2, 12), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(NoiseThresholdCountPlacement.of(-0.5D, 2, 12), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("forest_rock_rare"),
                                     new PlacedFeature(configured.getOrThrow(MiscOverworldFeatures.FOREST_ROCK),
@@ -330,7 +358,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     ));
                             bootstrap.register(pfk("alpine_rock_andesite"),
                                     new PlacedFeature(configured.getOrThrow(cfk("alpine_rock_andesite")),
-                                            List.of(RarityFilter.onAverageOnceEvery(30), NoiseThresholdCountPlacement.of(-0.8D, 3, 6), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(RarityFilter.onAverageOnceEvery(30), NoiseThresholdCountPlacement.of(-0.4D, 3, 6), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("shrub"),
                                     new PlacedFeature(configured.getOrThrow(cfk("shrub")),
@@ -351,6 +379,10 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             bootstrap.register(pfk("surface_moss"),
                                     new PlacedFeature(configured.getOrThrow(cfk("surface_moss")),
                                             List.of(NoiseThresholdCountPlacement.of(-0.8D, 5, 10), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES), BiomeFilter.biome())
+                                    ));
+                            bootstrap.register(pfk("clover"),
+                                    new PlacedFeature(configured.getOrThrow(cfk("clover")),
+                                            List.of(NoiseThresholdCountPlacement.of(-0.4D, 2, 8), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES), BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("elder_pine"),
                                     new PlacedFeature(configured.getOrThrow(cfk("tree_elder_pine")),
@@ -376,6 +408,11 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             bootstrap.register(pfk("disk_coarse"),
                                     new PlacedFeature(configured.getOrThrow(cfk("disk_coarse")),
                                             List.of(CountPlacement.of(3), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, BlockPredicateFilter.forPredicate(BlockPredicate.matchesBlocks(Blocks.GRASS_BLOCK)), BiomeFilter.biome())
+                                    ));
+
+                            bootstrap.register(pfk("disk_mud"),
+                                    new PlacedFeature(configured.getOrThrow(cfk("disk_mud")),
+                                            List.of(NoiseThresholdCountPlacement.of(-0.7D, 3, 0), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_TOP_SOLID, BiomeFilter.biome())
                                     ));
 
                             bootstrap.register(pfk("river_gold"),

@@ -43,6 +43,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.REED.get());
         this.dropSelf(ModBlocks.SHRUB.get());
         this.dropSelf(ModBlocks.HEATHER.get());
+        this.dropSelf(ModBlocks.CLOVER.get());
         this.dropSelf(ModBlocks.LEAF_LITTER.get());
         this.dropSelf(ModBlocks.ELDER_PINE_PLANKS.get());
         this.dropSelf(ModBlocks.ELDER_PINE_LOG.get());

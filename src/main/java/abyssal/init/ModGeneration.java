@@ -5,6 +5,7 @@ import abyssal.generation.features.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
@@ -30,5 +31,6 @@ public class ModGeneration {
     public static final RegistryObject<ModOreFeature> MOD_ORE = FEATURES.register("reworked_ore", () -> new ModOreFeature(OreConfiguration.CODEC));
     public static final RegistryObject<SpiderNestFeature> SPIDER_NEST = FEATURES.register("spider_nest", () -> new SpiderNestFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<OutcropFeature> OUTCROP = FEATURES.register("outcrop", () -> new OutcropFeature(BlockStateConfiguration.CODEC));
+    public static final RegistryObject<RaggedDiskFeature> RAGGED_DISK = FEATURES.register("ragged_disk", () -> new RaggedDiskFeature(DiskConfiguration.CODEC));
 
 }
