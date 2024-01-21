@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 12509534,
+    "separation": 2,
+    "spacing": 13
+  },
+  "structures": [
+    {
+      "structure": "abyssal:quarry",
+      "weight": 1
+    }
+  ]
+}
