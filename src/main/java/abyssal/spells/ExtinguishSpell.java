@@ -22,8 +22,7 @@ public class ExtinguishSpell extends Spell {
         final double radius = Math.min(20, Math.cbrt(64 +  4*ap)); // cap at 20m for max of 41^3 < 70k blocks at ~2000 AP. Adds around 16 blocks per 1 AP.
         double rsq = radius*radius;
         Vec3 pp = player.getEyePosition();
-        Vec3 cornerPos = pp.subtract(radius,radius,radius);
-        AABB aabb = AABB.ofSize(cornerPos, 2*radius, 2*radius, 2*radius);
+        AABB aabb = AABB.ofSize(pp, 2*radius, 2*radius, 2*radius);
         level.getEntities(null, aabb).forEach(((entity -> {
             if(entity.distanceTo(player) < radius) {
                 entity.clearFire();
