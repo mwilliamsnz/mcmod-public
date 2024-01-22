@@ -6,16 +6,29 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import static abyssal.blocks.FernCentreBlock.*;
 
 public class FernFrondsBlock extends Block {
     public FernFrondsBlock(Properties p_49795_) {
         super(p_49795_);
+    }
+
+
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext ctx) {
+        return Block.box(state.getValue(WEST) ? 0 : 4,
+                0.0D,
+                state.getValue(NORTH) ? 0 : 4,
+                state.getValue(EAST) ? 16 : 12,
+                6.0,
+                state.getValue(SOUTH) ? 16 : 12);
     }
 
 
@@ -45,8 +58,12 @@ public class FernFrondsBlock extends Block {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2) {
-        return direction.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(blockState, direction.getOpposite()))
+        BlockState s = direction.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(blockState, direction.getOpposite()))
                 : super.updateShape(state, direction, blockState, levelAccessor, pos1, pos2);
+        if(s.getValue(NORTH) || s.getValue(SOUTH) || s.getValue(EAST) || s.getValue(WEST)) {
+            return s;
+        }
+        return Blocks.AIR.defaultBlockState();
     }
 
     @Override

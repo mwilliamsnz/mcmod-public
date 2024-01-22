@@ -3,23 +3,19 @@ package abyssal.blocks;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.PipeBlock;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Map;
 
-public class FernCentreBlock extends Block {
+public class FernCentreBlock extends BushBlock {
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
@@ -28,28 +24,17 @@ public class FernCentreBlock extends Block {
         return entry.getKey().getAxis().isHorizontal();
     }).collect(Util.toMap());
 
+    protected final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0, 16.0D);;
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext ctx) {
+        return SHAPE;
+    }
+
     public FernCentreBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, Boolean.FALSE).setValue(EAST, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE));
 
-    }
-
-    @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (level.getGameRules().getBoolean(GameRules.RULE_DO_VINES_SPREAD)) {
-            if (level.random.nextInt(4) == 0 && level.isAreaLoaded(pos, 4)) { // Forge: check area to prevent loading unloaded chunks
-                Direction direction = Direction.getRandom(random);
-                if (direction.getAxis().isHorizontal()) {
-                    BlockPos newPos = pos.relative(direction);
-                    if (level.isEmptyBlock(newPos)) {
-                        level.setBlock(newPos, this.defaultBlockState().setValue(PROPERTY_BY_DIRECTION.get(direction.getOpposite()), true), 2);
-                    }
-//                    else if(level.getBlockState(newPos).getBlock() instanceof FernFrondsBlock) {
-//                        level.setBlock(newPos, this.defaultBlockState().setValue(PROPERTY_BY_DIRECTION.get(direction.getOpposite()), true), 2);
-//                    }
-                }
-            }
-        }
     }
 
     public boolean connectsTo(BlockState blockState, Direction direction) {
@@ -77,9 +62,12 @@ public class FernCentreBlock extends Block {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos here, BlockPos pos2) {
+        if(!state.canSurvive(levelAccessor, here)) {
+            return Blocks.AIR.defaultBlockState();
+        }
         return direction.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(blockState, direction.getOpposite()))
-                        : super.updateShape(state, direction, blockState, levelAccessor, pos1, pos2);
+                        : super.updateShape(state, direction, blockState, levelAccessor, here, pos2);
     }
 
 

@@ -40,6 +40,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> HEATHER = registerWithDataLoot("heather", () -> new FlowerBlock(MobEffects.ABSORPTION, 6, BlockBehaviour.Properties.copy(Blocks.DANDELION)));
     public static final RegistryObject<Block> ALPINE_PLANT = registerWithDataLoot("alpine_plant", () -> new DeadBushBlock(BlockBehaviour.Properties.copy(Blocks.DEAD_BUSH).offsetType(BlockBehaviour.OffsetType.XZ)));
     public static final RegistryObject<Block> CLOVER = registerWithDataLoot("clover", () -> new GroundCoverBlock(2.0D, BlockBehaviour.Properties.copy(Blocks.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final RegistryObject<Block> FERN_CORE = registerWithDataLoot("fern_core", () -> new FernCentreBlock(BlockBehaviour.Properties.copy(Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
+    public static final RegistryObject<Block> FERN_FRONDS = registerWithDataLoot("fern_fronds", () -> new FernFrondsBlock(BlockBehaviour.Properties.copy(Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
 
     public static final RegistryObject<Block> LEAF_LITTER = registerWithDataLoot("leaf_litter", () -> new SnowyDirtBlock(BlockBehaviour.Properties.copy(Blocks.PODZOL)));
 

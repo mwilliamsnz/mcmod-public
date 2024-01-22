@@ -1,0 +1,20 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "frond": "abyssal:block/fern_frond",
+        "particle": "abyssal:block/fern_frond"
+    },
+    "render_type": "cutout",
+    "elements": [
+        {   "from": [ 4, 1, 0 ],
+            "to": [ 20, 1, 16 ],
+            "rotation": { "origin": [ 8, 16, 0 ], "axis": "z", "angle": 22.5, "rescale": false },
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#frond", "rotation": 90 },
+                "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#frond", "rotation": 270 }
+            }
+        }
+    ]
+}
+
