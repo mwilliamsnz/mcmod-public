@@ -23,6 +23,11 @@ public class Spells {
         public InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {return InteractionResultHolder.fail(staff);}
     });
     public static final Spell INVISIBILITY = createSpell(new PotionEffectSpell(key("invisibility"), MobEffects.INVISIBILITY, 100, 1));
+    public static final Spell LUCK = createSpell(new PotionEffectSpell(key("luck"), MobEffects.LUCK, 100, 10));
+
+    // 5% AP scaling: 0 AP r=5, 100 AP r=10, 200 AP r=15, 500 AP r=30, 1200 AP r=65
+    public static final Spell AREA_GLOW = createSpell(new AreaPotionEffectSpell(key("area_glow"), MobEffects.GLOWING, 160, 0, 5, 0.05, false));
+    public static final Spell FEATHER_FALL = createSpell(new AreaPotionEffectSpell(key("feather_fall"), MobEffects.SLOW_FALLING, 100, 0, 5, 0.05, true));
     public static final Spell EXTINGUISH = createSpell(new ExtinguishSpell(key("extinguish")));
     public static final Spell BANISH = createSpell(new PortalSpell(key("banish")));
     public static final Spell LEAP = createSpell(new LeapSpell(key("leap")));
