@@ -26,7 +26,7 @@ public class NashorsToothItem extends SwordItem implements IForgeItem {
 
     private static final UUID NASHORS_AP_UUID = UUID.fromString("a1b50376-1fc0-43ca-85b9-8c16f1c532fc");
     private static final UUID NASHORS_DAMAGE_UUID = UUID.fromString("91c271c5-7307-4aad-bd14-397c6505f3fa");
-    private static final AttributeModifier NASHORS_AP = new AttributeModifier(NASHORS_AP_UUID, "Ability power", 100, AttributeModifier.Operation.ADDITION);
+    private static final AttributeModifier NASHORS_AP = new AttributeModifier(NASHORS_AP_UUID, "Ability power", 90, AttributeModifier.Operation.ADDITION);
 
     private final ImmutableMultimap<Attribute, AttributeModifier> nashorsModifiers;
     public NashorsToothItem(Tier tier, Properties properties) {

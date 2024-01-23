@@ -19,8 +19,8 @@ public class ProtoBeltItem extends ModCurioItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getCurioAttributes(SlotContext ctx, UUID uuid) {
         Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
-        modifiers.put(ModAttributes.ABILITY_POWER.get(), new AttributeModifier(uuid, "Ability Power", 90, AttributeModifier.Operation.MULTIPLY_BASE));
-        modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", 5, AttributeModifier.Operation.ADDITION));
+        modifiers.put(ModAttributes.ABILITY_POWER.get(), new AttributeModifier(uuid, "Ability Power", 60, AttributeModifier.Operation.MULTIPLY_BASE));
+        modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", 6, AttributeModifier.Operation.ADDITION));
         return modifiers;
     }
 

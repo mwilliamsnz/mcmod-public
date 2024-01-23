@@ -524,12 +524,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.NETHER_BRASS_INGOT.get()))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "tiamat"));
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.TITANIC_HYDRA.get())
-                .pattern("iri")
-                .pattern("igi")
-                .pattern(" t ")
+                .pattern("i i")
+                .pattern("rtr")
+                .pattern(" i ")
                 .define('t', ModItems.TIAMAT.get())
                 .define('r', ModItems.RUBY_CRYSTAL.get())
-                .define('g', ModItems.GIANTS_BELT.get())
                 .define('i', Items.IRON_INGOT)
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.RUBY_CRYSTAL.get()))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "titanic_hydra"));

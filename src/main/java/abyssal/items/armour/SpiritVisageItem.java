@@ -19,7 +19,7 @@ public class SpiritVisageItem extends ModArmourItem {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = UUID.fromString("e9166b06-4aa8-4be5-be5a-7e513a99eeeb");
         builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Maximum health", 9, AttributeModifier.Operation.ADDITION));
-        builder.put(ModAttributes.MAGIC_RESIST.get(), new AttributeModifier(uuid, "Magic resistance", 50, AttributeModifier.Operation.ADDITION));
+        builder.put(ModAttributes.MAGIC_RESIST.get(), new AttributeModifier(uuid, "Magic resistance", 60, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
     }
 
