@@ -92,7 +92,6 @@ public class InCombatHandler {
     @SubscribeEvent
     public static void potionEffectAdded(MobEffectEvent.Added event) {
         if(event.getEntity() instanceof Player p) {
-            Main.LOGGER.info("effect applied to player");
             boolean tenacity = false;
             for(ItemStack s : p.getArmorSlots()) {
                 if(s.is(ModTags.Items.TENACITY_ITEMS)) {
@@ -101,7 +100,6 @@ public class InCombatHandler {
                 }
             }
             if(tenacity) {
-                Main.LOGGER.info("Player has tenacity");
                 MobEffectInstance unmodified = event.getEffectInstance();
                 MobEffectInstance existing = event.getOldEffectInstance();
 
