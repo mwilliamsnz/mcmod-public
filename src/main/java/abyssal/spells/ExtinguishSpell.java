@@ -2,6 +2,8 @@ package abyssal.spells;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +40,7 @@ public class ExtinguishSpell extends Spell {
                 // TODO (soul) campfires, candles, possibly torches/lanterns
             }
         });
+        level.playSound(player, BlockPos.containing(player.position()), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1.0F, 1.0F);
 
         return InteractionResultHolder.success(staff);
     }

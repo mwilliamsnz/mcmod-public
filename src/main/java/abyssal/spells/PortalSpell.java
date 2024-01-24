@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.RelativeMovement;
@@ -38,7 +39,9 @@ public class PortalSpell extends Spell {
             int targety = Mth.lerpInt(yRatio,  12, 110) + randy; // hardcoded values because bedrock ceiling is weird
             int targetz = (int) (player.getZ() * scale + randz);
             Main.LOGGER.info("targeting " + targetx + "," + targety + "," + targetz);
+            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.8f+level.random.nextFloat()*0.4f);
             player.teleportTo(nether, targetx, targety, targetz, RelativeMovement.ALL, player.getYRot(), player.getXRot());
+            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 0.8f+level.random.nextFloat()*0.4f);
 
 
             BlockPos.MutableBlockPos target = new BlockPos.MutableBlockPos(targetx, targety, targety);
