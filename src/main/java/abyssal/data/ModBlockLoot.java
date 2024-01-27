@@ -95,6 +95,8 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.add(ModBlocks.BRUSH.get(), BlockLootSubProvider::createShearsOnlyDrop);
         this.add(ModBlocks.THIN_LEAVES.get(), BlockLootSubProvider::createShearsOnlyDrop);
         this.add(ModBlocks.ALPINE_PLANT.get(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.FERN_CORE.get(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.FERN_FRONDS.get(), BlockLootSubProvider::createShearsOnlyDrop);
 
         this.dropWhenSilkTouch(ModBlocks.SPIDER_NEST.get());
 
