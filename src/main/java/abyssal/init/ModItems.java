@@ -124,6 +124,7 @@ public final class ModItems {
     public static final RegistryObject<Item> MOBI_BOOTS = registerCurio("mobi_boots", () -> new MobiBootsItem(ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> NULL_MAGIC_MANTLE = registerCurio("null_magic_mantle", () -> new NMMItem(defaultCurioProperties()));
+    public static final RegistryObject<Item> SPECTRES_COWL = registerCurio("spectres_cowl", () -> new SpectresCowlItem(ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> SPIRIT_VISAGE = registerCurio("spirit_visage", () -> new SpiritVisageItem(ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> MERC_TREADS = registerCurio("merc_treads", () -> new MercTreadsItem(ArmorItem.Type.BOOTS, new Item.Properties()));
     public static final RegistryObject<Item> RABADONS = registerCurio("rabadons", () -> new RabadonsItem(ArmorItem.Type.HELMET, defaultItemProperties()));
