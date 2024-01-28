@@ -302,9 +302,9 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             makeOre(bootstrap, "reduced_ore_copper", copperTargets, 6);
                             makeOre(bootstrap, "extra_ore_copper", copperTargets, 20);
                                                         // 9 -> 2
-                            makeOre(bootstrap, "reduced_ore_gold", goldTargets, 2+2);
-                            makeOre(bootstrap, "mountain_gold", goldTargets, 6, 1f);
-                            makeOre(bootstrap, "extra_ore_gold", goldTargets, 6);
+                            makeOre(bootstrap, "reduced_ore_gold", goldTargets, 2);
+                            makeOre(bootstrap, "mountain_gold", goldTargets, 5, 1f);
+                            makeOre(bootstrap, "extra_ore_gold", goldTargets, 5);
 
                             makeOre(bootstrap, "ore_silver", silverTargets, 6);
                             makeOre(bootstrap, "extra_ore_silver", silverTargets, 15);
@@ -467,7 +467,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             // Count 4 -> Rarity 2
                             bootstrap.register(pfk("ore_gold_reduced"),
                                     new PlacedFeature(configured.getOrThrow(cfk("reduced_ore_gold")),
-                                            rareOrePlacement(2, hrt(-56, 16))
+                                            rareOrePlacement(3, hrt(-56, 16))
                                     ));
                             bootstrap.register(pfk("mountain_gold"),
                                     new PlacedFeature(configured.getOrThrow(cfk("mountain_gold")),
