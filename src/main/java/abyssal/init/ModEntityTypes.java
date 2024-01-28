@@ -1,10 +1,7 @@
 package abyssal.init;
 
 import abyssal.Main;
-import abyssal.entity.FishPainting;
-import abyssal.entity.Minion;
-import abyssal.entity.PowderBarrelEntity;
-import abyssal.entity.TreeSpider;
+import abyssal.entity.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -32,5 +29,10 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<TreeSpider>> TREE_SPIDER = ENTITY_TYPES.register("tree_spider",
             () -> EntityType.Builder.of(TreeSpider::new, MobCategory.MONSTER)
                     .sized(EntityType.CAVE_SPIDER.getWidth(), EntityType.CAVE_SPIDER.getHeight()).build(new ResourceLocation(Main.MOD_ID, "tree_spider").toString())
+    );
+
+    public static final RegistryObject<EntityType<ChargedEndermite>> CHARGED_ENDERMITE = ENTITY_TYPES.register("charged_endermite",
+            () -> EntityType.Builder.of(ChargedEndermite::new, MobCategory.MONSTER)
+                    .sized(EntityType.ENDERMITE.getWidth(), EntityType.ENDERMITE.getHeight()).build(new ResourceLocation(Main.MOD_ID, "charged_endermite").toString())
     );
 }

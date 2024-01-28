@@ -1,6 +1,7 @@
 package abyssal;
 
 import abyssal.client.ClientCoinPurseTooltip;
+import abyssal.client.renderer.ChargedEndermiteRenderer;
 import abyssal.client.renderer.FishPaintingRenderer;
 import abyssal.client.renderer.TreeSpiderRenderer;
 import abyssal.init.ModEntityTypes;
@@ -22,6 +23,7 @@ public class ClientEventSubscriber {
         event.registerEntityRenderer(ModEntityTypes.MINION.get(), SkeletonRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.FISH_PAINTING.get(), FishPaintingRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.TREE_SPIDER.get(), TreeSpiderRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.CHARGED_ENDERMITE.get(), ChargedEndermiteRenderer::new);
     }
 
     @SubscribeEvent
