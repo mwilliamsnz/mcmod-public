@@ -551,13 +551,13 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void makeCurios(RecipeOutput recipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.RUBY_CRYSTAL.get())
-                .pattern("ltl")
+                .pattern("lrl")
                 .pattern("dgd")
-                .pattern("ltl")
+                .pattern("lrl")
                 .define('l', Blocks.GLASS)
                 .define('g', Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.GARNET))
                 .define('d', Gems.gem(Gems.GemSize.SMALL, Gems.GemType.DIAMOND))
-                .define('t', Items.GHAST_TEAR)
+                .define('r', Items.REDSTONE)
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.GARNET)))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "ruby_crystal"));
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.GOLD_RING.get())
