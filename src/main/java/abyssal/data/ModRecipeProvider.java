@@ -185,6 +185,25 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_INGOT))
                 .save(recipeOutput, new ResourceLocation("minecraft", "chain"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.GOLDEN_APPLE)
+                .pattern(" n ")
+                .pattern("nan")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('a', Items.APPLE)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.APPLE))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_apple"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.GOLDEN_CARROT)
+                .requires(Items.GOLD_NUGGET)
+                .requires(Items.CARROT)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CARROT))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_carrot"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.GLISTERING_MELON_SLICE)
+                .requires(Items.GOLD_NUGGET)
+                .requires(Items.MELON_SLICE)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.MELON_SLICE))
+                .save(recipeOutput, new ResourceLocation("minecraft", "glistering_melon_slice"));
+
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.CLOCK)
                 .pattern(" n ")
                 .pattern("nmn")
@@ -193,6 +212,46 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('m', ModItems.INFERNAL_MECHANISM.get())
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
                 .save(recipeOutput, new ResourceLocation("minecraft", "clock"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.GOLDEN_PICKAXE)
+                .pattern(" n ")
+                .pattern("ntn")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('t', Items.STONE_PICKAXE)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_pickaxe"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.GOLDEN_AXE)
+                .pattern(" n ")
+                .pattern("ntn")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('t', Items.STONE_AXE)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_axe"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.GOLDEN_SWORD)
+                .pattern(" n ")
+                .pattern("ntn")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('t', Items.STONE_SWORD)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_sword"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.GOLDEN_SHOVEL)
+                .pattern(" n ")
+                .pattern("ntn")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('t', Items.STONE_SHOVEL)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_shovel"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Items.GOLDEN_HOE)
+                .pattern(" n ")
+                .pattern("ntn")
+                .pattern(" n ")
+                .define('n', Items.GOLD_NUGGET)
+                .define('t', Items.STONE_HOE)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_NUGGET))
+                .save(recipeOutput, new ResourceLocation("minecraft", "golden_hoe"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, Items.LIGHT_WEIGHTED_PRESSURE_PLATE)
                 .pattern("n")
