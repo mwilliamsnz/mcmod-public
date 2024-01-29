@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -44,7 +45,9 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.SHRUB.get());
         this.dropSelf(ModBlocks.HEATHER.get());
         this.dropSelf(ModBlocks.CLOVER.get());
-        this.dropSelf(ModBlocks.LEAF_LITTER.get());
+        this.add(ModBlocks.LEAF_LITTER.get(), (block) -> createSingleItemTableWithSilkTouch(block, Blocks.DIRT));
+        this.dropSelf(ModBlocks.SUPER_SOIL.get());
+        this.add(ModBlocks.GRASS_SUPER_SOIL.get(), (block) -> createSingleItemTableWithSilkTouch(block, ModBlocks.SUPER_SOIL.get()));
         this.dropSelf(ModBlocks.ELDER_PINE_PLANKS.get());
         this.dropSelf(ModBlocks.ELDER_PINE_LOG.get());
         this.add(ModBlocks.ELDER_PINE_DOOR.get(), (block) -> LootTable.lootTable().withPool(

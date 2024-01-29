@@ -27,6 +27,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         });
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.LEAF_LITTER.get());
+        this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.SUPER_SOIL.get());
+        this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.GRASS_SUPER_SOIL.get());
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.GOLD_GRAVEL.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.ABYSSAL_STONE.get());
@@ -85,6 +87,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.REPLACEABLE).add(ModBlocks.ALPINE_PLANT.get());
 
         this.tag(BlockTags.DIRT).add(ModBlocks.LEAF_LITTER.get());
+        this.tag(BlockTags.DIRT).add(ModBlocks.SUPER_SOIL.get());
+        this.tag(BlockTags.DIRT).add(ModBlocks.GRASS_SUPER_SOIL.get());
+
+        this.tag(ModTags.Blocks.GRASS_SPREADERS).add(ModBlocks.GRASS_SUPER_SOIL.get());
+        this.tag(ModTags.Blocks.GRASS_SPREADERS).add(Blocks.GRASS_BLOCK);
 
         this.tag(Tags.Blocks.GRAVEL).add(ModBlocks.GOLD_GRAVEL.get());
         this.tag(BlockTags.BAMBOO_PLANTABLE_ON).add(ModBlocks.GOLD_GRAVEL.get());

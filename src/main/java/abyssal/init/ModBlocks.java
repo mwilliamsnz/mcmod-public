@@ -44,6 +44,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> FERN_FRONDS = registerWithDataLoot("fern_fronds", () -> new FernFrondsBlock(BlockBehaviour.Properties.copy(Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
 
     public static final RegistryObject<Block> LEAF_LITTER = registerWithDataLoot("leaf_litter", () -> new SnowyDirtBlock(BlockBehaviour.Properties.copy(Blocks.PODZOL)));
+    public static final RegistryObject<Block> SUPER_SOIL = registerWithDataLoot("super_soil", () -> new SuperSoilBlock(BlockBehaviour.Properties.copy(Blocks.DIRT).randomTicks()));
+    public static final RegistryObject<Block> GRASS_SUPER_SOIL = registerWithDataLoot("grass_super_soil", () -> new GrassSuperSoilBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).randomTicks()));
 
     public static final RegistryObject<Block> ABYSSAL_STONE = registerWithDataLoot("abyssal_stone", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(10.0F, 2.0F).sound(SoundType.DEEPSLATE)));
     public static final RegistryObject<Block> NITRE = registerWithDataLoot("nitre", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));

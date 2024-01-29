@@ -16,6 +16,7 @@ public class ModTags {
         public static final TagKey<Block> SILVER_ORES = tag("silver_ores");
         public static final TagKey<Block> GEM_SLATES = tag("gem_slates");
         public static final TagKey<Block> CHARRING_AXE_DESTROYS = tag("charring_axe_destroys");
+        public static final TagKey<Block> GRASS_SPREADERS = tag("grass_spreaders");
 
         private static TagKey<Block> tag(String name) {
             return BlockTags.create(new ResourceLocation(Main.MOD_ID, name));

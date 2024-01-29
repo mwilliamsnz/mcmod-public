@@ -29,6 +29,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.POWDER_BARREL_FRAG.get(), models().cubeBottomTop(regName(ModBlocks.POWDER_BARREL_FRAG),
                 modLoc( "block/powder_barrel_frag"), modLoc("block/powder_barrel_bottom"), modLoc("block/powder_barrel_top")));
 
+        simpleBlock(ModBlocks.LEAF_LITTER.get(), models().cubeBottomTop(regName(ModBlocks.LEAF_LITTER),
+                modLoc( "block/leaf_litter_side"), mcLoc("block/dirt"), modLoc("block/leaf_litter_top")));
+        simpleBlock(ModBlocks.GRASS_SUPER_SOIL.get(), models().cubeBottomTop(regName(ModBlocks.GRASS_SUPER_SOIL),
+                modLoc( "block/grass_super_soil_side"), modLoc("block/super_soil"), modLoc("block/grass_super_soil_top")));
+
         simpleBlock(ModBlocks.LAPIDARY.get(), models().cubeBottomTop(regName(ModBlocks.LAPIDARY),
                 modLoc( "block/lapidary_side"), mcLoc("block/cobbled_deepslate"), modLoc("block/lapidary_top")));
         simpleBlock(ModBlocks.HARMONISER.get());
@@ -52,6 +57,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DEEPSLATE_SULFUR.get());
         simpleBlock(ModBlocks.SILVER_BLOCK.get());
         simpleBlock(ModBlocks.ALCHEMICAL_GOLD_BLOCK.get());
+        simpleBlock(ModBlocks.SUPER_SOIL.get());
         simpleBlock(ModBlocks.GOLD_GRAVEL.get());
 
 
