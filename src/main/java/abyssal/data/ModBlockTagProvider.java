@@ -43,6 +43,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.ALCHEMICAL_GOLD_BLOCK.get());
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.HARMONISER.get());
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.CHARRED_LOG.get());
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.PRISM.get());
+
 
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.ELDER_PINE_LOG.get());
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.ELDER_PINE_PLANKS.get());

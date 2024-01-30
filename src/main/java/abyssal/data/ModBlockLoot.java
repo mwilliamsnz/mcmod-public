@@ -67,6 +67,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.SILVER_BLOCK.get());
         this.dropSelf(ModBlocks.NETHER_BRASS_BLOCK.get());
         this.dropSelf(ModBlocks.ALCHEMICAL_GOLD_BLOCK.get());
+        this.dropWhenSilkTouch(ModBlocks.PRISM.get());
 
         this.dropSelf(ModBlocks.POWDER_BARREL.get());
         this.dropSelf(ModBlocks.POWDER_BARREL_FRAG.get());

@@ -97,6 +97,8 @@
   "item.abyssal.pure_quartz": "Purified Quartz",
   "item.abyssal.lignite": "Lignite Coal",
   "item.abyssal.anthracite": "Anthracite Coal",
+  "item.abyssal.blankest_slate": "Blankest Slate",
+  "item.abyssal.inferno_essence": "Essence of the Inferno",
   "item.abyssal.magnum_opus": "Philosopher's Stone",
 
 
@@ -165,6 +167,7 @@
   "block.abyssal.nether_brass_block": "Nether Brass Block",
   "block.abyssal.silver_block": "Silver Block",
   "block.abyssal.alchemical_gold_block": "Alchemical Gold Block",
+  "block.abyssal.prism": "Illuminated Prism",
 
   "block.abyssal.silvered_slate": "Silvered Deepslate",
   "block.abyssal.gilded_slate": "Gilded Deepslate",

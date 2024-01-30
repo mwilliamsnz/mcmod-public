@@ -58,6 +58,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.SILVER_BLOCK.get());
         simpleBlock(ModBlocks.ALCHEMICAL_GOLD_BLOCK.get());
         simpleBlock(ModBlocks.SUPER_SOIL.get());
+        simpleBlock(ModBlocks.PRISM.get(), models().cubeAll(regName(ModBlocks.PRISM), modLoc("block/" + regName(ModBlocks.PRISM))).renderType("translucent"));
         simpleBlock(ModBlocks.GOLD_GRAVEL.get());
 
 

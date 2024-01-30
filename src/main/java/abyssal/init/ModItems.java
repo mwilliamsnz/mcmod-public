@@ -114,6 +114,8 @@ public final class ModItems {
     public static final RegistryObject<Item> PURE_QUARTZ = register("pure_quartz", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> LIGNITE = register("lignite", () -> new BasicFuelItem(defaultItemProperties(),1200));
     public static final RegistryObject<Item> ANTHRACITE = register("anthracite", () -> new BasicFuelItem(defaultItemProperties(), 2000));
+    public static final RegistryObject<Item> BLANKEST_SLATE = register("blankest_slate", () -> new Item(defaultItemProperties()));
+    public static final RegistryObject<Item> INFERNO_ESSENCE = register("inferno_essence", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> PHILO_STONE = register("magnum_opus", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> INFERNAL_MECHANISM = register("infernal_mechanism", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> ALCHEMICAL_FILTER = register("alchemical_filter", () -> new Item(defaultItemProperties()));

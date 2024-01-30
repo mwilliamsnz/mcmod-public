@@ -211,9 +211,9 @@ public class AlchemyMaterials {
 
         Main.LOGGER.info(count + " at rank <= 5");
 
-        AlchemyMaterial gold_nugget = new AlchemyMaterial(Items.GOLD_NUGGET, NUGGET_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
-        AlchemyMaterial gold_ingot = new AlchemyMaterial(Items.GOLD_INGOT, STANDARD_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
-        AlchemyMaterial raw_gold = new AlchemyMaterial(Items.RAW_GOLD, STANDARD_COST, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
+        AlchemyMaterial gold_nugget = new AlchemyMaterial(Items.GOLD_NUGGET, NUGGET_COST*2, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial gold_ingot = new AlchemyMaterial(Items.GOLD_INGOT, STANDARD_COST*2, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial raw_gold = new AlchemyMaterial(Items.RAW_GOLD, STANDARD_COST*2, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
         AlchemyMaterial abyssal_stone = new AlchemyMaterial(() -> ModBlocks.ABYSSAL_STONE.get().asItem(), CHEAP_COST);
         AlchemyMaterial diamond_powder = new AlchemyMaterial(() -> Gems.gem(Gems.GemSize.POWDER, Gems.GemType.DIAMOND), GEM_POWDER_COST, LOW_PURITY);
         AlchemyMaterial tiny_diamond = new AlchemyMaterial(() -> Gems.gem(Gems.GemSize.TINY, Gems.GemType.DIAMOND), GEM_TINY_COST, AVERAGE_PURITY, AVERAGE_PURITY_REQ);
@@ -237,14 +237,17 @@ public class AlchemyMaterials {
 
         AlchemyMaterial warm_ingot = new AlchemyMaterial(ModItems.WARM_INGOT, STANDARD_COST*4);
         AlchemyMaterial plutonium_ingot = new AlchemyMaterial(ModItems.PLUTONIUM_INGOT, STANDARD_COST*4, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
-        AlchemyMaterial philosophers_stone = new AlchemyMaterial(ModItems.PHILO_STONE, STANDARD_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial super_soil = new AlchemyMaterial(() -> ModBlocks.SUPER_SOIL.get().asItem(), CHEAP_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial prism = new AlchemyMaterial(() -> ModBlocks.PRISM.get().asItem(), DUST_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial blankest_slate = new AlchemyMaterial(ModItems.BLANKEST_SLATE, STANDARD_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
+        AlchemyMaterial inferno_essence = new AlchemyMaterial(ModItems.INFERNO_ESSENCE, STANDARD_COST, PERFECT_PURITY, PERFECT_PURITY_REQ);
 
         group("Pluto", Alchemy.Category.METAL, Set.of(warm_ingot, plutonium_ingot), 7,0,0);
-        group("PhStM", Alchemy.Category.METAL, philosophers_stone, 7,0,1);
-        group("PhStS", Alchemy.Category.STONE, philosophers_stone, 7,0,1);
-        group("PhStC", Alchemy.Category.CRYSTAL, philosophers_stone, 7,0,1);
-        group("PhStE", Alchemy.Category.EARTH, philosophers_stone, 7,0,1);
-        group("PhStI", Alchemy.Category.INFERNAL, philosophers_stone, 7,0,1);
+        group("Blank", Alchemy.Category.STONE, blankest_slate, 7,0,1);
+        group("IllPr", Alchemy.Category.CRYSTAL, prism, 7,0,1);
+        group("EdenS", Alchemy.Category.EARTH, super_soil, 7,0,1);
+        group("Infer", Alchemy.Category.INFERNAL, inferno_essence, 7,0,1);
+        group("Boom2", Alchemy.Category.INFERNAL, explosion_temp_placeholder, 7,0,0);  // TODO make this one explode too when precipitated
 
         Main.LOGGER.info(count + " at rank <= 7");
         return list;
