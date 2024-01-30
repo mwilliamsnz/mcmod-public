@@ -3,40 +3,32 @@ package abyssal.blocks;
 import abyssal.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
-import net.minecraftforge.common.extensions.IForgeBlock;
 
-import java.util.List;
-import java.util.Optional;
-
-public class GrassSuperSoilBlock extends Block implements IForgeBlock, BonemealableBlock {
+public class GrassSuperSoilBlock extends SuperSoilBlock {
     public GrassSuperSoilBlock(Properties properties) {
         super(properties);
     }
 
+    private static WeightedRandomList GRASS_PLANT_OPTIONS;
+
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
         if (!level.isAreaLoaded(pos, 1)) return;
+
+        fertiliseBlocks(state, level, pos, rand);
+
         for(BlockPos p : BlockPos.betweenClosed(pos.offset(-1,-1,-1), pos.offset(1,1,1))) {
             BlockState s = level.getBlockState(p);
-            if(s.getBlock() instanceof BonemealableBlock b && rand.nextInt(20) == 0) {
-                b.performBonemeal(level, rand, p, s);
-            }
             if(s.is(Blocks.DIRT) && rand.nextInt(10) == 0 && canBeGrass(s, level, p)) {
                 level.setBlockAndUpdate(p, Blocks.GRASS_BLOCK.defaultBlockState());
             }
@@ -59,55 +51,33 @@ public class GrassSuperSoilBlock extends Block implements IForgeBlock, Bonemeala
         }
     }
 
-
-    @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
-        return levelReader.getBlockState(pos.above()).isAir();
-    }
-
-    @Override
-    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        BlockPos above = pos.above();
-        BlockState tallGrass = Blocks.GRASS.defaultBlockState();
-        Optional<Holder.Reference<PlacedFeature>> optional = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
-
-        label:
-        for(int i = 0; i < 128; ++i) {
-            BlockPos p = above;
-
-            for(int j = 0; j < i / 16; ++j) {
-                p = p.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                if (!level.getBlockState(p.below()).is(this) || level.getBlockState(p).isCollisionShapeFullBlock(level, p)) {
-                    continue label;
-                }
-            }
-
-            BlockState stateAt = level.getBlockState(p);
-            if (stateAt.is(tallGrass.getBlock()) && random.nextInt(10) == 0) {
-                ((BonemealableBlock)tallGrass.getBlock()).performBonemeal(level, random, p, stateAt);
-            }
-
-            if (stateAt.isAir()) {
-                Holder<PlacedFeature> featureHolder;
-                if (random.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> flowers = level.getBiome(p).value().getGenerationSettings().getFlowerFeatures();
-                    if (flowers.isEmpty()) {
-                        continue;
-                    }
-                    featureHolder = ((RandomPatchConfiguration)flowers.get(0).config()).feature();
-                } else {
-                    if (optional.isEmpty()) {
-                        continue;
-                    }
-                    featureHolder = optional.get();
-                }
-                featureHolder.value().place(level, level.getChunkSource().getGenerator(), random, p);
-            }
+    WeightedRandomList<WeightedEntry.Wrapper<BlockState>> getPlantOptions() {
+        if(GRASS_PLANT_OPTIONS == null) {
+            GRASS_PLANT_OPTIONS = new SimpleWeightedRandomList.Builder<BlockState>()
+                    .add(ModBlocks.CLOVER.get().defaultBlockState(), 20)
+                    .add(ModBlocks.FERN_CORE.get().defaultBlockState(), 20)
+                    .add(ModBlocks.IVY.get().defaultBlockState().setValue(IvyBlock.DOWN, true), 20)
+                    .add(Blocks.GRASS.defaultBlockState(), 10)
+                    .add(Blocks.MOSS_CARPET.defaultBlockState(), 10)
+                    .add(Blocks.PINK_PETALS.defaultBlockState(), 10)
+                    .add(Blocks.SUGAR_CANE.defaultBlockState(), 4)
+                    .add(Blocks.DANDELION.defaultBlockState(), 4)
+                    .add(Blocks.POPPY.defaultBlockState(), 4)
+                    .add(Blocks.BLUE_ORCHID.defaultBlockState(), 4)
+                    .add(Blocks.ALLIUM.defaultBlockState(), 4)
+                    .add(Blocks.RED_TULIP.defaultBlockState(), 1)
+                    .add(Blocks.ORANGE_TULIP.defaultBlockState(), 1)
+                    .add(Blocks.WHITE_TULIP.defaultBlockState(), 1)
+                    .add(Blocks.PINK_TULIP.defaultBlockState(), 1)
+                    .add(Blocks.OXEYE_DAISY.defaultBlockState(), 4)
+                    .add(Blocks.CORNFLOWER.defaultBlockState(), 4)
+                    .add(Blocks.LILY_OF_THE_VALLEY.defaultBlockState(), 4)
+                    .add(Blocks.CARROTS.defaultBlockState(), 5)
+                    .add(Blocks.POTATOES.defaultBlockState(), 5)
+                    .add(Blocks.WHEAT.defaultBlockState(), 5)
+                    .add(Blocks.BEETROOTS.defaultBlockState(), 5)
+                    .build();
         }
+        return GRASS_PLANT_OPTIONS;
     }
 }
