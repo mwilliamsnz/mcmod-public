@@ -78,6 +78,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         this.tag(ModTags.Items.CHARMS).add(ModItems.RUBY_CRYSTAL.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.REJUVENATION_BEAD.get());
+        this.tag(ModTags.Items.CHARMS).add(ModItems.FOUR_LEAF_CLOVER.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.LUCK_CHARM.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.TOXIC_TOTEM.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.RAGE_TOTEM.get());

@@ -11,14 +11,17 @@ import java.util.UUID;
 
 public class LuckCurioItem extends ModCurioItem {
 
-    public LuckCurioItem(Properties props) {
+    private final int luckLevel;
+
+    public LuckCurioItem(Properties props, int luckLevel) {
         super(props);
+        this.luckLevel = luckLevel;
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getCurioAttributes(SlotContext ctx, UUID uuid) {
         Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
-        modifiers.put(Attributes.LUCK, new AttributeModifier(uuid, "Luck", 1, AttributeModifier.Operation.ADDITION));
+        modifiers.put(Attributes.LUCK, new AttributeModifier(uuid, "Luck", luckLevel, AttributeModifier.Operation.ADDITION));
         return modifiers;
     }
 

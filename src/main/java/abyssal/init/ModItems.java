@@ -86,7 +86,8 @@ public final class ModItems {
     public static final RegistryObject<Item> DORANS_RING = registerCurio("dorans_ring", () -> new DoransRingItem(defaultCurioProperties()));
     public static final RegistryObject<Item> LIGHT_TRAVEL_RING = registerCurio("light_travel_ring", () -> new LightTravelRingItem(defaultCurioProperties()));
     public static final RegistryObject<Item> GLASS_CANNON_RING = registerCurio("glass_cannon_ring", () -> new GlassCannonRingItem(defaultCurioProperties()));
-    public static final RegistryObject<Item> LUCK_CHARM = registerCurio("luck_charm", () -> new LuckCurioItem(defaultCurioProperties()));
+    public static final RegistryObject<Item> FOUR_LEAF_CLOVER = registerCurio("four_leaf_clover", () -> new LuckCurioItem(defaultCurioProperties(), 1));
+    public static final RegistryObject<Item> LUCK_CHARM = registerCurio("luck_charm", () -> new LuckCurioItem(defaultCurioProperties(), 2));
     public static final RegistryObject<Item> FISH_NECKLACE = registerCurio("fishbone_necklace", () -> new WaterCurioItem(defaultCurioProperties()));
     public static final RegistryObject<Item> CLOCKWORK_AMULET = registerCurio("clockwork_amulet", () -> new ModCurioItem(defaultCurioProperties().fireResistant()));
     public static final RegistryObject<Item> CREEPER_JELLY = register("nitro", () -> new Item(defaultItemProperties()));
@@ -117,6 +118,7 @@ public final class ModItems {
     public static final RegistryObject<Item> BLANKEST_SLATE = register("blankest_slate", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> INFERNO_ESSENCE = register("inferno_essence", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> PHILO_STONE = register("magnum_opus", () -> new Item(defaultItemProperties()));
+    public static final RegistryObject<Item> ELIXIR = register("elixir", () -> new ElixirItem(defaultItemProperties().stacksTo(1)));
     public static final RegistryObject<Item> INFERNAL_MECHANISM = register("infernal_mechanism", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> ALCHEMICAL_FILTER = register("alchemical_filter", () -> new Item(defaultItemProperties()));
 
