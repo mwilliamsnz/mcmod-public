@@ -18,6 +18,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -44,7 +45,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.REED.get());
         this.dropSelf(ModBlocks.SHRUB.get());
         this.dropSelf(ModBlocks.HEATHER.get());
-        this.dropSelf(ModBlocks.CLOVER.get());
+        this.add(ModBlocks.CLOVER.get(), (block) -> createSilkTouchDispatchTable(block, this.applyExplosionCondition(block, LootItem.lootTableItem(ModItems.FOUR_LEAF_CLOVER.get()).when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 0.001F, 0.005F, 0.025F, 0.125F)).otherwise(LootItem.lootTableItem(block)))));
         this.add(ModBlocks.LEAF_LITTER.get(), (block) -> createSingleItemTableWithSilkTouch(block, Blocks.DIRT));
         this.dropSelf(ModBlocks.SUPER_SOIL.get());
         this.add(ModBlocks.GRASS_SUPER_SOIL.get(), (block) -> createSingleItemTableWithSilkTouch(block, ModBlocks.SUPER_SOIL.get()));

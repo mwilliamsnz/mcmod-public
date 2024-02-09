@@ -94,6 +94,17 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('r', Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.GARNET))
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.GARNET)))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "alchemy"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PHILO_STONE.get())
+                .pattern(" g ")
+                .pattern("pbp")
+                .pattern("sis")
+                .define('g', Items.GOLD_INGOT) // intentionally not goldlikes
+                .define('b', ModItems.BLANKEST_SLATE.get())
+                .define('p', ModBlocks.PRISM.get())
+                .define('s', ModBlocks.SUPER_SOIL.get())
+                .define('i', ModItems.INFERNO_ESSENCE.get())
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.BLANKEST_SLATE.get()))
+                .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "magnum_opus"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ELDER_PINE_PLANKS.get(),4)
                 .requires(ModBlocks.ELDER_PINE_LOG.get())
@@ -741,7 +752,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("gfg")
                 .pattern("lgl")
                 .define('f', Items.RABBIT_FOOT)
-                .define('l', Items.BIG_DRIPLEAF)
+                .define('l', ModItems.FOUR_LEAF_CLOVER.get())
                 .define('g', Gems.gem(Gems.GemSize.SMALL, Gems.GemType.GARNET))
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.RABBIT_FOOT))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "luck_charm"));
