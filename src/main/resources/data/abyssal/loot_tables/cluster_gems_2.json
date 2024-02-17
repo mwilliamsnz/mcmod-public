@@ -12,7 +12,8 @@
         {
           "type": "minecraft:loot_table",
           "name": "abyssal:cluster_diamonds",
-          "weight": 2
+          "weight": 2,
+          "quality": 1
         },
         {
           "type": "minecraft:item",
@@ -26,12 +27,14 @@
         {
           "type": "minecraft:loot_table",
           "name": "abyssal:cluster_garnets",
-          "weight": 6
+          "weight": 6,
+          "quality": 1
         },
         {
           "type": "minecraft:loot_table",
           "name": "abyssal:cluster_onyxes",
-          "weight": 1
+          "weight": 1,
+          "quality": 1
         }
       ]
     }
