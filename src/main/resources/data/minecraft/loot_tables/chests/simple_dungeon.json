@@ -22,7 +22,14 @@
         {
           "type": "minecraft:item",
           "weight": 2,
+          "quality": 2,
           "name": "minecraft:enchanted_golden_apple"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "quality": 4,
+          "name": "minecraft:music_disc_otherside"
         },
         {
           "type": "minecraft:item",
@@ -47,6 +54,7 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": -5,
           "name": "minecraft:iron_horse_armor"
         },
         {
@@ -109,6 +117,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
+          "quality": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -142,7 +151,7 @@
         {
           "type": "minecraft:item",
           "weight": 2,
-          "quality": 2,
+          "quality": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -159,11 +168,13 @@
         {
           "type": "minecraft:item",
           "weight": 20,
+          "quality": -5,
           "name": "minecraft:bread"
         },
         {
           "type": "minecraft:item",
           "weight": 20,
+          "quality": -5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -217,6 +228,7 @@
         {
           "type": "minecraft:item",
           "weight": 10,
+          "quality": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -379,6 +391,108 @@
             }
           ],
           "name": "abyssal:sulfur"
+        }
+      ]
+    },
+    {
+      "rolls": 2.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 40
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 0,
+          "quality": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 3.0
+              },
+              "add": false
+            }
+          ],
+          "name": "abyssal:fish_painting"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": -2,
+          "quality": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3.0,
+                "max": 16.0
+              },
+              "add": false
+            }
+          ],
+          "name": "abyssal:gold_coin"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": -5,
+          "quality": 8,
+          "name": "minecraft:potion",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:strong_healing"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": -4,
+          "quality": 5,
+          "name": "abyssal:ruby_crystal"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 0,
+          "quality": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3.0,
+                "max": 16.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:sugar"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 0,
+          "quality": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3.0,
+                "max": 16.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:leather"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": -3,
+          "quality": 8,
+          "name": "abyssal:dorans_ring"
         }
       ]
     }
