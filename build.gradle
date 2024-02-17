@@ -154,7 +154,8 @@ dependencies {
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+    runtimeOnly fg.deobf("blank:callofthecorn-1.20.2:1.0.0")
+    runtimeOnly fg.deobf("blank:pumkinpie-1.20.2:0.2.0")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
