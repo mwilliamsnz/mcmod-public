@@ -101,24 +101,10 @@ public class InCombatHandler {
             }
             if(tenacity) {
                 MobEffectInstance unmodified = event.getEffectInstance();
-                MobEffectInstance existing = event.getOldEffectInstance();
 
-
-                MobEffectInstance shorter = new MobEffectInstance(
-                        unmodified.getEffect(),
-                        100, // (int) (unmodified.getDuration() * 0.65),
-                        unmodified.getAmplifier(),
-                        unmodified.isAmbient(),
-                        unmodified.isVisible(),
-                        unmodified.showIcon(),
-                        existing,
-                        unmodified.getEffect().createFactorData()
-                );
-                // This whole process doesn't actually work, because the effect is not yet on the mob to be removed.
-                // The addition of the original effect extends the duration of the new effect
-                // MobEffectEvents are uncancellable, and the original effect itself is unmodifiable. Mixins likely needed.
-                p.removeEffect(unmodified.getEffect());
-                p.forceAddEffect(shorter, event.getEffectSource());
+                if(!unmodified.getEffect().isBeneficial()) {
+                    unmodified.duration = (int) (unmodified.getDuration() * 0.65);
+                }
             }
         }
     }
