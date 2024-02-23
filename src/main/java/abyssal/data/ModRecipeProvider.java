@@ -1022,6 +1022,16 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("d#d")
                 .unlockedBy(getHasName(template), has(template))
                 .save(out);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, template, 2)
+                .define('#', ModItems.DIAMOND_INGOT.get())
+                .define('p', Gems.gem(Gems.GemSize.POWDER, Gems.GemType.DIAMOND))
+                .define('C', ModItems.BLANKEST_SLATE.get())
+                .define('S', template)
+                .pattern("pSp")
+                .pattern("pCp")
+                .pattern("ppp")
+                .unlockedBy(getHasName(template), has(template))
+                .save(out);
     }
 
 
