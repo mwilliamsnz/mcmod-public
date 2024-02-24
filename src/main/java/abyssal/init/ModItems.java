@@ -5,8 +5,8 @@ import abyssal.items.*;
 import abyssal.items.armour.*;
 import abyssal.items.curios.*;
 import abyssal.items.handheld.*;
-import abyssal.items.handheld.spells.BasicStaff;
-import abyssal.items.handheld.spells.DualSpellBook;
+import abyssal.items.spells.BasicStaff;
+import abyssal.items.spells.DualSpellBook;
 import abyssal.spells.Spells;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -82,12 +82,12 @@ public final class ModItems {
     public static final RegistryObject<Item> SILVER_RING = registerCurio("silver_ring", () -> new ModCurioItem(defaultCurioProperties()));
     public static final RegistryObject<Item> GLOW_RING = registerCurio("glow_ring", () -> new GlowRingItem(defaultCurioProperties()));
     public static final RegistryObject<Item> DAMAGE_RING = registerCurio("damage_ring", () -> new DamageCurioItem(defaultCurioProperties(), 1));
-    public static final RegistryObject<Item> CHAMPIONS_RING = registerCurio("champions_ring", () -> new DamageCurioItem(defaultCurioProperties(), 2));
+    public static final RegistryObject<Item> CHAMPIONS_RING = registerCurio("champions_ring", () -> new DamageCurioItem(defaultCurioProperties().rarity(Rarity.RARE), 2));
     public static final RegistryObject<Item> DORANS_RING = registerCurio("dorans_ring", () -> new DoransRingItem(defaultCurioProperties()));
     public static final RegistryObject<Item> LIGHT_TRAVEL_RING = registerCurio("light_travel_ring", () -> new LightTravelRingItem(defaultCurioProperties()));
     public static final RegistryObject<Item> GLASS_CANNON_RING = registerCurio("glass_cannon_ring", () -> new GlassCannonRingItem(defaultCurioProperties()));
-    public static final RegistryObject<Item> FOUR_LEAF_CLOVER = registerCurio("four_leaf_clover", () -> new LuckCurioItem(defaultCurioProperties(), 1));
-    public static final RegistryObject<Item> LUCK_CHARM = registerCurio("luck_charm", () -> new LuckCurioItem(defaultCurioProperties(), 2));
+    public static final RegistryObject<Item> FOUR_LEAF_CLOVER = registerCurio("four_leaf_clover", () -> new LuckCurioItem(defaultCurioProperties().rarity(Rarity.UNCOMMON), 1));
+    public static final RegistryObject<Item> LUCK_CHARM = registerCurio("luck_charm", () -> new LuckCurioItem(defaultCurioProperties().rarity(Rarity.RARE), 2));
     public static final RegistryObject<Item> FISH_NECKLACE = registerCurio("fishbone_necklace", () -> new WaterCurioItem(defaultCurioProperties()));
     public static final RegistryObject<Item> CLOCKWORK_AMULET = registerCurio("clockwork_amulet", () -> new ModCurioItem(defaultCurioProperties().fireResistant()));
     public static final RegistryObject<Item> CREEPER_JELLY = register("nitro", () -> new Item(defaultItemProperties()));
@@ -106,8 +106,8 @@ public final class ModItems {
     public static final RegistryObject<Item> NETHER_BRASS_INGOT = register("nether_brass_ingot", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> ALCHEMICAL_GOLD_NUGGET = register("alchemical_gold_nugget", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> ALCHEMICAL_GOLD_INGOT = register("alchemical_gold_ingot", () -> new Item(defaultItemProperties()));
-    public static final RegistryObject<Item> PLUTONIUM_INGOT = register("plutonium_ingot", () -> new RadioactiveItem(defaultItemProperties(), 1));
-    public static final RegistryObject<Item> WARM_INGOT = register("warm_ingot", () -> new Item(defaultItemProperties()));
+    public static final RegistryObject<Item> PLUTONIUM_INGOT = register("plutonium_ingot", () -> new RadioactiveItem(defaultItemProperties().rarity(Rarity.EPIC), 1));
+    public static final RegistryObject<Item> WARM_INGOT = register("warm_ingot", () -> new Item(defaultItemProperties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> FOOLS_GOLD = register("fools_gold", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> PRISMATIC_POWDER = register("prismatic_powder", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> UU_MATTER = register("uumatter", () -> new Item(defaultItemProperties()));
@@ -115,23 +115,23 @@ public final class ModItems {
     public static final RegistryObject<Item> PURE_QUARTZ = register("pure_quartz", () -> new Item(defaultItemProperties()));
     public static final RegistryObject<Item> LIGNITE = register("lignite", () -> new BasicFuelItem(defaultItemProperties(),1200));
     public static final RegistryObject<Item> ANTHRACITE = register("anthracite", () -> new BasicFuelItem(defaultItemProperties(), 2000));
-    public static final RegistryObject<Item> BLANKEST_SLATE = register("blankest_slate", () -> new Item(defaultItemProperties()));
-    public static final RegistryObject<Item> INFERNO_ESSENCE = register("inferno_essence", () -> new Item(defaultItemProperties().fireResistant()));
-    public static final RegistryObject<Item> PHILO_STONE = register("magnum_opus", () -> new Item(defaultItemProperties()));
-    public static final RegistryObject<Item> ELIXIR = register("elixir", () -> new ElixirItem(defaultItemProperties().stacksTo(1)));
+    public static final RegistryObject<Item> BLANKEST_SLATE = register("blankest_slate", () -> new Item(defaultItemProperties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> INFERNO_ESSENCE = register("inferno_essence", () -> new Item(defaultItemProperties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> PHILO_STONE = register("magnum_opus", () -> new Item(defaultItemProperties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> ELIXIR = register("elixir", () -> new ElixirItem(defaultItemProperties().rarity(Rarity.EPIC).stacksTo(1)));
     public static final RegistryObject<Item> INFERNAL_MECHANISM = register("infernal_mechanism", () -> new Item(defaultItemProperties().fireResistant()));
     public static final RegistryObject<Item> ALCHEMICAL_FILTER = register("alchemical_filter", () -> new Item(defaultItemProperties()));
 
     public static final RegistryObject<Item> ICHOR_BUCKET = register("ichor_bucket", () -> new BucketItem(ModFluids.ICHOR_FLUID, defaultItemProperties().stacksTo(1)));
 
-    public static final RegistryObject<Item> WARMOGS = registerCurio("warmogs", () -> new WarmogsItem(ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> WARMOGS = registerCurio("warmogs", () -> new WarmogsItem(ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> MOBI_BOOTS = registerCurio("mobi_boots", () -> new MobiBootsItem(ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> NULL_MAGIC_MANTLE = registerCurio("null_magic_mantle", () -> new NMMItem(defaultCurioProperties()));
     public static final RegistryObject<Item> SPECTRES_COWL = registerCurio("spectres_cowl", () -> new SpectresCowlItem(ArmorItem.Type.HELMET, new Item.Properties()));
-    public static final RegistryObject<Item> SPIRIT_VISAGE = registerCurio("spirit_visage", () -> new SpiritVisageItem(ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> SPIRIT_VISAGE = registerCurio("spirit_visage", () -> new SpiritVisageItem(ArmorItem.Type.CHESTPLATE, new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> MERC_TREADS = registerCurio("merc_treads", () -> new MercTreadsItem(ArmorItem.Type.BOOTS, new Item.Properties()));
-    public static final RegistryObject<Item> RABADONS = registerCurio("rabadons", () -> new RabadonsItem(ArmorItem.Type.HELMET, defaultItemProperties()));
+    public static final RegistryObject<Item> RABADONS = registerCurio("rabadons", () -> new RabadonsItem(ArmorItem.Type.HELMET, defaultItemProperties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> SILVER_HELMET = register("silver_helmet", () -> new ModArmourItem(ModArmourMaterials.SILVER, ArmorItem.Type.HELMET, new Item.Properties()), CreativeModeTabs.COMBAT);
     public static final RegistryObject<Item> SILVER_CHESTPLATE = register("silver_chestplate", () -> new ModArmourItem(ModArmourMaterials.SILVER, ArmorItem.Type.CHESTPLATE, new Item.Properties()), CreativeModeTabs.COMBAT);
