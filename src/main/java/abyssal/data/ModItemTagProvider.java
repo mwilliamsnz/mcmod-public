@@ -77,6 +77,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.COIN_PURSE_ITEMS).add(Items.EMERALD);
 
         this.tag(ModTags.Items.CHARMS).add(ModItems.RUBY_CRYSTAL.get());
+        this.tag(ModTags.Items.CHARMS).add(ModItems.SAPPHIRE_CRYSTAL.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.REJUVENATION_BEAD.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.FOUR_LEAF_CLOVER.get());
         this.tag(ModTags.Items.CHARMS).add(ModItems.LUCK_CHARM.get());
@@ -104,6 +105,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.RINGS).add(ModItems.LIGHT_TRAVEL_RING.get());
         this.tag(ModTags.Items.RINGS).add(ModItems.GLASS_CANNON_RING.get());
 
+        this.tag(ItemTags.BOOKSHELF_BOOKS).add(ModItems.AMP_TOME.get());
+        this.tag(ItemTags.BOOKSHELF_BOOKS).add(ModItems.LOST_CHAPTER.get());
+        this.tag(ItemTags.BOOKSHELF_BOOKS).add(ModItems.FIENDISH_CODEX.get());
 
         this.tag(ItemTags.BIRCH_LOGS).add(ModBlocks.MOSSY_BIRCH.get().asItem());
         this.tag(ItemTags.OAK_LOGS).add(ModBlocks.MOSSY_OAK.get().asItem());
