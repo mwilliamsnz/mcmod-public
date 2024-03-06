@@ -1,6 +1,7 @@
 package abyssal.init;
 
 import abyssal.Main;
+import abyssal.generation.BookshelfProcessor;
 import abyssal.generation.features.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -10,6 +11,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -23,6 +25,10 @@ public class ModGeneration {
     public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIER_TYPES = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, Main.MOD_ID);
 
     public static final RegistryObject<PlacementModifierType<ChunkDistributionFilter>> CHUNK_FILTER = PLACEMENT_MODIFIER_TYPES.register( "chunk_distribution", () -> () -> ChunkDistributionFilter.CODEC);
+
+    public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSORS = DeferredRegister.create(Registries.STRUCTURE_PROCESSOR, Main.MOD_ID);
+    public static final RegistryObject<StructureProcessorType<BookshelfProcessor>> BOOKSHELF_FILLER = STRUCTURE_PROCESSORS.register( "bookshelf_filler", () -> () -> BookshelfProcessor.CODEC);
+
 
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Main.MOD_ID);
