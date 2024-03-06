@@ -236,6 +236,17 @@
   "attribute.name.generic.ability_power": "Ability Power",
 
   "generator.abyssal.temperate": "Temperate",
-  "generator.abyssal.temperate_compat": "Haunted Temperate"
+  "generator.abyssal.temperate_compat": "Haunted Temperate",
 
+  "spell.abyssal.empty_primary" : "(No primary spell)",
+  "spell.abyssal.no_op" : "(No spell)",
+  "spell.abyssal.invisibility" : "Invisibility",
+  "spell.abyssal.luck" : "Blessing of Luck",
+  "spell.abyssal.area_glow" : "Piercing Glow",
+  "spell.abyssal.feather_fall" : "Feather Fall",
+  "spell.abyssal.extinguish" : "Extinguish",
+  "spell.abyssal.banish" : "Banishment",
+  "spell.abyssal.leap" : "Leap",
+  "spell.abyssal.summon_skeleton" : "Summon Skeletal Minion",
+  "spell.abyssal.enchant" : "Minor Enchantment"
 }

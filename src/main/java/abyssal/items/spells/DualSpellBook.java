@@ -1,5 +1,6 @@
-package abyssal.items.handheld.spells;
+package abyssal.items.spells;
 
+import abyssal.Main;
 import abyssal.ModAttributes;
 import abyssal.spells.ISpellProvider;
 import abyssal.spells.Spell;
@@ -7,14 +8,20 @@ import abyssal.spells.Spells;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.extensions.IForgeItem;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 public class DualSpellBook extends Item implements IForgeItem, ISpellProvider {
@@ -37,8 +44,25 @@ public class DualSpellBook extends Item implements IForgeItem, ISpellProvider {
     }
 
     @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flags) {
+        super.appendHoverText(stack, level, components, flags);
+        Spell s1 = getActiveSpell(stack);
+        Spell s2 = getSecondarySpell(stack);
+        if(s1 != Spells.NO_OP) {
+            components.add(Component.translatable("spell." + s1.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
+
+        } else if(s2 != Spells.NO_OP) {
+            components.add(Component.translatable("spell." + Main.MOD_ID + ".empty_primary").withStyle(ChatFormatting.GRAY));
+        }
+        if(s2 != Spells.NO_OP) {
+            components.add(Component.translatable("spell." + s2.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
+        }
+    }
+
+
+    @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.OFFHAND ? this.bookModifiers : super.getAttributeModifiers(slot, stack);
+        return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND ? this.bookModifiers : super.getAttributeModifiers(slot, stack);
     }
 
     @Override

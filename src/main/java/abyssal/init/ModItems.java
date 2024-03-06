@@ -53,8 +53,8 @@ public final class ModItems {
     public static final RegistryObject<Item> PORTAL_LIGHTER = registerCurio("portal_lighter", () -> new PortalLighterItem(defaultItemProperties().stacksTo(1)));
 
     public static final RegistryObject<Item> AMP_TOME = registerCurio("amp_tome", () -> new AmpTomeItem(defaultItemProperties().stacksTo(1)));
-    public static final RegistryObject<Item> LOST_CHAPTER = registerCurio("lost_chapter", () -> new DualSpellBook(defaultItemProperties().stacksTo(1), 40, UUID.randomUUID())); // TODO generate UUIDs
-    public static final RegistryObject<Item> FIENDISH_CODEX = registerCurio("fiendish_codex", () -> new DualSpellBook(defaultItemProperties().stacksTo(1), 35, UUID.randomUUID()));
+    public static final RegistryObject<Item> LOST_CHAPTER = registerCurio("lost_chapter", () -> new DualSpellBook(defaultItemProperties().stacksTo(1).rarity(Rarity.UNCOMMON), 40, UUID.randomUUID())); // TODO generate UUIDs
+    public static final RegistryObject<Item> FIENDISH_CODEX = registerCurio("fiendish_codex", () -> new DualSpellBook(defaultItemProperties().stacksTo(1).rarity(Rarity.UNCOMMON), 35, UUID.randomUUID()));
 
     public static final RegistryObject<Item> SKELETON_STAFF = registerCurio("skeleton_staff", () -> new BasicStaff(defaultItemProperties().stacksTo(1), 0, UUID.randomUUID(), Spells.SUMMON_SKELETON));
     public static final RegistryObject<Item> ENCHANTING_STAFF = registerCurio("enchanting_staff", () -> new BasicStaff(defaultItemProperties().stacksTo(1), 0, UUID.randomUUID(), Spells.ENCHANT));
