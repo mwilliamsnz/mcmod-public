@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 
 public class PortalSpell extends Spell {
-    protected PortalSpell(ResourceLocation key) {
+    protected PortalSpell(ResourceLocation key, SpellFuelQuantity cost) {
         super(key);
     }
 

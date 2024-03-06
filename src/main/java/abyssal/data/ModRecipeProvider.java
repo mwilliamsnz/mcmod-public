@@ -630,6 +630,16 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('r', Items.REDSTONE)
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.GARNET)))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "ruby_crystal"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.SAPPHIRE_CRYSTAL.get())
+                .pattern("glg")
+                .pattern("sds")
+                .pattern("glg")
+                .define('g', Blocks.GLASS)
+                .define('d', Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.DIAMOND))
+                .define('s', ModItems.SILVER_INGOT.get())
+                .define('l', Items.LAPIS_LAZULI)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.DIAMOND)))
+                .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "sapphire_crystal"));
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.GOLD_RING.get())
                 .pattern(" g ")
                 .pattern("g g")

@@ -17,8 +17,8 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 
 public class SkeletonSummonSpell extends Spell {
-    protected SkeletonSummonSpell(ResourceLocation key) {
-        super(key);
+    protected SkeletonSummonSpell(ResourceLocation key, SpellFuelQuantity cost) {
+        super(key, cost);
     }
 
     @Override

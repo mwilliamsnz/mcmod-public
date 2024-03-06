@@ -13,8 +13,8 @@ public class PotionEffectSpell extends Spell {
     private final MobEffect mobEffect;
     private final int baseDuration;
     private final double apScaling;
-    protected PotionEffectSpell(ResourceLocation key, MobEffect effect, int baseDuration, double apScaling) {
-        super(key);
+    protected PotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, MobEffect effect, int baseDuration, double apScaling) {
+        super(key, cost);
         this.mobEffect = effect;
         this.baseDuration = baseDuration;
         this.apScaling = apScaling;

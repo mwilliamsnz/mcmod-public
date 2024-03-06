@@ -11,8 +11,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 public class EnchantSpell extends Spell {
-    protected EnchantSpell(ResourceLocation key) {
-        super(key);
+    protected EnchantSpell(ResourceLocation key, SpellFuelQuantity cost) {
+        super(key, cost);
     }
 
     @Override

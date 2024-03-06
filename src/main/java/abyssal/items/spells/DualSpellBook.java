@@ -28,8 +28,8 @@ public class DualSpellBook extends Item implements IForgeItem, ISpellProvider {
     private final ImmutableMultimap<Attribute, AttributeModifier> bookModifiers;
 
 
-    private static final String TAG_PRIMARY_SPELL = "PrimarySpell";
-    private static final String TAG_SECONDARY_SPELL = "SecondarySpell";
+    public static final String TAG_PRIMARY_SPELL = "PrimarySpell";
+    public static final String TAG_SECONDARY_SPELL = "SecondarySpell";
 
     public DualSpellBook(Properties properties, float abilityPower, UUID bookUUID) {
         super(properties);

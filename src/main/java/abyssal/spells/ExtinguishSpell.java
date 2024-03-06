@@ -15,8 +15,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class ExtinguishSpell extends Spell {
 
-    protected ExtinguishSpell(ResourceLocation key) {
-        super(key);
+    protected ExtinguishSpell(ResourceLocation key, SpellFuelQuantity cost) {
+        super(key, cost);
     }
 
     @Override

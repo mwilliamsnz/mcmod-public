@@ -1,8 +1,10 @@
-package abyssal.items.handheld.spells;
+package abyssal.items.spells;
 
+import abyssal.Main;
 import abyssal.ModAttributes;
 import abyssal.spells.ISpellProvider;
 import abyssal.spells.Spell;
+import abyssal.spells.SpellFuelQuantity;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -67,9 +69,14 @@ public class SpellStaff extends Item implements IForgeItem {
             }
         }
         result = InteractionResultHolder.fail(staff);
+
         if(spell != null) {
-            result = spell.cast(level, player, staff, book, ap);
-            onCast(level, player, staff, book, ap);
+            Main.LOGGER.info(spell.key);
+            SpellFuelQuantity cost = spell.baseCost;
+            if(cost.depleteIfSatisfied(player)) {
+                result = spell.cast(level, player, staff, book, ap);
+                onCast(level, player, staff, book, ap);
+            }
         }
         return result;
     }

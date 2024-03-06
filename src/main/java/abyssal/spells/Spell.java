@@ -10,9 +10,17 @@ public abstract class Spell {
 
     public final ResourceLocation key;
 
+    public final SpellFuelQuantity baseCost;
+
     protected Spell(ResourceLocation key) {
-        this.key = key;
+        this(key, SpellFuelQuantity.NONE);
     }
+
+    protected Spell(ResourceLocation key, SpellFuelQuantity baseCost) {
+        this.key = key;
+        this.baseCost = baseCost;
+    }
+
 
     public abstract InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap);
 

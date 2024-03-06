@@ -1,4 +1,4 @@
-package abyssal.items.handheld.spells;
+package abyssal.items.spells;
 
 import abyssal.spells.Spell;
 import net.minecraft.world.item.ItemStack;

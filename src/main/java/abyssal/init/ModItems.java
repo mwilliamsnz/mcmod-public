@@ -7,6 +7,8 @@ import abyssal.items.curios.*;
 import abyssal.items.handheld.*;
 import abyssal.items.spells.BasicStaff;
 import abyssal.items.spells.DualSpellBook;
+import abyssal.items.spells.FuelStorageItem;
+import abyssal.spells.SpellFuelTypes;
 import abyssal.spells.Spells;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -60,6 +62,7 @@ public final class ModItems {
     public static final RegistryObject<Item> ENCHANTING_STAFF = registerCurio("enchanting_staff", () -> new BasicStaff(defaultItemProperties().stacksTo(1), 0, UUID.randomUUID(), Spells.ENCHANT));
 
     public static final RegistryObject<Item> WACKY_SKULL = registerCurio("wacky_skull", () -> new Item(defaultItemProperties()));
+    public static final RegistryObject<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_GENERIC));
     public static final RegistryObject<Item> RUBY_CRYSTAL = registerCurio("ruby_crystal", () -> new RubyCrystalItem(defaultCurioProperties()));
     public static final RegistryObject<Item> RAGE_TOTEM = registerCurio("rage_totem", () -> new RageTotemItem(defaultCurioProperties()));
     public static final RegistryObject<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", () -> new CleansingTotemItem(defaultCurioProperties()));

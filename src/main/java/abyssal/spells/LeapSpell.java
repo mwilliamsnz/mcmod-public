@@ -11,8 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class LeapSpell extends Spell {
-    protected LeapSpell(ResourceLocation key) {
-        super(key);
+    protected LeapSpell(ResourceLocation key, SpellFuelQuantity cost) {
+        super(key, cost);
     }
 
     @Override

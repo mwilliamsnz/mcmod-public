@@ -20,8 +20,8 @@ public class AreaPotionEffectSpell extends Spell {
     private final boolean affectsCaster;
     private final double baseRadius;
     private final double apScalingRadius;
-    protected AreaPotionEffectSpell(ResourceLocation key, MobEffect effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster) {
-        super(key);
+    protected AreaPotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, MobEffect effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster) {
+        super(key, cost);
 
         this.mobEffect = effect;
         this.baseDuration = baseDuration;
