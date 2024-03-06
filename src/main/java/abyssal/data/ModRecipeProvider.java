@@ -1033,7 +1033,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(template), has(template))
                 .save(out);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, template, 2)
-                .define('#', ModItems.DIAMOND_INGOT.get())
                 .define('p', Gems.gem(Gems.GemSize.POWDER, Gems.GemType.DIAMOND))
                 .define('C', ModItems.BLANKEST_SLATE.get())
                 .define('S', template)
@@ -1041,7 +1040,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("pCp")
                 .pattern("ppp")
                 .unlockedBy(getHasName(template), has(template))
-                .save(out);
+                .save(out, new ResourceLocation(Main.MOD_ID, "blank_slate_" + ForgeRegistries.ITEMS.getKey(template).getPath()));
     }
 
 
