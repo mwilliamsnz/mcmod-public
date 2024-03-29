@@ -1,0 +1,318 @@
+{
+	"pools": [
+		{
+			"rolls": {
+				"min": 4,
+				"max": 7
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 3,
+					"name": "abyssal:copper_coin",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 3,
+								"max": 20
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 1,
+					"name": "abyssal:coin_purse"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 1,
+					"name": "abyssal:belt"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"quality": 5,
+					"name": "abyssal:silver_ring"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 3,
+					"name": "minecraft:leather_boots",
+					"functions": [
+						{
+							"function": "minecraft:set_damage",
+							"damage": {
+								"min": 0.6,
+								"max": 1
+							}
+						},
+						{
+							"function": "minecraft:enchant_with_levels",
+							"levels": 10,
+							"treasure": true,
+							"conditions": [
+								{
+									"condition": "minecraft:random_chance",
+									"chance": 0.5
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 4,
+					"name": "abyssal:prismatic_powder"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 4,
+					"name": "minecraft:glow_ink_sac",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 6,
+					"name": "minecraft:ink_sac",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 8,
+					"name": "minecraft:feather",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 3,
+					"quality": 1,
+					"name": "minecraft:book",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 8,
+					"quality": 1,
+					"name": "minecraft:candle",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 10
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 12,
+					"quality": 3,
+					"name": "minecraft:paper",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 3,
+								"max": 20
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 3,
+					"quality": 1,
+					"name": "minecraft:writable_book"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"name": "abyssal:bat_wing_soup"
+				}
+			]
+		},
+		{
+			"rolls": {
+				"min": 2,
+				"max": 3
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 5,
+					"quality": 1,
+					"name": "abyssal:sapphire_crystal"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 3,
+					"quality": 1,
+					"name": "abyssal:ruby_crystal"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 5,
+					"name": "abyssal:dorans_ring"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 5,
+					"quality": 1,
+					"name": "abyssal:gold_ring"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 1,
+					"name": "abyssal:wacky_skull",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 4
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"quality": 2,
+					"name": "abyssal:gold_coin",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1,
+								"max": 12
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 3,
+					"name": "abyssal:silver_coin",
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 5,
+								"max": 20
+							}
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 5,
+					"quality": 1,
+					"name": "abyssal:null_magic_mantle"
+				}
+			]
+		},
+		{
+			"rolls": {
+				"min": 0,
+				"max": 2
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"name": "minecraft:potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:long_water_breathing"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 6,
+					"name": "minecraft:potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:strong_healing"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"name": "minecraft:potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:fire_resistance"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 2,
+					"name": "minecraft:potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:swiftness"
+						}
+					]
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"name": "minecraft:potion",
+					"functions": [
+						{
+							"function": "minecraft:set_potion",
+							"id": "minecraft:regeneration"
+						}
+					]
+				}
+			]
+		}
+	]
+}

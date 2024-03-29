@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "abyssal:dense_forest",
+    "pumkinpie:black_forest",
+    "abyssal:shrubland",
+    "minecraft:windswept_savanna",
+    "#minecraft:is_hill",
+    "minecraft:mushroom_fields"
+  ]
+}

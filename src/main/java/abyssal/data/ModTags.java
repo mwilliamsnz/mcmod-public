@@ -51,6 +51,7 @@ public class ModTags {
     public static class Biomes {
         public static final TagKey<Biome> HAS_MANY_OAKS = tag("has_many_oaks");
         public static final TagKey<Biome> HAS_MANY_BIRCHES = tag("has_many_birches");
+        public static final TagKey<Biome> SPAWNS_TOWERS = tag("spawns_towers");
 
         private static TagKey<Biome> tag(String name) {
             return TagKey.create(Registries.BIOME, new ResourceLocation(Main.MOD_ID, name));

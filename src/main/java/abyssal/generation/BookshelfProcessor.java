@@ -18,6 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
@@ -50,22 +51,22 @@ public class BookshelfProcessor extends StructureProcessor {
         BlockState inState = blockInfoIn.state();
         BlockPos pos = blockInfoIn.pos();
         if (inState.is(Blocks.CHISELED_BOOKSHELF)) {
-            CompoundTag newNBT = populatedTag(rand, this.lootRatio);
-            return new StructureTemplate.StructureBlockInfo(pos, inState, newNBT);
+            return populatedBookshelf(rand, this.lootRatio, pos, inState);
         }
         return blockInfoIn;
     }
 
-    public static CompoundTag populatedTag(RandomSource rand, float lootChance) {
+    public static StructureTemplate.StructureBlockInfo populatedBookshelf(RandomSource rand, float lootChance, BlockPos pos, BlockState state) {
         CompoundTag t = new CompoundTag();
         ListTag l = new ListTag();
         for(int i = 0; i < 6; i++) {
             if(rand.nextFloat() >= EMPTY_CHANCE) {
                 l.add(generateItemTag(i, rand, lootChance));
+                state = state.setValue(ChiseledBookShelfBlock.SLOT_OCCUPIED_PROPERTIES.get(i), true);
             }
         }
         t.put("Items", l);
-        return t;
+        return new StructureTemplate.StructureBlockInfo(pos, state, t);
     }
 
     private static CompoundTag generateItemTag(int slot, RandomSource rand, float lootChance) {

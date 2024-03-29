@@ -1,0 +1,8 @@
+{
+  "processors": [
+    {
+      "processor_type": "abyssal:bookshelf_filler",
+      "loot_ratio": 0.333
+    }
+  ]
+}
