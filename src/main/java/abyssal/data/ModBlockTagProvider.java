@@ -57,6 +57,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.POWDER_BARREL_KNOCK.get());
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.SHRUB.get());
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.CHARRED_LOG.get());
+        this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.AMP_BOOKSHELF.get());
 
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.POOR_IRON_ORE.get());
@@ -98,6 +99,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(Tags.Blocks.GRAVEL).add(ModBlocks.GOLD_GRAVEL.get());
         this.tag(BlockTags.BAMBOO_PLANTABLE_ON).add(ModBlocks.GOLD_GRAVEL.get());
 
+        this.tag(Tags.Blocks.BOOKSHELVES).add(ModBlocks.AMP_BOOKSHELF.get());
+        this.tag(BlockTags.ENCHANTMENT_POWER_PROVIDER).add(ModBlocks.AMP_BOOKSHELF.get());
+        this.tag(BlockTags.ENCHANTMENT_POWER_PROVIDER).remove(Blocks.BOOKSHELF);
 
         this.tag(ModTags.Blocks.CHARRING_AXE_DESTROYS).add(Blocks.VINE, ModBlocks.IVY.get());
 

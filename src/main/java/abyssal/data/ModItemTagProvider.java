@@ -109,6 +109,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.BOOKSHELF_BOOKS).add(ModItems.LOST_CHAPTER.get());
         this.tag(ItemTags.BOOKSHELF_BOOKS).add(ModItems.FIENDISH_CODEX.get());
 
+        this.tag(ModTags.Items.SHELF_AMPLIFIERS).add(ModItems.AMP_TOME.get());
+        this.tag(ModTags.Items.SHELF_AMPLIFIERS).add(ModItems.LOST_CHAPTER.get());
+        this.tag(ModTags.Items.SHELF_AMPLIFIERS).add(ModItems.FIENDISH_CODEX.get());
+        this.tag(ModTags.Items.SHELF_AMPLIFIERS).add(Items.ENCHANTED_BOOK);
+
         this.tag(ItemTags.BIRCH_LOGS).add(ModBlocks.MOSSY_BIRCH.get().asItem());
         this.tag(ItemTags.OAK_LOGS).add(ModBlocks.MOSSY_OAK.get().asItem());
 

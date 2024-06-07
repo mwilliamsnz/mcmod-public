@@ -77,6 +77,7 @@ public class ModBlocks {
     public static final RegistryObject<RotatedPillarBlock> NETHER_BRASS_BLOCK = registerWithDataLoot("nether_brass_block", () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK)));
     public static final RegistryObject<Block> SILVER_BLOCK = registerWithDataLoot("silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK)));
     public static final RegistryObject<Block> ALCHEMICAL_GOLD_BLOCK = registerWithDataLoot("alchemical_gold_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK)));
+    public static final RegistryObject<Block> AMP_BOOKSHELF = registerWithDataLoot("amplifying_bookshelf", () -> new AmpBookshelfBlock(BlockBehaviour.Properties.copy(Blocks.BOOKSHELF)));
 
     public static final RegistryObject<Block> LAPIDARY = registerWithDataLoot("lapidary_table", () -> new LapidaryBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));
     public static final RegistryObject<Block> HARMONISER = registerWithDataLoot("harmoniser", () -> new HarmoniserBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));

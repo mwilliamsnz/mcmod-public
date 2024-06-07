@@ -75,6 +75,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.POWDER_BARREL_KNOCK.get());
         this.dropSelf(ModBlocks.LAPIDARY.get());
         this.dropSelf(ModBlocks.HARMONISER.get());
+        this.dropSelf(ModBlocks.AMP_BOOKSHELF.get());
 
 
         Gems.forAllGemBlocks(this::dropSelf);

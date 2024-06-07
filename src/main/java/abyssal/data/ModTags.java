@@ -31,6 +31,7 @@ public class ModTags {
 
         public static final TagKey<Item> COIN_PURSE_ITEMS = tag("coin_purse_items");
         public static final TagKey<Item> GOBBLER_CONSUMABLE = tag("gobbler_consumable");
+        public static final TagKey<Item> SHELF_AMPLIFIERS = tag("shelf_amplifiers");
 
         public static final TagKey<Item> TENACITY_ITEMS = tag("tenacity_item");
         public static final TagKey<Item> HEAL_AMPLIFIER = tag("heal_amplifier");

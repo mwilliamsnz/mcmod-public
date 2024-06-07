@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "facing=east":  [
+      { "model": "abyssal:block/amplifying_bookshelf_a", "y": 90 },
+      { "model": "abyssal:block/amplifying_bookshelf_b", "y": 90 },
+      { "model": "abyssal:block/amplifying_bookshelf_c", "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "abyssal:block/amplifying_bookshelf_a" },
+      { "model": "abyssal:block/amplifying_bookshelf_b" },
+      { "model": "abyssal:block/amplifying_bookshelf_c" }
+    ],
+    "facing=south": [
+      { "model": "abyssal:block/amplifying_bookshelf_a", "y": 180 },
+      { "model": "abyssal:block/amplifying_bookshelf_b", "y": 180 },
+      { "model": "abyssal:block/amplifying_bookshelf_c", "y": 180 }
+    ],
+    "facing=west": [
+      { "model": "abyssal:block/amplifying_bookshelf_a", "y": 270 },
+      { "model": "abyssal:block/amplifying_bookshelf_b", "y": 270 },
+      { "model": "abyssal:block/amplifying_bookshelf_c", "y": 270 }
+    ]
+  }
+}

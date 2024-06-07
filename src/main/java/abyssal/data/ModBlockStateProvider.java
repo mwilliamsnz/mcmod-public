@@ -97,6 +97,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         differentItemTexture.add(ModBlocks.IVY.get());
         differentItemTexture.add(ModBlocks.ELDER_PINE_DOOR.get());
         differentItemTexture.add(ModBlocks.CLOVER.get());
+        differentItemTexture.add(ModBlocks.AMP_BOOKSHELF.get());
 
         for(Block block : ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).toList()) {
             String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
