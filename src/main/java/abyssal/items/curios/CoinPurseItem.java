@@ -56,7 +56,7 @@ public class CoinPurseItem extends ModCurioItem {
                 removeOne(stackedOnto).ifPresent((itemStack) -> {
                     add(stackedOnto, slot.safeInsert(itemStack));
                 });
-            } else if (inputStack.getItem().canFitInsideContainerItems()) { // put some in
+            } else if (inputStack.getItem().canFitInsideContainerItems() && inputStack.is(ModTags.Items.COIN_PURSE_ITEMS)) { // put some in
                 int i = (MAX_WEIGHT - getContentWeight(stackedOnto)) / getWeight(inputStack);
                 int j = add(stackedOnto, slot.safeTake(inputStack.getCount(), i, player));
                 if (j > 0) {
