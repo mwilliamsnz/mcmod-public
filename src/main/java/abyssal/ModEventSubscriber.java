@@ -6,17 +6,14 @@ import abyssal.entity.TreeSpider;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModEntityTypes;
 import abyssal.init.ModItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
@@ -59,16 +56,6 @@ public class ModEventSubscriber {
     public static void addAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, ModAttributes.MAGIC_RESIST.get());
         event.add(EntityType.PLAYER, ModAttributes.ABILITY_POWER.get());
-    }
-
-    @SubscribeEvent
-    public static void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-
-            Minecraft.getInstance().getItemColors().register((itemlike, layer) -> {
-                return layer > 0 ? -1 : ((DyeableLeatherItem)itemlike.getItem()).getColor(itemlike);
-            }, ModItems.CLOTH_HELMET.get(), ModItems.CLOTH_CHESTPLATE.get(), ModItems.CLOTH_LEGGINGS.get(), ModItems.CLOTH_BOOTS.get());
-        });
     }
 
 }
