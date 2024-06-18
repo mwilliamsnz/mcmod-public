@@ -3,6 +3,7 @@ package abyssal.items.armour;
 import abyssal.init.ModItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -32,10 +33,10 @@ public enum ModArmourMaterials implements ArmorMaterial {
         return Ingredient.of(Items.WHITE_WOOL);
     }),
     WARMOGS("warmogs", 20, new int[]{0,0,0,0}, 8, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
-        return Ingredient.of(Items.DARK_OAK_WOOD);
+        return Ingredient.of(ItemTags.LOGS);
     }),
     MR_ITEMS("mr_items", 20, new int[]{0,0,0,0}, 0, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
-        return Ingredient.of(Items.WHITE_WOOL);
+        return Ingredient.of(Items.PHANTOM_MEMBRANE);
     });
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
