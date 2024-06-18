@@ -21,12 +21,19 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 1,
+          "quality": 1,
           "name": "abyssal:large_garnet"
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 1,
+          "quality": 1,
+          "name": "abyssal:large_diamond"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -42,7 +49,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 20,
+          "weight": 40,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -58,7 +65,13 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 15,
+          "name": "minecraft:diamond"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 10,
+          "quality": -3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -74,7 +87,24 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
+          "weight": 0,
+          "quality": -10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 10.0,
+                "max": 100.0
+              },
+              "add": false
+            }
+          ],
+          "name": "abyssal:copper_coin"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 30,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -91,13 +121,14 @@
         {
           "type": "minecraft:item",
           "weight": 15,
+          "quality": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 10.0,
-                "max": 100.0
+                "min": 5.0,
+                "max": 40.0
               },
               "add": false
             }
@@ -106,23 +137,8 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 4.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:gold_ingot"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 5,
+          "quality": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -134,7 +150,7 @@
               "add": false
             }
           ],
-          "name": "abyssal:powder_barrel"
+          "name": "minecraft:gold_ingot"
         }
       ]
     },
@@ -180,12 +196,8 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "minecraft:diamond"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 5,
+          "quality": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -201,6 +213,38 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3.0,
+                "max": 12.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:iron_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3.0,
+                "max": 15.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:prismarine_crystals"
+        },
+        {
+          "type": "minecraft:item",
           "weight": 5,
           "functions": [
             {
@@ -208,12 +252,29 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1.0,
-                "max": 5.0
+                "max": 2.0
               },
               "add": false
             }
           ],
-          "name": "minecraft:prismarine_crystals"
+          "name": "abyssal:powder_barrel"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "quality": -5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 5.0,
+                "max": 20.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:sand"
         }
       ]
     },
@@ -227,11 +288,32 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "weight": 5,
+          "quality": -2,
           "name": "minecraft:leather_chestplate"
         },
         {
           "type": "minecraft:item",
+          "weight": 5,
           "name": "minecraft:iron_sword"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "quality": 2,
+          "name": "minecraft:gold_sword"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": -4,
+          "quality": 5,
+          "name": "minecraft:diamond_sword"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 0,
+          "quality": -3,
+          "name": "minecraft:wooden_sword"
         }
       ]
     },
