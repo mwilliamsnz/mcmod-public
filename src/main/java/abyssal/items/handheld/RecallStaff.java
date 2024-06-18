@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -49,6 +50,10 @@ public class RecallStaff extends Item {
         level.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PORTAL_TRAVEL, soundsource, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.5F + 1.0F) + 0.2F);
         user.moveTo(level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, user.getOnPos()).getCenter());
         return stack;
+    }
+
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.BOW;
     }
 
     @Override

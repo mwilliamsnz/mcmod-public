@@ -924,6 +924,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .define('i', Items.IRON_INGOT)
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.WACKY_SKULL.get()))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "spawner_mover"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.RECALL_STAFF.get())
+                .pattern("dod")
+                .pattern("did")
+                .define('d', Blocks.DEEPSLATE)
+                .define('o', Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.ONYX))
+                .define('i', Items.IRON_INGOT)
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Gems.gem(Gems.GemSize.REGULAR, Gems.GemType.ONYX)))
+                .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "recall_staff"));
     }
 
     private void makeCoalLikes(RecipeOutput recipeOutput) {
