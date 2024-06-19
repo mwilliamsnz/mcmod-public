@@ -301,7 +301,7 @@
           "type": "minecraft:item",
           "weight": 1,
           "quality": 2,
-          "name": "minecraft:gold_sword"
+          "name": "minecraft:golden_sword"
         },
         {
           "type": "minecraft:item",
