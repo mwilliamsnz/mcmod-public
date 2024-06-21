@@ -7,11 +7,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SpiderRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-
-@OnlyIn(Dist.CLIENT)
 public class TreeSpiderRenderer extends SpiderRenderer<TreeSpider> {
     private static final ResourceLocation TREE_SPIDER_LOCATION = new ResourceLocation(Main.MOD_ID,"textures/entity/tree_spider.png");
     private static final float SCALE = 0.7F;

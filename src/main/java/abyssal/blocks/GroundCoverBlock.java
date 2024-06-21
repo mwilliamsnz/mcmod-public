@@ -1,5 +1,6 @@
 package abyssal.blocks;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -11,9 +12,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GroundCoverBlock extends BushBlock {
     protected final VoxelShape shape;
-    public GroundCoverBlock(double thickness, BlockBehaviour.Properties p_53514_) {
+
+    public static final MapCodec<GroundCoverBlock> CODEC = simpleCodec(GroundCoverBlock::new);
+
+    @Override
+    public MapCodec<GroundCoverBlock> codec() {
+        return CODEC;
+    }
+
+    public GroundCoverBlock(BlockBehaviour.Properties p_53514_) {
         super(p_53514_);
-        shape = Block.box(0.0D, 0.0D, 0.0D, 16.0D, thickness, 16.0D);
+        shape = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 
     }
 

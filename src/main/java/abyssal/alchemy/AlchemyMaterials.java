@@ -1,6 +1,5 @@
 package abyssal.alchemy;
 
-import abyssal.Main;
 import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModItems;
@@ -40,7 +39,7 @@ public class AlchemyMaterials {
     static final double HIGH_PURITY_REQ = 0.85;
 
     static final double VERY_HIGH_PURITY = 0.95;
-    static final double VERY_HIGH_PURITY_REQ = 0.85;
+    static final double VERY_HIGH_PURITY_REQ = 0.925;
     static final double PERFECT_PURITY = 1;
     static final double PERFECT_PURITY_REQ = 0.99;
 
@@ -114,7 +113,7 @@ public class AlchemyMaterials {
         group("Baslt", Alchemy.Category.INFERNAL, basalt, 2,1,1);
         group("BlkSt", Alchemy.Category.INFERNAL, blackstone, 2,1,1); // vantablackstone
 
-        Main.LOGGER.info(count + " at rank <= 2");
+//        Main.LOGGER.info(count + " at rank <= 2");
 
         AlchemyMaterial raw_copper = new AlchemyMaterial(Items.RAW_COPPER, STANDARD_COST/2, LOW_PURITY);
         AlchemyMaterial copper = new AlchemyMaterial(Items.COPPER_INGOT, STANDARD_COST/2, AVERAGE_PURITY, AVERAGE_PURITY_REQ);
@@ -155,7 +154,7 @@ public class AlchemyMaterials {
         group("SlSnd", Alchemy.Category.INFERNAL, soul_sand, 3,0,1);
         group("SlSoi", Alchemy.Category.INFERNAL, soul_soil, 3,0,1); // soul mud as impure version, bigger slow
 
-        Main.LOGGER.info(count + " at rank <= 3");
+//        Main.LOGGER.info(count + " at rank <= 3");
 
         AlchemyMaterial poor_iron = new AlchemyMaterial(ModItems.POOR_IRON, NUGGET_COST*3, LOW_PURITY);
         AlchemyMaterial raw_iron = new AlchemyMaterial(Items.RAW_IRON, STANDARD_COST, AVERAGE_PURITY, AVERAGE_PURITY_REQ);
@@ -179,7 +178,7 @@ public class AlchemyMaterials {
         group("Blaze", Alchemy.Category.INFERNAL, blaze_powder, 4,0,1);
 
 
-        Main.LOGGER.info(count + " at rank <= 4");
+//        Main.LOGGER.info(count + " at rank <= 4");
 
         AlchemyMaterial silver_nugget = new AlchemyMaterial(ModItems.SILVER_NUGGET, STANDARD_COST, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
         AlchemyMaterial silver_ingot = new AlchemyMaterial(ModItems.SILVER_INGOT, STANDARD_COST, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
@@ -209,7 +208,7 @@ public class AlchemyMaterials {
         group("Onyx ", Alchemy.Category.CRYSTAL, Set.of(onyx_powder, tiny_onyx, small_onyx, onyx, large_onyx), 5,1,1);
         group("UUMat", Alchemy.Category.EARTH, uu_matter, 5,0,2); // "dead matter" less pure
 
-        Main.LOGGER.info(count + " at rank <= 5");
+//        Main.LOGGER.info(count + " at rank <= 5");
 
         AlchemyMaterial gold_nugget = new AlchemyMaterial(Items.GOLD_NUGGET, NUGGET_COST*2, PERFECT_PURITY, PERFECT_PURITY_REQ);
         AlchemyMaterial gold_ingot = new AlchemyMaterial(Items.GOLD_INGOT, STANDARD_COST*2, PERFECT_PURITY, PERFECT_PURITY_REQ);
@@ -233,7 +232,7 @@ public class AlchemyMaterials {
         group("Cryin", Alchemy.Category.INFERNAL, crying_obsidian, 6,0,1); // maybe put with obs or remove
         group("Boom!", Alchemy.Category.INFERNAL, explosion_temp_placeholder, 6,1,0);  // TODO make this one explode when precipitated
 
-        Main.LOGGER.info(count + " at rank <= 6");
+//        Main.LOGGER.info(count + " at rank <= 6");
 
         AlchemyMaterial warm_ingot = new AlchemyMaterial(ModItems.WARM_INGOT, STANDARD_COST*4);
         AlchemyMaterial plutonium_ingot = new AlchemyMaterial(ModItems.PLUTONIUM_INGOT, STANDARD_COST*4, VERY_HIGH_PURITY, VERY_HIGH_PURITY_REQ);
@@ -249,7 +248,7 @@ public class AlchemyMaterials {
         group("Infer", Alchemy.Category.INFERNAL, inferno_essence, 7,0,1);
         group("Boom2", Alchemy.Category.INFERNAL, explosion_temp_placeholder, 7,0,0);  // TODO make this one explode too when precipitated
 
-        Main.LOGGER.info(count + " at rank <= 7");
+//        Main.LOGGER.info(count + " at rank <= 7");
         return list;
     }
 

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class CoinPurseItem extends ModCurioItem {
+public class CoinPurseItem extends Item {
     private static final String TAG_ITEMS = "Items";
     public static final int MAX_WEIGHT = 256;
     private static final int BUNDLE_IN_BUNDLE_WEIGHT = 4;

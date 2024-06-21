@@ -9,11 +9,11 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
 import javax.annotation.Nullable;
 
-public class ModDyeableArmourItem extends DyeableArmorItem implements IForgeItem, DyeableLeatherItem {
+public class ModDyeableArmourItem extends DyeableArmorItem implements IItemExtension, DyeableLeatherItem {
 
     public ModDyeableArmourItem(ArmorMaterial material, Type slot, Properties properties) {
         super(material, slot, properties);

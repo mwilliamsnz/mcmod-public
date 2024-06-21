@@ -3,16 +3,16 @@ package abyssal.data;
 import abyssal.Main;
 import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.function.Supplier;
 
 public class ModBlockStateProvider extends BlockStateProvider {
 
@@ -99,8 +99,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         differentItemTexture.add(ModBlocks.CLOVER.get());
         differentItemTexture.add(ModBlocks.AMP_BOOKSHELF.get());
 
-        for(Block block : ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).toList()) {
-            String name = ForgeRegistries.BLOCKS.getKey(block).getPath();
+        for(Block block : ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).toList()) {
+            String name = BuiltInRegistries.BLOCK.getKey(block).getPath();
             if(differentItemTexture.contains(block)) {
                 continue;
             }
@@ -108,7 +108,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         }
     }
 
-    private String regName(RegistryObject<Block> regOb) {
-        return ForgeRegistries.BLOCKS.getKey(regOb.get()).getPath();
+    private String regName(Supplier<Block> regOb) {
+        return BuiltInRegistries.BLOCK.getKey(regOb.get()).getPath();
     }
 }

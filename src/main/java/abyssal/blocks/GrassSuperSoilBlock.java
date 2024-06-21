@@ -57,7 +57,7 @@ public class GrassSuperSoilBlock extends SuperSoilBlock {
                     .add(ModBlocks.CLOVER.get().defaultBlockState(), 20)
                     .add(ModBlocks.FERN_CORE.get().defaultBlockState(), 20)
                     .add(ModBlocks.IVY.get().defaultBlockState().setValue(IvyBlock.DOWN, true), 20)
-                    .add(Blocks.GRASS.defaultBlockState(), 10)
+                    .add(Blocks.SHORT_GRASS.defaultBlockState(), 10)
                     .add(Blocks.MOSS_CARPET.defaultBlockState(), 10)
                     .add(Blocks.PINK_PETALS.defaultBlockState(), 10)
                     .add(Blocks.SUGAR_CANE.defaultBlockState(), 4)

@@ -68,7 +68,7 @@ public class Alchemy {
         List<AlchemyMaterialGroup> allMaterials = AlchemyMaterials.makeMaterials();
 
         int blockers = xsize*ysize - allMaterials.size();
-        Main.LOGGER.info(blockers + " blockers needed");
+        //Main.LOGGER.info(blockers + " blockers needed");
 
         if(blockers < 0) {
             Main.LOGGER.error("Too many materials (" + allMaterials.size() + ") for grid size " + xsize + " * " + ysize);
@@ -116,7 +116,7 @@ public class Alchemy {
                 }
                 indexInLevel++;
                 if(indexInLevel >= materialLevels.get(level).size()) {
-                    Main.LOGGER.info("dropping to level " + (level-1));
+                    //Main.LOGGER.info("dropping to level " + (level-1));
                     indexInLevel = 0;
                     level--;
                 }
@@ -127,21 +127,21 @@ public class Alchemy {
 
         // Debug print + assign board
         for(int i = ysize-1; i >= 0; i--) {
-            for(int j = 0; j < xsize; j++) {
-                System.out.print("      | ");
-            }
-            System.out.println();
+//            for(int j = 0; j < xsize; j++) {
+//                System.out.print("      | ");
+//            }
+//            System.out.println();
             for(int j = 0; j < xsize; j++) {
                 AlchemyMaterialGroup m = materialRanks.get(i).get(j);
                 BoardPosition pos = new BoardPosition(j,ysize-i-1);
                 board.put(pos, m);
-                System.out.print(m.name + " | ");
+//                System.out.print(m.name + " | ");
             }
-            System.out.println();
-            for(int j = 0; j < xsize; j++) {
-                System.out.print("      | ");
-            }
-            System.out.println();
+//            System.out.println();
+//            for(int j = 0; j < xsize; j++) {
+//                System.out.print("      | ");
+//            }
+//            System.out.println();
         }
     }
 

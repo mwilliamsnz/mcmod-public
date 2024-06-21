@@ -368,7 +368,7 @@ package abyssal.generation;//package cornmod.generation;
 //        if (!p_158434_.hasAnyStructureAt(p_158436_)) {
 //            return super.getMobsAt(p_158433_, p_158434_, p_158435_, p_158436_);
 //        } else {
-//            WeightedRandomList<MobSpawnSettings.SpawnerData> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_158434_, p_158435_, p_158436_);
+//            WeightedRandomList<MobSpawnSettings.SpawnerData> spawns = net.neoforged.neoforge.common.world.StructureSpawnManager.getStructureSpawns(p_158434_, p_158435_, p_158436_);
 //            if (spawns != null) return spawns;
 //            if (false) {//Forge: We handle these hardcoded cases above in StructureSpawnManager#getStructureSpawns, but allow for insideOnly to be changed and allow for creatures to be spawned in ones other than just the witch hut
 //                if (p_158434_.getStructureWithPieceAt(p_158436_, StructureFeature.SWAMP_HUT).isValid()) {

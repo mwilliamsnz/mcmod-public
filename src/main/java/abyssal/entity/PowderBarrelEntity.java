@@ -38,7 +38,6 @@ public class PowderBarrelEntity extends PrimedTnt {
     protected void explode() {
         this.level().explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 1.8F, Level.ExplosionInteraction.TNT);
         PowderExplosion explosion = new PowderExplosion(this.level(), this, null, null, this.getX(), this.getY(0.0625D), this.getZ(), size, false, Explosion.BlockInteraction.KEEP, damageFactor, knockFactor);
-        if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.level(), explosion)) return;
         explosion.explode();
         explosion.finalizeExplosion(true);
     }

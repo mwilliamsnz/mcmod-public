@@ -1,10 +1,11 @@
 package abyssal.items.armour;
 
-import abyssal.capability.CombatTimeCapability;
+import abyssal.init.ModAttachmentTypes;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -39,17 +40,15 @@ public class WarmogsItem extends ModTickingArmourItem {
     }
 
     @Override
-    public void doArmourTick(ItemStack stack, Level level, Player player) {
+    public void doArmourTick(ItemStack stack, Level level, Entity entity) {
         // Regenerate HP if out of combat
-        if(!level.isClientSide()) {
-            player.getCapability(CombatTimeCapability.INSTANCE).ifPresent(ctc -> {
-                if(ctc.getTicksOutOfCombat() > 120 && player.getMaxHealth() >= 20 + 26) {
-                    player.heal(player.getMaxHealth() * 0.005f);
-                    ensureBonusActive(stack);
-                } else {
-                    ensureBonusInactive(stack);
-                }
-            });
+        if(!level.isClientSide() && entity instanceof Player player) {
+            if(player.getData(ModAttachmentTypes.NO_COMBAT_TIME) > 120 && player.getMaxHealth() >= 20 + 26) {
+                player.heal(player.getMaxHealth() * 0.005f);
+                ensureBonusActive(stack);
+            } else {
+                ensureBonusInactive(stack);
+            }
         }
     }
 

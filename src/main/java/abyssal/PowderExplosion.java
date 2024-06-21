@@ -146,12 +146,12 @@ public class PowderExplosion extends Explosion {
         int bbzl = Mth.floor(this.z - (double)damageRad - 1.0D);
         int bbzu = Mth.floor(this.z + (double)damageRad + 1.0D);
         List<Entity> entitiesInBB = this.level.getEntities(this.source, new AABB(bbxl, bbyl, bbzl, bbxu, bbyu, bbzu));
-        net.minecraftforge.event.ForgeEventFactory.onExplosionDetonate(this.level, this, entitiesInBB, damageRad);
+        net.neoforged.neoforge.event.EventHooks.onExplosionDetonate(this.level, this, entitiesInBB, damageRad);
         Vec3 vec3 = new Vec3(this.x, this.y, this.z);
 
         for(int entityIndex = 0; entityIndex < entitiesInBB.size(); ++entityIndex) {
             Entity entity = entitiesInBB.get(entityIndex);
-            if (!entity.ignoreExplosion()) {
+            if (!entity.ignoreExplosion(this)) {
                 double radialProportion = Math.sqrt(entity.distanceToSqr(vec3)) / (double)damageRad;
                 if (radialProportion <= 1.0D) {
                     double dx = entity.getX() - this.x;

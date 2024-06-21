@@ -9,11 +9,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
 import java.util.UUID;
 
-public class AmpTomeItem extends Item implements IForgeItem {
+public class AmpTomeItem extends Item implements IItemExtension {
 
     private static final UUID TOME_AP_UUID = UUID.fromString("352dbb4f-a0dc-4a99-846e-da02a7b05301");
     private static final AttributeModifier TOME_AP = new AttributeModifier(TOME_AP_UUID, "Ability power", 20, AttributeModifier.Operation.ADDITION);

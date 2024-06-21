@@ -1,8 +1,6 @@
-package abyssal.items.curios;
+package abyssal.items.armour;
 
 import abyssal.ModAttributes;
-import abyssal.items.armour.ModArmourItem;
-import abyssal.items.armour.ModArmourMaterials;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,16 +28,5 @@ public class MercTreadsItem extends ModArmourItem {
         return slot == this.type.getSlot() ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
     }
 
-//    @Override
-//    public void onArmorTick(ItemStack stack, Level level, Player player) {
-//        if(player.tickCount % 3 == 0) {
-//            Collection<MobEffectInstance> effects = player.getActiveEffects();
-//            for(MobEffectInstance instance : effects) {
-//                if(instance.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
-//                    player.removeEffectNoUpdate(instance);
-//                }
-//            }
-//        }
-//    }
 
 }

@@ -17,12 +17,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
 import java.util.Collection;
 import java.util.UUID;
 
-public class NashorsToothItem extends SwordItem implements IForgeItem {
+public class NashorsToothItem extends SwordItem implements IItemExtension {
 
     private static final UUID NASHORS_AP_UUID = UUID.fromString("a1b50376-1fc0-43ca-85b9-8c16f1c532fc");
     private static final UUID NASHORS_DAMAGE_UUID = UUID.fromString("91c271c5-7307-4aad-bd14-397c6505f3fa");

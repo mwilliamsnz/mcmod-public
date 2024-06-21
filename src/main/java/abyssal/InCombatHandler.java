@@ -1,41 +1,49 @@
 package abyssal;
 
-import abyssal.capability.CombatTimeCapability;
-import abyssal.capability.CombatTimeCapabilityInterface;
 import abyssal.data.ModTags;
+import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingHealEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class InCombatHandler {
 
-    @SubscribeEvent
-    public static void combatChecker(LivingHurtEvent event) {
-        if(event.getEntity() instanceof Player defender) {
-            defender.getCapability(CombatTimeCapability.INSTANCE).ifPresent(CombatTimeCapabilityInterface::recogniseCombat);
-            if(isMagic(event.getSource())) { // and not bypassMagic?
-                event.setAmount(event.getAmount() * getMagicDamageMultiplier(defender));
-            }
+    private static final long TICKS_BEFORE_LEAVING_COMBAT = 100;
+
+    public static void recogniseCombat(Entity e) {
+        e.setData(ModAttachmentTypes.NO_COMBAT_TIME, 0);
+        if(e.getData(ModAttachmentTypes.COMBAT_TIME) == 0) {
+            e.setData(ModAttachmentTypes.COMBAT_TIME, 1);
         }
-        if(event.getSource().getEntity() instanceof Player attacker) {
-            attacker.getCapability(CombatTimeCapability.INSTANCE).ifPresent(CombatTimeCapabilityInterface::recogniseCombat);
+    }
+
+    public static void tickCombat(Entity e) {
+        int ooc = e.getData(ModAttachmentTypes.NO_COMBAT_TIME);
+        e.setData(ModAttachmentTypes.NO_COMBAT_TIME,  ooc + 1);
+        if(ooc >= TICKS_BEFORE_LEAVING_COMBAT) {
+            e.setData(ModAttachmentTypes.COMBAT_TIME, 0);
+        }
+        int ic = e.getData(ModAttachmentTypes.COMBAT_TIME);
+        if(ic > 0) {
+            e.setData(ModAttachmentTypes.COMBAT_TIME, ic + 1);
         }
     }
 
@@ -43,11 +51,23 @@ public class InCombatHandler {
         return source.is(DamageTypeTags.WITCH_RESISTANT_TO);
     }
 
+    @SubscribeEvent
+    public static void combatChecker(LivingHurtEvent event) {
+        if(event.getEntity() instanceof Player defender) {
+            recogniseCombat(defender);
+            if(isMagic(event.getSource())) { // and not bypassMagic?
+                event.setAmount(event.getAmount() * getMagicDamageMultiplier(defender));
+            }
+        }
+        if(event.getSource().getEntity() instanceof Player attacker) {
+            recogniseCombat(attacker);
+        }
+    }
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
         if(event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.END) {
-            event.player.getCapability(CombatTimeCapability.INSTANCE).ifPresent(CombatTimeCapabilityInterface::tickCombat);
+            tickCombat(event.player);
         }
     }
 

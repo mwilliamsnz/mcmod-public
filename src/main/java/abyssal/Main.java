@@ -1,7 +1,6 @@
 package abyssal;
 
 import abyssal.alchemy.Alchemy;
-import abyssal.capability.CombatTimeCapability;
 import abyssal.data.*;
 import abyssal.entity.FishPainting;
 import abyssal.generation.OreDist;
@@ -9,11 +8,10 @@ import abyssal.init.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,14 +26,10 @@ public class Main {
 
     public static OreDist oreDist = new OreDist();
 
-    final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-    public Main() {
+    public Main(IEventBus modEventBus) {
         ModItems.ITEMS.register(modEventBus);
         ModItems.OVERRIDE_ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
-        ModFluids.FLUID_TYPES.register(modEventBus);
-        ModFluids.FLUIDS.register(modEventBus);
         ModGeneration.FEATURES.register(modEventBus);
         ModGeneration.TREE_DECORATOR_TYPES.register(modEventBus);
         ModGeneration.PLACEMENT_MODIFIER_TYPES.register(modEventBus);
@@ -47,7 +41,7 @@ public class Main {
         ModAttributes.ATTRIBUTES.register(modEventBus);
         ModBlockStateProviders.BSPT.register(modEventBus);
         ModCreativeTabs.TABS.register(modEventBus);
-        modEventBus.addListener(CombatTimeCapability::register);
+        ModAttachmentTypes.ATTACHMENT_TYPES.register(modEventBus);
         modEventBus.addListener(this::gatherData);
 
 

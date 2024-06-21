@@ -7,6 +7,7 @@ import abyssal.spells.Spell;
 import abyssal.spells.Spells;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
@@ -84,10 +85,10 @@ public class BookshelfProcessor extends StructureProcessor {
                     itemTag.put("tag", enchantedBookNBT(rand, 10, false));
                 }
             } else if(r < 0.7) {
-                id = ModItems.LOST_CHAPTER.getId().toString();
+                id = BuiltInRegistries.ITEM.getKey(ModItems.LOST_CHAPTER.get()).toString();
                 itemTag.put("tag", spellbookNBT(rand));
             } else {
-                id = ModItems.AMP_TOME.getId().toString();
+                id = BuiltInRegistries.ITEM.getKey(ModItems.AMP_TOME.get()).toString();
             }
         } else if(rand.nextFloat() < WRITTEN_BOOK_CHANCE) {
             id = "minecraft:writable_book";

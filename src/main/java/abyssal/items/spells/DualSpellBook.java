@@ -18,13 +18,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class DualSpellBook extends Item implements IForgeItem, ISpellProvider {
+public class DualSpellBook extends Item implements IItemExtension, ISpellProvider {
     private final ImmutableMultimap<Attribute, AttributeModifier> bookModifiers;
 
 

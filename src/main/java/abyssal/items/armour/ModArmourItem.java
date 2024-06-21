@@ -7,11 +7,11 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
 import javax.annotation.Nullable;
 
-public class ModArmourItem extends ArmorItem implements IForgeItem {
+public class ModArmourItem extends ArmorItem implements IItemExtension {
 
     public ModArmourItem(ArmorMaterial material, Type slot, Properties properties) {
         super(material, slot, properties);

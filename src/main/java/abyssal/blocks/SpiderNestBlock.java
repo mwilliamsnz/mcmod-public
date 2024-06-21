@@ -2,6 +2,7 @@ package abyssal.blocks;
 
 import abyssal.blocks.blockentities.SpiderNestBlockEntity;
 import abyssal.init.ModBlockEntityTypes;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -16,6 +17,13 @@ import javax.annotation.Nullable;
 public class SpiderNestBlock extends BaseEntityBlock {
     public SpiderNestBlock(Properties properties) {
         super(properties);
+    }
+
+    public static final MapCodec<SpiderNestBlock> CODEC = simpleCodec(SpiderNestBlock::new);
+
+    @Override
+    public MapCodec<SpiderNestBlock> codec() {
+        return CODEC;
     }
 
     @Override

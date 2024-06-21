@@ -1,15 +1,15 @@
 package abyssal.items.armour;
 
-import abyssal.capability.CombatTimeCapability;
+import abyssal.init.ModAttachmentTypes;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -35,15 +35,13 @@ public class MobiBootsItem extends ModTickingArmourItem {
     }
 
     @Override
-    public void doArmourTick(ItemStack stack, Level level, Player player) {
+    public void doArmourTick(ItemStack stack, Level level, Entity entity) {
         if(!level.isClientSide()) {
-            player.getCapability(CombatTimeCapability.INSTANCE).ifPresent(ctc -> {
-                if(ctc.getTicksOutOfCombat() > 100) {
-                    applyBonus(stack);
-                } else {
-                    applyMalus(stack);
-                }
-            });
+            if(entity.getData(ModAttachmentTypes.NO_COMBAT_TIME) > 100) {
+                applyBonus(stack);
+            } else {
+                applyMalus(stack);
+            }
         }
     }
 

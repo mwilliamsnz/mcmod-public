@@ -1,6 +1,6 @@
 package abyssal.items.armour;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -12,21 +12,19 @@ public abstract class ModTickingArmourItem extends ModArmourItem {
         super(material, slot, properties);
     }
 
-    public abstract void doArmourTick(ItemStack stack, Level level, Player player);
+    public abstract void doArmourTick(ItemStack stack, Level level, Entity entity);
 
-        @Override
-    public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex) {
-        Inventory inv = player.getInventory();
-        int vanillaIndex = slotIndex;
-        if (slotIndex >= inv.items.size()) {
-            vanillaIndex = slotIndex - inv.items.size();
-            if (vanillaIndex >= inv.armor.size()) {
-                vanillaIndex -= inv.armor.size();
-            } else {
-                this.doArmourTick(stack, level, player);
-            }
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotIndex, boolean isSelected) {
+        if (slotIndex >= 36 && slotIndex <= 39) {
+            doArmourTick(stack, level, entity);
         }
-        stack.inventoryTick(level, player, vanillaIndex, selectedIndex == vanillaIndex);
+    }
+
+    // By 1.21 this method will be removed, simply delete as inventoryTick will work properly by then.
+    @Override
+    public void onArmorTick(ItemStack stack, Level world, Player entity) {
+        doArmourTick(stack, world, entity);
     }
 
 

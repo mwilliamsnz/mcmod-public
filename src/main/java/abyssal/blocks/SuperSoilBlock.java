@@ -14,11 +14,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.extensions.IForgeBlock;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.extensions.IBlockExtension;
 
 
-public class SuperSoilBlock extends Block implements IForgeBlock {
+public class SuperSoilBlock extends Block implements IBlockExtension {
     public SuperSoilBlock(Properties properties) {
         super(properties);
     }

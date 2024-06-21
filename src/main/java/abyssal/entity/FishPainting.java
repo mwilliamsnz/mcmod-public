@@ -7,6 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -28,44 +29,43 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class FishPainting extends HangingEntity {
-    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS = DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, Main.MOD_ID);
+    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS = DeferredRegister.create(BuiltInRegistries.PAINTING_VARIANT, Main.MOD_ID);
 
-    public static final RegistryObject<PaintingVariant> JFISH1 = PAINTING_VARIANTS.register("fish_1", () -> new PaintingVariant(16, 16));
-    public static final RegistryObject<PaintingVariant> JFISH2 = PAINTING_VARIANTS.register("fish_2", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> JFISH3 = PAINTING_VARIANTS.register("fish_3", () -> new PaintingVariant(64, 64));
-    public static final RegistryObject<PaintingVariant> JFISH4 = PAINTING_VARIANTS.register("fish_4", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> JFISH5 = PAINTING_VARIANTS.register("fish_5", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> JFISH6 = PAINTING_VARIANTS.register("fish_6", () -> new PaintingVariant(64, 64));
-    public static final RegistryObject<PaintingVariant> JFISH7 = PAINTING_VARIANTS.register("fish_7", () -> new PaintingVariant(64, 64));
-    public static final RegistryObject<PaintingVariant> JFISH8 = PAINTING_VARIANTS.register("fish_8", () -> new PaintingVariant(16, 16));
+    public static final Supplier<PaintingVariant> JFISH1 = PAINTING_VARIANTS.register("fish_1", () -> new PaintingVariant(16, 16));
+    public static final Supplier<PaintingVariant> JFISH2 = PAINTING_VARIANTS.register("fish_2", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> JFISH3 = PAINTING_VARIANTS.register("fish_3", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> JFISH4 = PAINTING_VARIANTS.register("fish_4", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> JFISH5 = PAINTING_VARIANTS.register("fish_5", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> JFISH6 = PAINTING_VARIANTS.register("fish_6", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> JFISH7 = PAINTING_VARIANTS.register("fish_7", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> JFISH8 = PAINTING_VARIANTS.register("fish_8", () -> new PaintingVariant(16, 16));
 
-    public static final RegistryObject<PaintingVariant> RICK = PAINTING_VARIANTS.register("rick", () -> new PaintingVariant(64, 64));
-    public static final RegistryObject<PaintingVariant> CRETIN_1 = PAINTING_VARIANTS.register("cretin_1", () -> new PaintingVariant(64, 64));
-    public static final RegistryObject<PaintingVariant> GORF = PAINTING_VARIANTS.register("gorf", () -> new PaintingVariant(64, 32));
-    public static final RegistryObject<PaintingVariant> HOUSE = PAINTING_VARIANTS.register("house", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> DRICK = PAINTING_VARIANTS.register("drick", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> FACE = PAINTING_VARIANTS.register("face", () -> new PaintingVariant(32, 32));
-    public static final RegistryObject<PaintingVariant> FACE_2 = PAINTING_VARIANTS.register("face_2", () -> new PaintingVariant(16, 16));
-    public static final RegistryObject<PaintingVariant> KEY = PAINTING_VARIANTS.register("key", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> RICK = PAINTING_VARIANTS.register("rick", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> CRETIN_1 = PAINTING_VARIANTS.register("cretin_1", () -> new PaintingVariant(64, 64));
+    public static final Supplier<PaintingVariant> GORF = PAINTING_VARIANTS.register("gorf", () -> new PaintingVariant(64, 32));
+    public static final Supplier<PaintingVariant> HOUSE = PAINTING_VARIANTS.register("house", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> DRICK = PAINTING_VARIANTS.register("drick", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> FACE = PAINTING_VARIANTS.register("face", () -> new PaintingVariant(32, 32));
+    public static final Supplier<PaintingVariant> FACE_2 = PAINTING_VARIANTS.register("face_2", () -> new PaintingVariant(16, 16));
+    public static final Supplier<PaintingVariant> KEY = PAINTING_VARIANTS.register("key", () -> new PaintingVariant(64, 64));
 
-    private static final List<RegistryObject<PaintingVariant>> FISH_PAINTINGS = List.of(JFISH1, JFISH2, JFISH3, JFISH4, JFISH5, JFISH6, JFISH7, JFISH8);
-//    private static final List<RegistryObject<PaintingVariant>> FISH_PAINTINGS = List.of();
+    private static final List<Supplier<PaintingVariant>> FISH_PAINTINGS = List.of(JFISH1, JFISH2, JFISH3, JFISH4, JFISH5, JFISH6, JFISH7, JFISH8);
+//    private static final List<Supplier<PaintingVariant>> FISH_PAINTINGS = List.of();
 
     private static final EntityDataAccessor<Holder<PaintingVariant>> DATA_PAINTING_VARIANT_ID = SynchedEntityData.defineId(FishPainting.class, EntityDataSerializers.PAINTING_VARIANT);
     private static final ResourceKey<PaintingVariant> DEFAULT_VARIANT = PaintingVariants.KEBAB;
 
     private static Holder<PaintingVariant> getDefaultVariant() {
-        return ForgeRegistries.PAINTING_VARIANTS.getHolder(DEFAULT_VARIANT).orElseThrow();
+        return BuiltInRegistries.PAINTING_VARIANT.getHolder(DEFAULT_VARIANT).orElseThrow();
     }
 
     public FishPainting(EntityType<? extends FishPainting> entity, Level level) {
@@ -94,7 +94,7 @@ public class FishPainting extends HangingEntity {
 
         FishPainting painting = new FishPainting(level, pos);
         List<Holder<PaintingVariant>> list = new ArrayList<>();
-        for (RegistryObject<PaintingVariant> rp : FISH_PAINTINGS) {
+        for (Supplier<PaintingVariant> rp : FISH_PAINTINGS) {
             list.add(Holder.direct(rp.get()));
         }
         if (list.isEmpty()) {
@@ -147,7 +147,7 @@ public class FishPainting extends HangingEntity {
 
     public void readAdditionalSaveData(CompoundTag tag) {
         ResourceKey<PaintingVariant> resourcekey = ResourceKey.create(Registries.PAINTING_VARIANT, ResourceLocation.tryParse(tag.getString("variant")));
-        Optional<Holder<PaintingVariant>> h = ForgeRegistries.PAINTING_VARIANTS.getHolder(resourcekey);
+        Optional<Holder.Reference<PaintingVariant>> h = BuiltInRegistries.PAINTING_VARIANT.getHolder(resourcekey);
         if(h.isPresent()) {
             this.setVariant(h.get());
         } else {

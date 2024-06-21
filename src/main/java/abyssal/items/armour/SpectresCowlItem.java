@@ -3,11 +3,11 @@ package abyssal.items.armour;
 import abyssal.ModAttributes;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -32,7 +32,7 @@ public class SpectresCowlItem extends ModTickingArmourItem {
     }
 
     @Override
-    public void doArmourTick(ItemStack stack, Level level, Player player) {
+    public void doArmourTick(ItemStack stack, Level level, Entity entity) {
         // TODO capability for tracking time remaining stored from damage taken
     }
 }

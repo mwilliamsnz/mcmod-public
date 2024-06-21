@@ -22,9 +22,9 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ModBlockLoot extends BlockLootSubProvider {
 
@@ -36,7 +36,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
     protected Iterable<Block> getKnownBlocks() {
         return ModBlocks.DATAGEN_LOOT_TABLE // Get all registered entries
                 .stream() // Stream the wrapped objects
-                .flatMap(RegistryObject::stream) // Get the object if available
+                .map(Supplier::get) // Get the object if available
                 ::iterator; // Create the iterable
     }
 
@@ -110,36 +110,6 @@ public class ModBlockLoot extends BlockLootSubProvider {
         // [deepslate_]gem_cluster
         // [deepslate_]garnet_cluster
     }
-
-//    @Override
-//    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
-//        this.generate();
-////        Set<ResourceLocation> set = Sets.newHashSet();
-//
-////        for(Block block : getKnownBlocks()) {
-////            ResourceLocation resourcelocation = block.getLootTable();
-////            if (resourcelocation != BuiltInLootTables.EMPTY && set.add(resourcelocation)) {
-////                LootTable.Builder builder = this.map.remove(resourcelocation);
-////                if (builder == null) {
-////                    throw new IllegalStateException(String.format("Missing loottable '%s' for '%s'", resourcelocation, Registry.BLOCK.getKey(block)));
-////                }
-////
-////                consumer.accept(resourcelocation, builder);
-////            }
-////        }
-//
-//        for(ResourceLocation loc : lootMap.keySet()) {
-//            consumer.accept(loc, lootMap.get(loc));
-//        }
-//
-////        if (!this.map.isEmpty()) {
-////            throw new IllegalStateException("Created block loot tables for non-blocks: " + this.lootMap.keySet());
-////        }
-//    }
-
-//    protected void add(Block block, LootTable.Builder builder) {
-//        this.lootMap.put(block.getLootTable(), builder);
-//    }
 
     private LootTable.Builder createPoorIronDrop(Block block) {
         return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(ModItems.POOR_IRON.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1,2))).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));

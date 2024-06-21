@@ -8,12 +8,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class Gems {
     public enum GemType {
@@ -53,8 +53,8 @@ public class Gems {
         }
     }
 
-    private static EnumMap<GemSize, EnumMap<GemType, RegistryObject<Item>>> gemMap;
-    private static EnumMap<GemBlockType, EnumMap<GemType, RegistryObject<Block>>> gemBlockMap;
+    private static EnumMap<GemSize, EnumMap<GemType, Supplier<Item>>> gemMap;
+    private static EnumMap<GemBlockType, EnumMap<GemType, Supplier<Block>>> gemBlockMap;
 
     public static Item gem(GemSize size, GemType type) {
         if(type == GemType.NONE) {
@@ -110,9 +110,9 @@ public class Gems {
     }
 
     public static void initGems() {
-        gemMap = new EnumMap<GemSize, EnumMap<GemType, RegistryObject<Item>>>(GemSize.class);
+        gemMap = new EnumMap<GemSize, EnumMap<GemType, Supplier<Item>>>(GemSize.class);
         for(GemSize size : GemSize.values()) {
-            EnumMap<GemType, RegistryObject<Item>> map = new EnumMap<GemType, RegistryObject<Item>>(GemType.class);
+            EnumMap<GemType, Supplier<Item>> map = new EnumMap<GemType, Supplier<Item>>(GemType.class);
             gemMap.put(size, map);
             for(GemType type : GemType.values()) {
                 if(isVanillaGem(size, type) || type == GemType.NONE) continue;
@@ -120,13 +120,13 @@ public class Gems {
             }
         }
 
-        gemBlockMap = new EnumMap<GemBlockType, EnumMap<GemType, RegistryObject<Block>>>(GemBlockType.class);
+        gemBlockMap = new EnumMap<GemBlockType, EnumMap<GemType, Supplier<Block>>>(GemBlockType.class);
         for(GemBlockType blockType : GemBlockType.values()) {
-            EnumMap<GemType, RegistryObject<Block>> map = new EnumMap<GemType, RegistryObject<Block>>(GemType.class);
+            EnumMap<GemType, Supplier<Block>> map = new EnumMap<GemType, Supplier<Block>>(GemType.class);
             gemBlockMap.put(blockType, map);
             for(GemType type : GemType.values()) {
                 if(isVanillaGemBlock(blockType, type)) continue;
-                RegistryObject<Block> r = ModBlocks.BLOCKS.register(gemBlockName(blockType, type), () -> new Block(BlockBehaviour.Properties.copy(Blocks.COBBLED_DEEPSLATE)));
+                Supplier<Block> r = ModBlocks.BLOCKS.register(gemBlockName(blockType, type), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLED_DEEPSLATE)));
                 map.put(type, r);
                 ModBlocks.DATAGEN_LOOT_TABLE.add(r);
             }
@@ -176,7 +176,7 @@ public class Gems {
     public static GemType getType(ItemStack stack) {
         Item i = stack.getItem();
         for(GemSize size : GemSize.values()) {
-            Map<GemType, RegistryObject<Item>> map = gemMap.get(size);
+            Map<GemType, Supplier<Item>> map = gemMap.get(size);
             for (GemType type : GemType.values()) {
                 if(type == GemType.NONE) {
                     continue;
@@ -199,7 +199,7 @@ public class Gems {
     public static GemSize getSize(ItemStack stack) {
         Item i = stack.getItem();
         for(GemSize size : GemSize.values()) {
-            Map<GemType, RegistryObject<Item>> map = gemMap.get(size);
+            Map<GemType, Supplier<Item>> map = gemMap.get(size);
             for (GemType type : GemType.values()) {
                 if(type == GemType.NONE) {
                     continue;

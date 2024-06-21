@@ -1,5 +1,6 @@
 package abyssal.blocks;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +24,13 @@ public class FernCentreBlock extends BushBlock {
     protected static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().filter((entry) -> {
         return entry.getKey().getAxis().isHorizontal();
     }).collect(Util.toMap());
+
+    public static final MapCodec<FernCentreBlock> CODEC = simpleCodec(FernCentreBlock::new);
+
+    @Override
+    public MapCodec<FernCentreBlock> codec() {
+        return CODEC;
+    }
 
     protected final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0, 16.0D);;
 

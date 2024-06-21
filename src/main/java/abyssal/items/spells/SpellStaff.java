@@ -17,12 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class SpellStaff extends Item implements IForgeItem {
+public class SpellStaff extends Item implements IItemExtension {
 
 
     private final ImmutableMultimap<Attribute, AttributeModifier> staffModifiers;

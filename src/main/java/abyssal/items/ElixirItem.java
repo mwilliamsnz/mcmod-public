@@ -12,9 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 
-public class ElixirItem extends Item implements IForgeItem {
+public class ElixirItem extends Item implements IItemExtension {
     public ElixirItem(Properties properties) {
         super(properties);
     }
@@ -30,7 +30,6 @@ public class ElixirItem extends Item implements IForgeItem {
             MobEffectInstance regen = new MobEffectInstance(MobEffects.REGENERATION, 25*20, 1);
             MobEffectInstance resist = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25*20, 0);
 
-            entity.curePotionEffects(stack);
             entity.removeEffect(MobEffects.POISON);
             entity.removeEffect(MobEffects.WITHER);
             entity.removeEffect(MobEffects.WEAKNESS);

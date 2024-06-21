@@ -2,6 +2,7 @@ package abyssal.blocks;
 
 import abyssal.data.ModTags;
 import abyssal.init.ModBlocks;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -15,13 +16,20 @@ import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.extensions.IForgeBlock;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.extensions.IBlockExtension;
 
-public class AmpBookshelfBlock extends HorizontalDirectionalBlock implements IForgeBlock {
+public class AmpBookshelfBlock extends HorizontalDirectionalBlock implements IBlockExtension {
 
     public AmpBookshelfBlock(Properties properties) {
         super(properties);
+    }
+
+    public static final MapCodec<AmpBookshelfBlock> CODEC = simpleCodec(AmpBookshelfBlock::new);
+
+    @Override
+    public MapCodec<AmpBookshelfBlock> codec() {
+        return CODEC;
     }
 
     @Override

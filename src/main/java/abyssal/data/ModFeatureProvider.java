@@ -46,7 +46,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -67,7 +67,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     List.of(
                                             Blocks.ALLIUM.defaultBlockState(),
                                             Blocks.DANDELION.defaultBlockState(),
-                                            Blocks.GRASS.defaultBlockState(),
+                                            Blocks.SHORT_GRASS.defaultBlockState(),
                                             Blocks.OXEYE_DAISY.defaultBlockState()
                                     ),
                                     2345L,
