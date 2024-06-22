@@ -208,9 +208,12 @@ public class ModEventSubscriber {
                     LivingEntity e = ctx.entity();
                     if(!e.level().isClientSide()) {
                         if(e.getData(ModAttachmentTypes.COMBAT_TIME) > 0 ) {
-                            // Work out best way to directly hurt without giving invulnerability frames
-                            e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 15));
-                            e.addEffect(new MobEffectInstance(MobEffects.POISON, 15, 1));
+                            e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5));
+                            if (!e.getActiveEffectsMap().containsKey(MobEffects.POISON)
+                                    || e.getActiveEffectsMap().get(MobEffects.POISON).getAmplifier() < 1
+                                    || e.getActiveEffectsMap().get(MobEffects.POISON).duration <= 2) {
+                                e.addEffect(new MobEffectInstance(MobEffects.POISON, 15, 1));
+                            }
                         }
                     }
                 }),
