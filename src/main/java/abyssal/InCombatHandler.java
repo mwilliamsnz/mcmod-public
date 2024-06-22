@@ -48,7 +48,7 @@ public class InCombatHandler {
     }
 
     private static boolean isMagic(DamageSource source) {
-        return source.is(DamageTypeTags.WITCH_RESISTANT_TO);
+        return source.is(DamageTypeTags.WITCH_RESISTANT_TO) || source.is(DamageTypeTags.IS_LIGHTNING);
     }
 
     @SubscribeEvent
