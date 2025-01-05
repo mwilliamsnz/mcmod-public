@@ -445,9 +445,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GOLD_INGOT))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "gold_coin"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SILVER_COIN.get(), 16)
-                .pattern(" i ")
-                .pattern("i i")
-                .pattern(" i ")
+                .pattern("ii")
+                .pattern("ii")
                 .define('i', ModItems.SILVER_INGOT.get())
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.SILVER_INGOT.get()))
                 .save(recipeOutput, new ResourceLocation(Main.MOD_ID, "silver_coin"));
