@@ -1,5 +1,5 @@
 {
-  "type": "forge:add_features",
+  "type": "neoforge:add_features",
   "biomes": "#abyssal:has_many_birches",
   "features": [
     "abyssal:mossy_birch_log"

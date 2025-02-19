@@ -1,7 +1,7 @@
 {
-  "type": "forge:add_features",
+  "type": "neoforge:add_features",
   "biomes": [
-    "#minecraft:is_river"
+    "minecraft:river"
   ],
   "features": [
     "abyssal:river_gold"

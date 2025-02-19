@@ -1,10 +1,9 @@
 {
-  "type": "forge:add_features",
+  "type": "neoforge:add_features",
   "biomes": [
     "minecraft:river",
     "minecraft:swamp",
-    "minecraft:plains",
-    "minecraft:forest",
+    "minecraft:dark_forest",
     "abyssal:dense_forest"
   ],
   "features": [
