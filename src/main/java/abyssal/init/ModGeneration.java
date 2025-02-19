@@ -39,5 +39,6 @@ public class ModGeneration {
     public static final Supplier<SpiderNestFeature> SPIDER_NEST = FEATURES.register("spider_nest", () -> new SpiderNestFeature(NoneFeatureConfiguration.CODEC));
     public static final Supplier<OutcropFeature> OUTCROP = FEATURES.register("outcrop", () -> new OutcropFeature(BlockStateConfiguration.CODEC));
     public static final Supplier<RaggedDiskFeature> RAGGED_DISK = FEATURES.register("ragged_disk", () -> new RaggedDiskFeature(DiskConfiguration.CODEC));
+    public static final Supplier<ReedDiskFeature> REED_DISK = FEATURES.register("reed_disk", () -> new ReedDiskFeature(DiskConfiguration.CODEC));
 
 }

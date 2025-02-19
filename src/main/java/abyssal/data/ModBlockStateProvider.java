@@ -1,6 +1,7 @@
 package abyssal.data;
 
 import abyssal.Main;
+import abyssal.blocks.ReedBlock;
 import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -8,6 +9,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
@@ -69,7 +71,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         // Ivy - vines are complicated
 
-        simpleBlock(ModBlocks.REED.get(), models().cross(regName(ModBlocks.REED),modLoc( "block/" + regName(ModBlocks.REED))).renderType("cutout"));
+
         simpleBlock(ModBlocks.HEATHER.get(), models().cross(regName(ModBlocks.HEATHER),modLoc( "block/" + regName(ModBlocks.HEATHER))).renderType("cutout"));
         simpleBlock(ModBlocks.SPIDER_NEST.get(), models().cubeBottomTop(regName(ModBlocks.SPIDER_NEST),
                 modLoc( "block/nest_side"), modLoc("block/nest_top"), modLoc("block/nest_top")));
@@ -106,6 +108,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
             }
             simpleBlockItem(block, models().getExistingFile(modLoc("block/" + name)));
         }
+
+        VariantBlockStateBuilder vb = getVariantBuilder(ModBlocks.REED.get());
+        VariantBlockStateBuilder.PartialBlockstate ps0 = vb.partialState().with(ReedBlock.TYPE, 0);
+        VariantBlockStateBuilder.PartialBlockstate ps1 = vb.partialState().with(ReedBlock.TYPE, 1);
+        VariantBlockStateBuilder.PartialBlockstate ps2 = vb.partialState().with(ReedBlock.TYPE, 2);
+        VariantBlockStateBuilder.PartialBlockstate ps3 = vb.partialState().with(ReedBlock.TYPE, 3);
+        vb.addModels(ps0, ps0.modelForState().modelFile(
+                models().crop(regName(ModBlocks.REED) + "_tips", modLoc( "block/reed_tips")).renderType("cutout")).build());
+        vb.addModels(ps1, ps1.modelForState().modelFile(
+                models().crop(regName(ModBlocks.REED) + "_base", modLoc( "block/reed_base")).renderType("cutout")).build());
+        vb.addModels(ps2, ps2.modelForState().modelFile(
+                models().crop(regName(ModBlocks.REED) + "_wet", modLoc( "block/reed_wet")).renderType("cutout")).build());
+        vb.addModels(ps3, ps3.modelForState().modelFile(
+                models().crop(regName(ModBlocks.REED) + "_heads", modLoc( "block/reed_heads")).renderType("cutout")).build());
+
     }
 
     private String regName(Supplier<Block> regOb) {

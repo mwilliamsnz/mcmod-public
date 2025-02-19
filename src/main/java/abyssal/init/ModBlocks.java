@@ -26,7 +26,7 @@ public class ModBlocks {
     public static final BlockSetType ELDER_PINE = BlockSetType.register(new BlockSetType(Main.MOD_ID + ":elder_pine"));
 
     public static final Supplier<Block> CORN_SEED = BLOCKS.register("corn_seed", () -> new CropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BEETROOTS)));
-    public static final Supplier<Block> REED = registerWithDataLoot("reed", () -> new SugarCaneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE)));
+    public static final Supplier<Block> REED = registerWithDataLoot("reed", () -> new ReedBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE)));
     public static final Supplier<RotatedPillarBlock> ELDER_PINE_LOG = registerWithDataLoot("elder_pine_log", () -> woodenlog(100, 2));
     public static final Supplier<Block> ELDER_PINE_PLANKS = registerWithDataLoot("elder_pine_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));
     public static final Supplier<Block> ELDER_PINE_DOOR = registerWithDataLoot("elder_pine_door", () -> new DoorBlock(ELDER_PINE, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));

@@ -90,20 +90,11 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             bootstrap.register(cfk("gen_spider_nest"),
                                     new ConfiguredFeature<>(ModGeneration.SPIDER_NEST.get(), new NoneFeatureConfiguration()));
                             bootstrap.register(cfk("reeds"),
-                                new ConfiguredFeature<>(Feature.RANDOM_PATCH, new RandomPatchConfiguration(40, 4, 0,
-                                        PlacementUtils.inlinePlaced(Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(1, 3),
-                                                        BlockStateProvider.simple(ModBlocks.REED.get())),
-                                                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
-                                                        BlockPredicate.ONLY_IN_AIR_PREDICATE,
-                                                        BlockPredicate.wouldSurvive(Blocks.SUGAR_CANE.defaultBlockState(), BlockPos.ZERO),
-                                                        BlockPredicate.anyOf(
-                                                                BlockPredicate.matchesFluids(new BlockPos(1, -1, 0), Fluids.WATER, Fluids.FLOWING_WATER),
-                                                                BlockPredicate.matchesFluids(new BlockPos(-1, -1, 0), Fluids.WATER, Fluids.FLOWING_WATER),
-                                                                BlockPredicate.matchesFluids(new BlockPos(0, -1, 1), Fluids.WATER, Fluids.FLOWING_WATER),
-                                                                BlockPredicate.matchesFluids(new BlockPos(0, -1, -1), Fluids.WATER, Fluids.FLOWING_WATER)
-                                                        )
-                                                ))
-                                        )
+                                new ConfiguredFeature<>(ModGeneration.REED_DISK.get(), new DiskConfiguration(
+                                        new RuleBasedBlockStateProvider(BlockStateProvider.simple(ModBlocks.REED.get()), List.of()),
+                                        BlockPredicate.wouldSurvive(ModBlocks.REED.get().defaultBlockState(), BlockPos.ZERO),
+                                        UniformInt.of(2, 8),
+                                        1
                                 )));
 
                             bootstrap.register(cfk("brush"),
