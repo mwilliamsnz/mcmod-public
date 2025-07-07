@@ -10,6 +10,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfi
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -31,6 +32,8 @@ public class ModGeneration {
     public static final Supplier<StructureProcessorType<BookshelfProcessor>> BOOKSHELF_FILLER = STRUCTURE_PROCESSORS.register( "bookshelf_filler", () -> () -> BookshelfProcessor.CODEC);
 
 
+    public static final DeferredRegister<FoliagePlacerType<?>> FOLIAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, Main.MOD_ID);
+    public static final Supplier<FoliagePlacerType<?>> BIRCH_BLOB = FOLIAGE_TYPES.register("birch_blob", () -> new FoliagePlacerType<>(BirchBlobFoliagePlacer.CODEC));
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, Main.MOD_ID);
     public static final Supplier<MossyLogFeature> MOSS_LOG = FEATURES.register("moss_log", () -> new MossyLogFeature(NoneFeatureConfiguration.CODEC));

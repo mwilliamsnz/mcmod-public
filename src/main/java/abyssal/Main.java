@@ -34,6 +34,7 @@ public class Main {
         ModGeneration.TREE_DECORATOR_TYPES.register(modEventBus);
         ModGeneration.PLACEMENT_MODIFIER_TYPES.register(modEventBus);
         ModGeneration.STRUCTURE_PROCESSORS.register(modEventBus);
+        ModGeneration.FOLIAGE_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
         ModBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);

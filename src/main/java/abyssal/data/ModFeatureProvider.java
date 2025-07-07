@@ -3,6 +3,7 @@ package abyssal.data;
 import abyssal.Main;
 import abyssal.generation.OreDist;
 import abyssal.generation.SupplementNoiseProvider;
+import abyssal.generation.features.BirchBlobFoliagePlacer;
 import abyssal.generation.features.ChunkDistributionFilter;
 import abyssal.generation.features.TrunkIvyDecorator;
 import abyssal.init.ModBlocks;
@@ -211,24 +212,24 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                             ));
 
                             bootstrap.register(cfk("tree_taller_birch"),
-                                new ConfiguredFeature<>(Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
-                                        BlockStateProvider.simple(Blocks.BIRCH_LOG),
-                                        new StraightTrunkPlacer(5, 8, 8),
-                                        BlockStateProvider.simple(Blocks.ORANGE_STAINED_GLASS),
-                                        new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 5),
-                                        new TwoLayersFeatureSize(1, 1, 2))
-                                ).build()
-                            ));
+                                    new ConfiguredFeature<>(Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
+                                            BlockStateProvider.simple(Blocks.BIRCH_LOG),
+                                            new StraightTrunkPlacer(5, 8, 8),
+                                            BlockStateProvider.simple(Blocks.BIRCH_LEAVES),
+                                            new BirchBlobFoliagePlacer(ConstantInt.of(1), ConstantInt.of(1), 5),
+                                            new TwoLayersFeatureSize(1, 1, 2))
+                                    ).build()
+                                    ));
 
                             bootstrap.register(cfk("tree_taller_birch_b"),
-                                new ConfiguredFeature<>(Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
-                                        BlockStateProvider.simple(Blocks.BIRCH_LOG),
-                                        new StraightTrunkPlacer(5, 8, 8),
-                                        BlockStateProvider.simple(Blocks.BLUE_STAINED_GLASS),
-                                        new FancyFoliagePlacer(ConstantInt.of(4), ConstantInt.of(4), 4),
-                                        new TwoLayersFeatureSize(1, 1, 2))
-                                ).build()
-                            ));
+                                    new ConfiguredFeature<>(Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
+                                            BlockStateProvider.simple(Blocks.BIRCH_LOG),
+                                            new StraightTrunkPlacer(5, 8, 8),
+                                            BlockStateProvider.simple(Blocks.BIRCH_LEAVES),
+                                            new BirchBlobFoliagePlacer(ConstantInt.of(1), ConstantInt.of(2), 8),
+                                            new TwoLayersFeatureSize(1, 1, 2))
+                                    ).build()
+                                    ));
 
                             bootstrap.register(cfk("tree_ivy_oak"),
                                 new ConfiguredFeature<>(Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
@@ -333,7 +334,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
                             bootstrap.register(pfk("reeds"),
                                     new PlacedFeature(configured.getOrThrow(cfk("reeds")),
-                                            List.of(RarityFilter.onAverageOnceEvery(3), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("brush"),
                                     new PlacedFeature(configured.getOrThrow(cfk("brush")),
