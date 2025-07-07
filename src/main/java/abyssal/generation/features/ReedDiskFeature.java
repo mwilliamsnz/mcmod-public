@@ -3,6 +3,7 @@ package abyssal.generation.features;
 import abyssal.blocks.ReedBlock;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -45,13 +46,17 @@ public class ReedDiskFeature extends Feature<DiskConfiguration> {
    }
 
    protected boolean placeStack(DiskConfiguration cfg, WorldGenLevel level, RandomSource random, BlockPos pos) {
-      boolean canPutBelow = cfg.target().test(level, pos.below()) && level.getBlockState(pos.below()).is(Blocks.WATER) && level.getBlockState(pos).isAir();
+      if(!level.getBlockState(pos).isAir() || !level.getBlockState(pos.above()).isAir()) {
+         return false;
+      }
+      boolean canPutBelow = cfg.target().test(level, pos.below()) && level.getBlockState(pos.below()).is(Blocks.WATER);
       boolean canPutMid = cfg.target().test(level, pos);
-      boolean emptyAbove = level.getBlockState(pos.above()).isAir();
-      if((canPutBelow || canPutMid) && emptyAbove) {
+      if(canPutBelow || canPutMid) {
          BlockState state = cfg.stateProvider().getState(level, random, pos);
          if(canPutBelow) {
             level.setBlock(pos.below(), state.setValue(ReedBlock.TYPE, 2).setValue(ReedBlock.WATERLOGGED, true), 2);
+         } else if(level.getBlockState(pos.below()).is(BlockTags.DIRT)) {
+            level.setBlock(pos.below(), Blocks.MUD.defaultBlockState(), 2);
          }
          level.setBlock(pos, state.setValue(ReedBlock.TYPE, 1).setValue(ReedBlock.WATERLOGGED, false), 2);
          level.setBlock(pos.above(), state.setValue(ReedBlock.TYPE, 3).setValue(ReedBlock.WATERLOGGED, false), 2);
