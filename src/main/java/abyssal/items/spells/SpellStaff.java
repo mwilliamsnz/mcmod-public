@@ -76,6 +76,8 @@ public class SpellStaff extends Item implements IItemExtension {
             if(cost.depleteIfSatisfied(player)) {
                 result = spell.cast(level, player, staff, book, ap);
                 onCast(level, player, staff, book, ap);
+                player.getCooldowns().addCooldown(this, 20);
+
             }
         }
         return result;

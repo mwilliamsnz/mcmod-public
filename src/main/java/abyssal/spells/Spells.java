@@ -1,6 +1,7 @@
 package abyssal.spells;
 
 import abyssal.Main;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
@@ -24,10 +25,12 @@ public class Spells {
     });
     public static final Spell INVISIBILITY = createSpell(new PotionEffectSpell(key("invisibility"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 5), MobEffects.INVISIBILITY, 100, 1));
     public static final Spell LUCK = createSpell(new PotionEffectSpell(key("luck"), new SpellFuelQuantity(SpellFuelTypes.FUEL_GENERIC, 10), MobEffects.LUCK, 100, 10));
+    public static final Spell HEAL = createSpell(new HealSpell(key("heal"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 15), 3, 0.05));
 
     // 5% AP scaling: 0 AP r=5, 100 AP r=10, 200 AP r=15, 500 AP r=30, 1200 AP r=65
-    public static final Spell AREA_GLOW = createSpell(new AreaPotionEffectSpell(key("area_glow"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 5), MobEffects.GLOWING, 160, 0, 5, 0.05, false));
-    public static final Spell FEATHER_FALL = createSpell(new AreaPotionEffectSpell(key("feather_fall"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 5), MobEffects.SLOW_FALLING, 100, 0, 5, 0.05, true));
+    public static final Spell AREA_GLOW = createSpell(new AreaPotionEffectSpell(key("area_glow"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 5), MobEffects.GLOWING, 160, 0, 5, 0.05, false, ParticleTypes.GLOW));
+    public static final Spell FEATHER_FALL = createSpell(new AreaPotionEffectSpell(key("feather_fall"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 5), MobEffects.SLOW_FALLING, 100, 0, 5, 0.05, true, ParticleTypes.CLOUD));
+    public static final Spell AREA_HEAL = createSpell(new AreaPotionEffectSpell(key("area_heal"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20), MobEffects.HEAL, 1, 0, 5, 0.05, true, ParticleTypes.FLASH));
     public static final Spell EXTINGUISH = createSpell(new ExtinguishSpell(key("extinguish"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 2)));
     public static final Spell BANISH = createSpell(new PortalSpell(key("banish"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FIRE, 20)));
     public static final Spell LEAP = createSpell(new LeapSpell(key("leap"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 5)));

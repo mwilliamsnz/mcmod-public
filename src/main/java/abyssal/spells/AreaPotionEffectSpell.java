@@ -1,6 +1,11 @@
 package abyssal.spells;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -11,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class AreaPotionEffectSpell extends Spell {
+public class AreaPotionEffectSpell extends SphericalParticleSpell {
 
 
     private final MobEffect mobEffect;
@@ -20,8 +25,9 @@ public class AreaPotionEffectSpell extends Spell {
     private final boolean affectsCaster;
     private final double baseRadius;
     private final double apScalingRadius;
-    protected AreaPotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, MobEffect effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster) {
-        super(key, cost);
+
+    protected AreaPotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, MobEffect effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster, ParticleOptions particle) {
+        super(key, cost, particle);
 
         this.mobEffect = effect;
         this.baseDuration = baseDuration;
@@ -37,6 +43,7 @@ public class AreaPotionEffectSpell extends Spell {
         double rsq = radius*radius;
         Vec3 pp = player.getEyePosition();
         AABB aabb = AABB.ofSize(pp, 2*radius, 2*radius, 2*radius);
+        produceParticleInRadius(level, pp, (float) radius);
         level.getEntities(affectsCaster ? null : player, aabb).forEach(((entity -> {
             if(entity instanceof LivingEntity e) {
                 if(entity.distanceToSqr(player) < rsq) {
@@ -44,6 +51,7 @@ public class AreaPotionEffectSpell extends Spell {
                 }
             }
         })));
+        level.playSound(player, BlockPos.containing(player.position()), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.PLAYERS, 1.0F, 1.0F);
 
         return InteractionResultHolder.success(staff);
     }

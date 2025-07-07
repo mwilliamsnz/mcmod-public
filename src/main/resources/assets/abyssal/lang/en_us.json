@@ -250,5 +250,7 @@
   "spell.abyssal.banish" : "Banishment",
   "spell.abyssal.leap" : "Leap",
   "spell.abyssal.summon_skeleton" : "Summon Skeletal Minion",
-  "spell.abyssal.enchant" : "Minor Enchantment"
+  "spell.abyssal.enchant" : "Minor Enchantment",
+  "spell.abyssal.heal" : "Heal",
+  "spell.abyssal.area_heal" : "Purifying Light"
 }

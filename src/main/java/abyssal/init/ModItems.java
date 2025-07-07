@@ -61,6 +61,11 @@ public final class ModItems {
 
     public static final Supplier<Item> WACKY_SKULL = registerCurio("wacky_skull", () -> new Item(defaultItemProperties()));
     public static final Supplier<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_GENERIC));
+    public static final Supplier<Item> KINDLEGEM = registerCurio("kindlegem", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_FIRE));
+    public static final Supplier<Item> DARK_CUBE = registerCurio("dark_cube", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_EVIL));
+    public static final Supplier<Item> RADIANT_PRISM = registerCurio("radiant_prism", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_LIGHT));
+    public static final Supplier<Item> ENERGISED_ORB = registerCurio("energised_orb", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_FORCE));
+    public static final Supplier<Item> OMNISTONE = registerCurio("omnistone", () -> new FuelStorageItem(defaultCurioProperties().durability(250), SpellFuelTypes.FUEL_COLOURLESS));
     public static final Supplier<Item> RUBY_CRYSTAL = registerCurio("ruby_crystal", () -> new Item(defaultCurioProperties()));
     public static final Supplier<Item> RAGE_TOTEM = registerCurio("rage_totem", () -> new Item(defaultCurioProperties()));
     public static final Supplier<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", () -> new Item(defaultCurioProperties()));

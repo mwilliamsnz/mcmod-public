@@ -1,6 +1,7 @@
 package abyssal.spells;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,10 +14,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class ExtinguishSpell extends Spell {
+public class ExtinguishSpell extends SphericalParticleSpell {
 
     protected ExtinguishSpell(ResourceLocation key, SpellFuelQuantity cost) {
-        super(key, cost);
+        super(key, cost, ParticleTypes.ASH);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ExtinguishSpell extends Spell {
             }
         });
         level.playSound(player, BlockPos.containing(player.position()), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1.0F, 1.0F);
-
+        produceParticleInRadius(level, pp, (float) radius);
         return InteractionResultHolder.success(staff);
     }
 }

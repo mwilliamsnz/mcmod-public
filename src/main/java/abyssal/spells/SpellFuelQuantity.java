@@ -60,7 +60,8 @@ public class SpellFuelQuantity {
     private int withdrawFromStack(ItemStack s, int remaining) {
         if(s.getItem() instanceof SpellFuelStorage fs) {
             SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
-            if(q.type == type && q.quantity > 0) {
+
+            if((q.type == type || q.type == SpellFuelTypes.FUEL_COLOURLESS) && q.quantity > 0) {
                 int d = Math.min(remaining, q.quantity);
                 fs.changeSpellFuelQuantity(s, -d);
                 remaining -= d;
@@ -79,7 +80,7 @@ public class SpellFuelQuantity {
                 ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
                 if(s.getItem() instanceof SpellFuelStorage fs) {
                     SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
-                    if(q.type != type) {
+                    if(q.type != type && q.type != SpellFuelTypes.FUEL_COLOURLESS) {
                         continue;
                     }
                     if(q.quantity > 0) {

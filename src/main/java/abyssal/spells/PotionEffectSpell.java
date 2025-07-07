@@ -22,6 +22,9 @@ public class PotionEffectSpell extends Spell {
 
     @Override
     public InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
+        if (mobEffect.isInstantenous()) {
+            mobEffect.applyInstantenousEffect(player, player, player, 1,1.0);
+        }
         player.addEffect(new MobEffectInstance(mobEffect, baseDuration + (int)(ap * apScaling), 0, false, false));
         return InteractionResultHolder.success(staff);
     }
