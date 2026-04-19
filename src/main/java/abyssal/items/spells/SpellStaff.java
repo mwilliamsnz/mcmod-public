@@ -2,65 +2,35 @@ package abyssal.items.spells;
 
 import abyssal.Main;
 import abyssal.ModAttributes;
-import abyssal.spells.ISpellProvider;
-import abyssal.spells.Spell;
-import abyssal.spells.SpellFuelQuantity;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import abyssal.init.ModDataComponents;
+import abyssal.spells.*;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.extensions.IItemExtension;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
+public class SpellStaff extends Item {
 
-public class SpellStaff extends Item implements IItemExtension {
-
-
-    private final ImmutableMultimap<Attribute, AttributeModifier> staffModifiers;
-
-    public SpellStaff(Properties properties, float abilityPower, UUID staffUUID) {
+    public SpellStaff(Properties properties) {
         super(properties);
-
-        AttributeModifier ap = new AttributeModifier(staffUUID, "Ability power", abilityPower, AttributeModifier.Operation.ADDITION);
-
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableListMultimap.builder();
-        if(abilityPower != 0) {
-            builder.put(ModAttributes.ABILITY_POWER.get(), ap);
-        }
-        staffModifiers = builder.build();
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.OFFHAND ? this.staffModifiers : super.getAttributeModifiers(slot, stack);
-    }
-
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         InteractionHand otherHand = hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack staff = player.getItemInHand(hand);
         ItemStack book = player.getItemInHand(otherHand);
 
-        double ap = player.getAttributeValue(ModAttributes.ABILITY_POWER.get());
+        double ap = player.getAttributeValue(ModAttributes.ABILITY_POWER);
 
-        InteractionResultHolder<ItemStack> result;
+        InteractionResult result;
         boolean alt =  player.isShiftKeyDown();
         Spell spell;
-        if(book.getItem() instanceof ISpellProvider spellBook) {
-            if(alt) {
-                spell = spellBook.getSecondarySpell(book);
-            } else {
-                spell = spellBook.getActiveSpell(book);
-            }
+        if(book.has(ModDataComponents.SPELLBOOK)) {
+            SpellComponent component = book.get(ModDataComponents.SPELLBOOK);
+            spell = component.get(alt);
         } else {
             if(alt) {
                 spell = altSpell(staff);
@@ -68,15 +38,14 @@ public class SpellStaff extends Item implements IItemExtension {
                 spell = defaultSpell(staff);
             }
         }
-        result = InteractionResultHolder.fail(staff);
+        result = InteractionResult.FAIL;
 
         if(spell != null) {
-            Main.LOGGER.info(spell.key);
             SpellFuelQuantity cost = spell.baseCost;
             if(cost.depleteIfSatisfied(player)) {
                 result = spell.cast(level, player, staff, book, ap);
                 onCast(level, player, staff, book, ap);
-                player.getCooldowns().addCooldown(this, 20);
+                player.getCooldowns().addCooldown(staff, 20);
 
             }
         }

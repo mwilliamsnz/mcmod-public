@@ -2,9 +2,7 @@
   "type": "neoforge:add_features",
   "biomes": [
     "minecraft:river",
-    "minecraft:swamp",
-    "minecraft:dark_forest",
-    "abyssal:dense_forest"
+    "minecraft:swamp"
   ],
   "features": [
     "abyssal:reeds"

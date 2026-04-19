@@ -2,9 +2,12 @@ package abyssal.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -57,9 +60,9 @@ public class FernFrondsBlock extends Block {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos pos1, BlockPos pos2) {
+    public BlockState updateShape(BlockState state, LevelReader levelAccessor, ScheduledTickAccess tickAccess, BlockPos here, Direction direction, BlockPos pos2, BlockState blockState, RandomSource randomSource) {
         BlockState s = direction.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(blockState, direction.getOpposite()))
-                : super.updateShape(state, direction, blockState, levelAccessor, pos1, pos2);
+                : super.updateShape(state, levelAccessor, tickAccess, here, direction, pos2, blockState, randomSource);
         if(s.getValue(NORTH) || s.getValue(SOUTH) || s.getValue(EAST) || s.getValue(WEST)) {
             return s;
         }

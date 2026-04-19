@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "misc",
+  "ingredient": "minecraft:barrier",
+  "result": {
+    "id": "minecraft:barrier"
+  }
+}

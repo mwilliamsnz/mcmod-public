@@ -3,27 +3,32 @@ package abyssal;
 import abyssal.data.ModTags;
 import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
+import abyssal.items.AttributeHelper;
+import net.minecraft.core.Holder;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosSlotTypes;
+import top.theillusivec4.curios.api.event.CurioChangeEvent;
+import top.theillusivec4.curios.api.type.ISlotType;
 
 
-@Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = Main.MOD_ID)
 public class InCombatHandler {
 
     private static final long TICKS_BEFORE_LEAVING_COMBAT = 100;
@@ -52,7 +57,7 @@ public class InCombatHandler {
     }
 
     @SubscribeEvent
-    public static void combatChecker(LivingHurtEvent event) {
+    public static void combatChecker(LivingIncomingDamageEvent event) {
         if(event.getEntity() instanceof Player defender) {
             recogniseCombat(defender);
             if(isMagic(event.getSource())) { // and not bypassMagic?
@@ -65,10 +70,10 @@ public class InCombatHandler {
     }
 
     @SubscribeEvent
-    public static void tick(TickEvent.PlayerTickEvent event) {
-        if(event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.END) {
-            tickCombat(event.player);
-        }
+    public static void tick(PlayerTickEvent.Post event) {
+//        if(event == LogicalSide.SERVER) {
+            tickCombat(event.getEntity());
+//        }
     }
 
 
@@ -76,8 +81,10 @@ public class InCombatHandler {
     public static void healAmplifiers(LivingHealEvent event) {
         if(event.getEntity() instanceof Player p) {
             float amp = 1;
-            for(ItemStack s : p.getArmorSlots()) {
-                if(s.is(ModTags.Items.HEAL_AMPLIFIER)) {
+            EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.BODY};
+            for(EquipmentSlot slot : slots) {
+                ItemStack s = p.getItemBySlot(slot);
+                if(s.is(ModTags.Items.HEAL_AMPLIFIER)) { // TODO datamap/attribute this?
                     amp += 0.25F;
                 }
             }
@@ -104,7 +111,7 @@ public class InCombatHandler {
         CuriosApi.getCuriosInventory(p).ifPresent((itemHandler)-> {
             itemHandler.findFirstCurio(ModItems.CLOCKWORK_AMULET.get()).ifPresent((result) -> {
                 p.addEffect(new MobEffectInstance(MobEffects.HUNGER, 200, 0, false, false));
-                p.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 200, 0, false, false));
+                p.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, 0, false, false));
             });
         });
     }
@@ -113,7 +120,10 @@ public class InCombatHandler {
     public static void potionEffectAdded(MobEffectEvent.Added event) {
         if(event.getEntity() instanceof Player p) {
             boolean tenacity = false;
-            for(ItemStack s : p.getArmorSlots()) {
+
+            EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.BODY};
+            for(EquipmentSlot slot : slots) {
+                ItemStack s = p.getItemBySlot(slot);
                 if(s.is(ModTags.Items.TENACITY_ITEMS)) {
                     tenacity = true;
                     break;
@@ -122,16 +132,22 @@ public class InCombatHandler {
             if(tenacity) {
                 MobEffectInstance unmodified = event.getEffectInstance();
 
-                if(!unmodified.getEffect().isBeneficial()) {
+                if(!unmodified.getEffect().value().isBeneficial()) {
                     unmodified.duration = (int) (unmodified.getDuration() * 0.65);
                 }
             }
         }
     }
 
-
+    @SubscribeEvent
+    public static void onCurioChange(CurioChangeEvent.Item event) {
+        if(event.getIdentifier().equals("ring") && !event.getTo().isEmpty()) {
+            ISlotType slot = CuriosSlotTypes.getSlotTypes().get("ring");
+            AttributeHelper.relabelCurioModifiers(event.getTo(), slot,"slot" + event.getSlotIndex());
+        }
+    }
 
     private static float getMagicDamageMultiplier(Player p) {
-        return 100f/ (100f + (float) p.getAttributeValue(ModAttributes.MAGIC_RESIST.get()));
+        return 100f/ (100f + (float) p.getAttributeValue(Holder.direct(ModAttributes.MAGIC_RESIST.get())));
     }
 }

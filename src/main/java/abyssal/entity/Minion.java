@@ -4,16 +4,19 @@ import abyssal.Main;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class Minion extends Skeleton {
     public UUID summonerUUID = UUID.randomUUID();
@@ -46,7 +48,7 @@ public class Minion extends Skeleton {
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putUUID("SummonerID", summonerUUID);
+        tag.putString("SummonerID", summonerUUID.toString());
     }
 
     @Override
@@ -54,7 +56,7 @@ public class Minion extends Skeleton {
         super.readAdditionalSaveData(tag);
         Main.LOGGER.info("Reading Minion Data");
         if (tag.contains("SummonerID")) {
-            summonerUUID = tag.getUUID("SummonerID");
+            summonerUUID = UUID.fromString(tag.getString("SummonerID").get());
             Main.LOGGER.info("    Found Summoner");
         }
     }
@@ -80,18 +82,15 @@ public class Minion extends Skeleton {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance diff, MobSpawnType spawnType, @Nullable SpawnGroupData groupData, @Nullable CompoundTag tag) {
-        this.getAttribute(Attributes.FOLLOW_RANGE).addPermanentModifier(new AttributeModifier("Random spawn bonus", this.random.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-        this.populateDefaultEquipmentSlots(levelAccessor.getRandom(), diff);
-        this.populateDefaultEquipmentEnchantments(levelAccessor.getRandom(), diff);
-        this.reassessWeaponGoal();
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance diff, EntitySpawnReason reason, @Nullable SpawnGroupData groupData) {
+        SpawnGroupData data = super.finalizeSpawn(levelAccessor, diff, reason, groupData);
         this.setCanPickUpLoot(this.random.nextFloat() < 0);
 
-        return groupData;
+        return data;
     }
 
-    private Predicate<LivingEntity> notSummonedByPredicate() {
-        return (target) -> {
+    private TargetingConditions.Selector notSummonedByPredicate() {
+        return (target, level) -> {
             //Main.LOGGER.info("Potential target UUID: " + target.getUUID() + ".  Summoner UUID: " + summonerUUID + (target.getUUID().equals(summonerUUID) ? " (Friend)" : " (Attack)"));
             return !target.getUUID().equals(summonerUUID);
         };

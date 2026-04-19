@@ -12,13 +12,12 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.MiscOverworldFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.util.valueproviders.BiasedToBottomInt;
@@ -154,8 +153,8 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                                     List.of(new RuleBasedBlockStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
-                                                                            BlockPredicate.solid(Direction.UP.getNormal()),
-                                                                            BlockPredicate.matchesFluids(Direction.UP.getNormal(), Fluids.WATER)
+                                                                            BlockPredicate.solid(Direction.UP.getUnitVec3i()),
+                                                                            BlockPredicate.matchesFluids(Direction.UP.getUnitVec3i(), Fluids.WATER)
                                                                     )
                                                             ),
                                                             BlockStateProvider.simple(Blocks.COARSE_DIRT))
@@ -172,8 +171,8 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                                     List.of(new RuleBasedBlockStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
-                                                                            BlockPredicate.solid(Direction.UP.getNormal()),
-                                                                            BlockPredicate.matchesFluids(Direction.UP.getNormal(), Fluids.WATER)
+                                                                            BlockPredicate.solid(Direction.UP.getUnitVec3i()),
+                                                                            BlockPredicate.matchesFluids(Direction.UP.getUnitVec3i(), Fluids.WATER)
                                                                     )
                                                             ),
                                                             BlockStateProvider.simple(ModBlocks.LEAF_LITTER.get()))
@@ -190,7 +189,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                                     List.of(new RuleBasedBlockStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
-                                                                            BlockPredicate.solid(Direction.UP.getNormal())
+                                                                            BlockPredicate.solid(Direction.UP.getUnitVec3i())
                                                                     )
                                                             ),
                                                             BlockStateProvider.simple(Blocks.MUD))
@@ -276,7 +275,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
 
                             bootstrap.register(
-                                    ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Main.MOD_ID, "river_gold")),
+                                    ResourceKey.create(Registries.CONFIGURED_FEATURE, Main.rl("river_gold")),
                                     new ConfiguredFeature<>(Feature.SCATTERED_ORE, new OreConfiguration(gravelTargets, 30, 0.8f))
                             );
 
@@ -409,7 +408,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
                             bootstrap.register(pfk("river_gold"),
                                     new PlacedFeature(configured.getOrThrow(cfk("river_gold")),
-                                            commonOrePlacement(10, hru(50, 64))
+                                            commonOrePlacement(8, hru(50, 64))
                                     ));
                             bootstrap.register(pfk("sulfur"),
                                     new PlacedFeature(configured.getOrThrow(cfk("sulfur")),
@@ -424,15 +423,15 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     new PlacedFeature(configured.getOrThrow(cfk("reduced_ore_coal")),
                                             commonOrePlacement(12, hru(136, 300))
                                     ));
-                            // Count 20 -> 5
+                            // Count 20 -> 7
                             bootstrap.register(pfk("ore_coal_lower_reduced"),
                                     new PlacedFeature(configured.getOrThrow(cfk("reduced_ore_coal_buried")),
-                                            commonOrePlacement(5, hrt(0, 192))
+                                            commonOrePlacement(7, hrt(0, 192))
                                     ));
-                            // Count 16 -> 5
+                            // Count 16 -> 6
                             bootstrap.register(pfk("ore_copper_reduced"),
                                     new PlacedFeature(configured.getOrThrow(cfk("reduced_ore_copper")),
-                                            commonOrePlacement(5, hrt(-16, 112))
+                                            commonOrePlacement(6, hrt(-16, 112))
                                     ));
                             // Count 10 -> 4
                             bootstrap.register(pfk("ore_iron_reduced"),
@@ -446,7 +445,7 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     ));
                             bootstrap.register(pfk("ore_poor_iron_wide"),
                                     new PlacedFeature(configured.getOrThrow(cfk("poor_iron")),
-                                            commonOrePlacement(8, hru(-60, 72))
+                                            commonOrePlacement(12, hru(-60, 72))
                                     ));
                             bootstrap.register(pfk("ore_poor_iron"),
                                     new PlacedFeature(configured.getOrThrow(cfk("poor_iron")),
@@ -526,21 +525,21 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
     }
 
     private static ResourceKey<ConfiguredFeature<?,?>> cfk(String s) {
-        return  ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Main.MOD_ID, s));
+        return  ResourceKey.create(Registries.CONFIGURED_FEATURE, Main.rl(s));
     }
 
     private static ResourceKey<PlacedFeature> pfk(String s) {
-        return  ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(Main.MOD_ID, s));
+        return  ResourceKey.create(Registries.PLACED_FEATURE, Main.rl(s));
     }
 
-    private static void makeOre(BootstapContext<ConfiguredFeature<?,?>> bootstrap, String regName, List<OreConfiguration.TargetBlockState> targets, int veinSize, float airDiscardChance) {
+    private static void makeOre(BootstrapContext<ConfiguredFeature<?,?>> bootstrap, String regName, List<OreConfiguration.TargetBlockState> targets, int veinSize, float airDiscardChance) {
         bootstrap.register(
-              ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Main.MOD_ID, regName)),
+              ResourceKey.create(Registries.CONFIGURED_FEATURE, Main.rl(regName)),
               new ConfiguredFeature<>(ModGeneration.MOD_ORE.get(), new OreConfiguration(targets, veinSize, airDiscardChance))
         );
     }
 
-    private static void makeOre(BootstapContext<ConfiguredFeature<?,?>> bootstrap, String regName, List<OreConfiguration.TargetBlockState> targets, int veinSize) {
+    private static void makeOre(BootstrapContext<ConfiguredFeature<?,?>> bootstrap, String regName, List<OreConfiguration.TargetBlockState> targets, int veinSize) {
         makeOre(bootstrap, regName, targets, veinSize, 0f);
     }
 

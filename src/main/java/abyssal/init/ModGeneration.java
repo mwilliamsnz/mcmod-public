@@ -21,11 +21,9 @@ import java.util.function.Supplier;
 public class ModGeneration {
 
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATOR_TYPES = DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Main.MOD_ID);
-
     public static final Supplier<TreeDecoratorType<TrunkIvyDecorator>> TREE_IVY = TREE_DECORATOR_TYPES.register("ivy_decorator", () -> (new TreeDecoratorType<>(TrunkIvyDecorator.CODEC)));
 
     public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIER_TYPES = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, Main.MOD_ID);
-
     public static final Supplier<PlacementModifierType<ChunkDistributionFilter>> CHUNK_FILTER = PLACEMENT_MODIFIER_TYPES.register( "chunk_distribution", () -> () -> ChunkDistributionFilter.CODEC);
 
     public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSORS = DeferredRegister.create(Registries.STRUCTURE_PROCESSOR, Main.MOD_ID);

@@ -19,10 +19,10 @@ public record Gobbler(int ticksPerGobble, TagKey<Item> canGobble, ResourceLocati
             return;
         }
         ResourceLocation lootLocation = this.getLootTable();
-        LootTable table = level.getServer().getLootData().getLootTable(lootLocation);
-        LootParams.Builder builder = new LootParams.Builder((ServerLevel)level);
-        LootParams lootparams = builder.create(LootContextParamSets.EMPTY);
-        table.getRandomItems(lootparams, 0L, doWithResult);
+//        LootTable table = level.getServer().getLootData().getLootTable(lootLocation);
+//        LootParams.Builder builder = new LootParams.Builder((ServerLevel)level);
+//        LootParams lootparams = builder.create(LootContextParamSets.EMPTY);
+//        table.getRandomItems(lootparams, 0L, doWithResult);
     }
 
     public ResourceLocation getLootTable() {

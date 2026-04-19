@@ -3,7 +3,7 @@ package abyssal.generation.features;
 
 import abyssal.init.ModBlocks;
 import abyssal.init.ModGeneration;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.VineBlock;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
 
 public class TrunkIvyDecorator extends TreeDecorator {
 
-    public static final Codec<TrunkIvyDecorator> CODEC = Codec.unit(() -> {
+    public static final MapCodec<TrunkIvyDecorator> CODEC = MapCodec.unit(() -> {
         return TrunkIvyDecorator.INSTANCE;
     });
     public static final TrunkIvyDecorator INSTANCE = new TrunkIvyDecorator();

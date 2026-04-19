@@ -3,6 +3,7 @@ package abyssal.generation;
 import abyssal.init.ModBlockStateProviders;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ExtraCodecs;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class SupplementNoiseProvider extends NoiseBasedStateProvider {
 
-    public static final Codec<SupplementNoiseProvider> CODEC = RecordCodecBuilder.create((supplementNoiseProviderInstance) -> {
+    public static final MapCodec<SupplementNoiseProvider> CODEC = RecordCodecBuilder.mapCodec((supplementNoiseProviderInstance) -> {
         return supplementNoiseProviderInstance.group(BlockState.CODEC.fieldOf("background_state").forGetter((supplementNoiseProvider) -> {
             return supplementNoiseProvider.backgroundState;
         }), InclusiveRange.codec(Codec.INT, 1, 64).fieldOf("variety").forGetter((supplementNoiseProvider) -> {

@@ -5,20 +5,19 @@ import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModItems;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
-    public ModItemTagProvider(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> tp, @Nullable ExistingFileHelper existingFileHelper) {
-        super(dataGenerator.getPackOutput(), provider, tp, Main.MOD_ID, existingFileHelper);
+
+    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> tp) {
+        super(output, provider, tp, Main.MOD_ID);
     }
 
     @Override
@@ -27,6 +26,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
             this.tag(ModTags.Items.GEMS).add(gem);
             this.tag(ModTags.Items.COIN_PURSE_ITEMS).add(gem);
         });
+
+        this.tag(ItemTags.DIAMOND_TOOL_MATERIALS).replace().add(ModItems.DIAMOND_INGOT.get());
+        this.tag(ItemTags.REPAIRS_DIAMOND_ARMOR).replace().add(ModItems.DIAMOND_INGOT.get());
 
         this.tag(Tags.Items.INGOTS).add(ModItems.SILVER_INGOT.get());
         this.tag(ModTags.Items.INGOTS_SILVER).add(ModItems.SILVER_INGOT.get());
@@ -41,8 +43,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.NUGGETS_GOLDLIKE).add(ModItems.ALCHEMICAL_GOLD_NUGGET.get());
         this.tag(ModTags.Items.NUGGETS_GOLDLIKE).addTag(Tags.Items.NUGGETS_GOLD);
 
+        this.tag(ModTags.Items.NETHER_BRASS_TOOL_MATERIALS).add(ModItems.NETHER_BRASS_INGOT.get());
+        this.tag(ModTags.Items.REPAIRS_MR_ARMOR).add(Items.PHANTOM_MEMBRANE);
 
-        this.tag(Tags.Items.GUNPOWDER).add(ModItems.CREEPER_JELLY.get());
+        this.tag(Tags.Items.GUNPOWDERS).add(ModItems.CREEPER_JELLY.get());
 
         this.tag(ItemTags.PLANKS).add(ModBlocks.ELDER_PINE_PLANKS.get().asItem());
         this.tag(ItemTags.LOGS).add(ModBlocks.ELDER_PINE_LOG.get().asItem());
@@ -56,18 +60,27 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.AXES).add(ModItems.NETHER_BRASS_AXE.get());
         this.tag(ItemTags.AXES).add(ModItems.CHARRING_AXE.get());
 
-        this.tag(Tags.Items.ARMORS_HELMETS).add(ModItems.SILVER_HELMET.get());
-        this.tag(Tags.Items.ARMORS_CHESTPLATES).add(ModItems.SILVER_CHESTPLATE.get());
-        this.tag(Tags.Items.ARMORS_LEGGINGS).add(ModItems.SILVER_LEGGINGS.get());
-        this.tag(Tags.Items.ARMORS_BOOTS).add(ModItems.SILVER_BOOTS.get());
+        this.tag(ItemTags.HEAD_ARMOR).add(ModItems.SILVER_HELMET.get());
+        this.tag(ItemTags.HEAD_ARMOR_ENCHANTABLE).add(ModItems.SILVER_HELMET.get());
+        this.tag(ItemTags.CHEST_ARMOR).add(ModItems.SILVER_CHESTPLATE.get());
+        this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(ModItems.SILVER_CHESTPLATE.get());
+        this.tag(ItemTags.LEG_ARMOR).add(ModItems.SILVER_LEGGINGS.get());
+        this.tag(ItemTags.LEG_ARMOR_ENCHANTABLE).add(ModItems.SILVER_LEGGINGS.get());
+        this.tag(ItemTags.FOOT_ARMOR).add(ModItems.SILVER_BOOTS.get());
+        this.tag(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(ModItems.SILVER_BOOTS.get());
 
-        this.tag(Tags.Items.ARMORS_CHESTPLATES).add(ModItems.WARMOGS.get());
-        this.tag(Tags.Items.ARMORS_CHESTPLATES).add(ModItems.SPIRIT_VISAGE.get());
+        this.tag(ItemTags.CHEST_ARMOR).add(ModItems.WARMOGS.get());
+        this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(ModItems.WARMOGS.get());
+        this.tag(ItemTags.CHEST_ARMOR).add(ModItems.SPIRIT_VISAGE.get());
+        this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(ModItems.SPIRIT_VISAGE.get());
         this.tag(ModTags.Items.HEAL_AMPLIFIER).add(ModItems.SPIRIT_VISAGE.get());
-        this.tag(Tags.Items.ARMORS_BOOTS).add(ModItems.MOBI_BOOTS.get());
-        this.tag(Tags.Items.ARMORS_BOOTS).add(ModItems.MERC_TREADS.get());
+        this.tag(ItemTags.FOOT_ARMOR).add(ModItems.MOBI_BOOTS.get());
+        this.tag(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(ModItems.MOBI_BOOTS.get());
+        this.tag(ItemTags.FOOT_ARMOR).add(ModItems.MERC_TREADS.get());
+        this.tag(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(ModItems.MERC_TREADS.get());
         this.tag(ModTags.Items.TENACITY_ITEMS).add(ModItems.MERC_TREADS.get());
-        this.tag(Tags.Items.ARMORS_HELMETS).add(ModItems.RABADONS.get());
+        this.tag(ItemTags.HEAD_ARMOR).add(ModItems.RABADONS.get());
+        this.tag(ItemTags.HEAD_ARMOR_ENCHANTABLE).add(ModItems.RABADONS.get());
 
         this.tag(ModTags.Items.COIN_PURSE_ITEMS).add(ModItems.COIN_PURSE.get());
         this.tag(ModTags.Items.COIN_PURSE_ITEMS).add(ModItems.COPPER_COIN.get());

@@ -13,12 +13,7 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "music": {
-      "sound": "minecraft:music.overworld.forest",
-      "min_delay": 12000,
-      "max_delay": 24000,
-      "replace_current_music": false
-    }
+    "music_volume": 1
   },
   "spawners": {
     "ambient": [
@@ -125,13 +120,11 @@
     "water_creature": []
   },
   "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "minecraft:cave",
-      "minecraft:cave_extra_underground",
-      "minecraft:canyon"
-    ]
-  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground",
+    "minecraft:canyon"
+  ],
   "features": [
     [],
     [
@@ -177,12 +170,14 @@
     [
       "minecraft:glow_lichen",
       "minecraft:forest_flowers",
-      "minecraft:trees_birch_and_oak",
+      "minecraft:trees_birch_and_oak_leaf_litter",
+      "minecraft:patch_bush",
       "minecraft:flower_default",
       "minecraft:patch_grass_forest",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_pumpkin",
+      "minecraft:patch_firefly_bush_near_water",
       "abyssal:larger_oak",
       "abyssal:brush",
       "abyssal:surface_moss",

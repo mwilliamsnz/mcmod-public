@@ -6,15 +6,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.random.WeightedEntry;
-import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.util.TriState;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.IPlantable;
 import net.neoforged.neoforge.common.extensions.IBlockExtension;
 
 
@@ -23,7 +21,7 @@ public class SuperSoilBlock extends Block implements IBlockExtension {
         super(properties);
     }
 
-    private static WeightedRandomList PLANT_OPTIONS;
+    private static WeightedList<BlockState> PLANT_OPTIONS;
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
@@ -47,8 +45,8 @@ public class SuperSoilBlock extends Block implements IBlockExtension {
         BlockState s = level.getBlockState(pos.above());
         if(s.isAir()) {
             if(rand.nextInt(40) == 0) {
-                getPlantOptions().getRandom(rand).ifPresent((wrapper) -> {
-                    level.setBlockAndUpdate(pos.above(), wrapper.getData());
+                getPlantOptions().getRandom(rand).ifPresent((plantState) -> {
+                    level.setBlockAndUpdate(pos.above(), plantState);
                 });
             }
         } else {
@@ -58,9 +56,9 @@ public class SuperSoilBlock extends Block implements IBlockExtension {
         }
     }
 
-    WeightedRandomList<WeightedEntry.Wrapper<BlockState>> getPlantOptions() {
+    WeightedList<BlockState> getPlantOptions() {
         if(PLANT_OPTIONS == null) {
-            PLANT_OPTIONS = new SimpleWeightedRandomList.Builder<BlockState>()
+            PLANT_OPTIONS = new WeightedList.Builder<BlockState>()
                     .add(ModBlocks.FERN_CORE.get().defaultBlockState(), 25)
                     .add(ModBlocks.IVY.get().defaultBlockState().setValue(IvyBlock.DOWN, true), 20)
                     .add(Blocks.MOSS_CARPET.defaultBlockState(), 25)
@@ -86,8 +84,8 @@ public class SuperSoilBlock extends Block implements IBlockExtension {
     }
 
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter level, BlockPos pos, Direction facing, IPlantable plantable) {
-        return true;
+    public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, Direction facing, BlockState plant) {
+        return TriState.TRUE;
     }
 
 }

@@ -8,10 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -81,6 +78,7 @@ public class IvyBlock extends Block implements IShearable {
         return true;
     }
 
+    @Override
     public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) {
         return this.hasFaces(this.getUpdatedState(state, reader, pos));
     }
@@ -135,15 +133,17 @@ public class IvyBlock extends Block implements IShearable {
         return state;
     }
 
-    public BlockState updateShape(BlockState state, Direction dir, BlockState otherState, LevelAccessor level, BlockPos pos, BlockPos otherPos) {
-        if (dir == Direction.UP) { // Don't care if the block above the ivy changes
-            return super.updateShape(state, dir, otherState, level, pos, otherPos);
+    @Override
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction direction, BlockPos otherPos, BlockState otherState, RandomSource randomSource) {
+        if (direction == Direction.UP) { // Don't care if the block above the ivy changes
+            return super.updateShape(state, level, tickAccess, pos, direction, otherPos, otherState, randomSource);
         } else {
             BlockState updated = this.getUpdatedState(state, level, pos);
             return !this.hasFaces(updated) ? Blocks.AIR.defaultBlockState() : updated;
         }
     }
 
+    @Override
     public void randomTick(BlockState stateHere, ServerLevel level, BlockPos pos, RandomSource rand) {
         if (!level.getGameRules().getBoolean(GameRules.RULE_DO_VINES_SPREAD)) {
             return;
@@ -181,7 +181,7 @@ public class IvyBlock extends Block implements IShearable {
 
                 }
             } else {
-                if (spreadDir == Direction.UP && pos.getY() < level.getMaxBuildHeight() - 1) {
+                if (spreadDir == Direction.UP && pos.getY() < level.getMaxY() - 1) {
                     if (this.canSupportAtFace(level, pos, spreadDir)) {
                         //level.setBlock(pos, stateHere.setValue(UP, true), 2);
                         return;
@@ -209,7 +209,7 @@ public class IvyBlock extends Block implements IShearable {
                 }
 
                 // Spreading down
-                if (pos.getY() > level.getMinBuildHeight()) {
+                if (pos.getY() > level.getMinY()) {
                     BlockPos posBelow = pos.below();
                     BlockState stateBelow = level.getBlockState(posBelow);
                     if (stateBelow.isAir() || stateBelow.is(this)) {

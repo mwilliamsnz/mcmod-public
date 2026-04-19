@@ -1,0 +1,10 @@
+{
+  "values": {
+    "abyssal:anthracite": {
+      "burn_time": 2000
+    },
+    "abyssal:lignite": {
+      "burn_time": 1200
+    }
+  }
+}

@@ -1,19 +1,24 @@
 package abyssal.entity;
 
-import abyssal.PowderExplosion;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
 public class PowderBarrelEntity extends PrimedTnt {
 
-    private final float damageFactor;
-    private final float knockFactor;
-    private final float size;
+    private float damageFactor;
+    private float knockFactor;
+    private float size;
     public PowderBarrelEntity(Level worldIn, double x, double y, double z, @Nullable LivingEntity igniter, float size, float damageFactor, float knockFactor) {
         super(worldIn, x, y, z, igniter);
         this.size = size;
@@ -35,10 +40,47 @@ public class PowderBarrelEntity extends PrimedTnt {
         this.knockFactor = 1;
     }
 
+    @Override
     protected void explode() {
-        this.level().explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 1.8F, Level.ExplosionInteraction.TNT);
-        PowderExplosion explosion = new PowderExplosion(this.level(), this, null, null, this.getX(), this.getY(0.0625D), this.getZ(), size, false, Explosion.BlockInteraction.KEEP, damageFactor, knockFactor);
-        explosion.explode();
-        explosion.finalizeExplosion(true);
+        if (this.level() instanceof ServerLevel serverlevel && serverlevel.getGameRules().getBoolean(GameRules.RULE_TNT_EXPLODES)) {
+            this.level()
+                    .explode(
+                            this,
+                            Explosion.getDefaultDamageSource(this.level(), this),
+                            new ExplosionDamageCalculator() {
+                                @Override
+                                public float getKnockbackMultiplier(Entity entity) {
+                                    return super.getKnockbackMultiplier(entity) * knockFactor;
+                                }
+
+                                @Override
+                                public float getEntityDamageAmount(Explosion explosion, Entity entity, float seenPercent) {
+                                    return super.getEntityDamageAmount(explosion, entity, seenPercent) * damageFactor;
+                                }
+                            },
+                            this.getX(),
+                            this.getY(0.0625),
+                            this.getZ(),
+                            this.size,
+                            false,
+                            Level.ExplosionInteraction.TNT
+                    );
+        }
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("explosion_power", this.size);
+        tag.putFloat("knock_factor", this.knockFactor);
+        tag.putFloat("damage_factor", this.damageFactor);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.size = Mth.clamp(tag.getFloatOr("explosion_power", 4.0F), 0.0F, 128.0F);
+        this.knockFactor = Mth.clamp(tag.getFloatOr("knock_factor", 1.0F), 0.0F, 128.0F);
+        this.damageFactor = Mth.clamp(tag.getFloatOr("damage_factor", 1.0F), 0.0F, 128.0F);
     }
 }

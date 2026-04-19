@@ -125,13 +125,11 @@
     "water_creature": []
   },
   "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "minecraft:cave",
-      "minecraft:cave_extra_underground",
-      "minecraft:canyon"
-    ]
-  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground",
+    "minecraft:canyon"
+  ],
   "features": [
     [],
     [
@@ -177,12 +175,14 @@
     ],
     [
       "minecraft:glow_lichen",
+      "minecraft:patch_bush",
       "minecraft:trees_plains",
       "minecraft:flower_plains",
       "minecraft:patch_grass_plain",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_pumpkin",
+      "minecraft:patch_firefly_bush_near_water",
       "abyssal:clover"
     ],
     [

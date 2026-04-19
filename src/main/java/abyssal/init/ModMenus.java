@@ -9,6 +9,9 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.MenuType;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -20,10 +23,5 @@ public class ModMenus {
     public static final Supplier<MenuType<LapidaryMenu>> LAPIDARY = MENUS.register("lapidary", () -> new MenuType<>(LapidaryMenu::new, FeatureFlagSet.of()));
     public static final Supplier<MenuType<AlchemyMenu>> HARMONISER = MENUS.register("harmoniser", () -> new MenuType<>(AlchemyMenu::new, FeatureFlagSet.of()));
 
-    public static void registerMenuScreens() {
-        Main.LOGGER.info("Registering screen");
-        MenuScreens.register(LAPIDARY.get(), LapidaryScreen::new);
-        MenuScreens.register(HARMONISER.get(), HarmoniserScreen::new);
-        Main.LOGGER.info("Done registering screen");
-    }
+    // screens registered in ClientEventSubscriber
 }

@@ -4,19 +4,18 @@ import abyssal.Main;
 import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ModBlockTagProvider extends BlockTagsProvider {
-    public ModBlockTagProvider(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(dataGenerator.getPackOutput(), provider, Main.MOD_ID, existingFileHelper);
+
+    public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+        super(output, provider, Main.MOD_ID);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(ModTags.Blocks.GRASS_SPREADERS).add(ModBlocks.GRASS_SUPER_SOIL.get());
         this.tag(ModTags.Blocks.GRASS_SPREADERS).add(Blocks.GRASS_BLOCK);
 
-        this.tag(Tags.Blocks.GRAVEL).add(ModBlocks.GOLD_GRAVEL.get());
+        this.tag(Tags.Blocks.GRAVELS).add(ModBlocks.GOLD_GRAVEL.get());
         this.tag(BlockTags.BAMBOO_PLANTABLE_ON).add(ModBlocks.GOLD_GRAVEL.get());
 
         this.tag(Tags.Blocks.BOOKSHELVES).add(ModBlocks.AMP_BOOKSHELF.get());

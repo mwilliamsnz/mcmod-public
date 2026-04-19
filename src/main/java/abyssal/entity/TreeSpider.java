@@ -1,5 +1,6 @@
 package abyssal.entity;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -16,7 +17,7 @@ public class TreeSpider extends Spider {
         this.xpReward = 0;
     }
     public static AttributeSupplier.Builder createTreeSpider() {
-        return Spider.createAttributes().add(Attributes.MAX_HEALTH, 8.0D);
+        return Spider.createAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.SAFE_FALL_DISTANCE, 8.0D);
     }
 
     protected float getStandingEyeHeight(Pose p_32265_, EntityDimensions p_32266_) {
@@ -27,14 +28,15 @@ public class TreeSpider extends Spider {
         return super.calculateFallDamage(f1, f2) - 5;
     }
 
-    public boolean doHurtTarget(Entity e) {
-        if (super.doHurtTarget(e)) {
+    @Override
+    public boolean doHurtTarget(ServerLevel level, Entity e) {
+        if (super.doHurtTarget(level, e)) {
             if (e instanceof LivingEntity) {
                 int durationSeconds = 0;
-                if (this.level().getDifficulty() == Difficulty.NORMAL) {
-                    durationSeconds = 3;
-                } else if (this.level().getDifficulty() == Difficulty.HARD) {
-                    durationSeconds = 6;
+                if (level.getDifficulty() == Difficulty.NORMAL) {
+                    durationSeconds = 4;
+                } else if (level.getDifficulty() == Difficulty.HARD) {
+                    durationSeconds = 8;
                 }
 
                 if (durationSeconds > 0) {

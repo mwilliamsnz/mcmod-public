@@ -1,18 +1,19 @@
 package abyssal.items.handheld;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.extensions.IItemExtension;
 import org.jetbrains.annotations.NotNull;
 
-public class TiamatItem extends SwordItem implements IItemExtension {
+public class TiamatItem extends Item {
 
-    public TiamatItem(Tier tier, int damage, float attackSpeed, Properties properties) {
-        super(tier, damage, attackSpeed, properties);
+    public TiamatItem(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -21,12 +22,13 @@ public class TiamatItem extends SwordItem implements IItemExtension {
     }
 
     @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return false;
+    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+        return enchantment.is(Enchantments.SWEEPING_EDGE);
     }
 
+    @Override
     @NotNull
     public AABB getSweepHitBox(@NotNull ItemStack stack, @NotNull Player player, @NotNull Entity target) {
-        return target.getBoundingBox().inflate(3.0D, 0.25D, 3.0D);
+        return player.getBoundingBox().inflate(6.0D, 1.25D, 6.0D);
     }
 }

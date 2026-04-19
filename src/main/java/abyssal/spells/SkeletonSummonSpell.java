@@ -6,8 +6,8 @@ import abyssal.init.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,9 +22,9 @@ public class SkeletonSummonSpell extends Spell {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
+    public InteractionResult cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
         if (!(level instanceof ServerLevel)) {
-            return InteractionResultHolder.success(staff);
+            return InteractionResult.SUCCESS;
         } else {
             BlockPos blockpos = player.getOnPos();
             AABB box = AABB.ofSize(blockpos.getCenter().subtract(2f,2f,2f), 4f, 4f, 4f);
@@ -32,7 +32,7 @@ public class SkeletonSummonSpell extends Spell {
             //
             List<BlockPos> validPositions = BlockPos.MutableBlockPos.betweenClosedStream(box).filter((pos -> level.getBlockState(pos).getCollisionShape(level, pos).isEmpty())).toList();
             if(validPositions.isEmpty()) {
-                return InteractionResultHolder.fail(staff);
+                return InteractionResult.FAIL;
             }
             summon(level, player, validPositions.get((int)(Math.random()* validPositions.size())), staff, false);
 
@@ -40,14 +40,13 @@ public class SkeletonSummonSpell extends Spell {
 //            return InteractionResult.CONSUME;
         }
 
-        return InteractionResultHolder.success(staff);
+        return InteractionResult.SUCCESS;
     }
 
     private void summon(Level level, Player p, BlockPos pos, ItemStack stack, boolean expandAABB) {
-        Minion e = ModEntityTypes.MINION.get().spawn((ServerLevel)level, stack, p, pos, MobSpawnType.SPAWN_EGG, true, expandAABB);
+        Minion e = ModEntityTypes.MINION.get().spawn((ServerLevel)level, stack, p, pos, EntitySpawnReason.MOB_SUMMONED, true, expandAABB);
         if (e != null) {
             e.summonerUUID = p.getUUID();
-            Main.LOGGER.info("Summoned by " + e.summonerUUID);
             level.gameEvent(p, GameEvent.ENTITY_PLACE, pos);
         }
     }

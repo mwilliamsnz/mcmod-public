@@ -4,10 +4,14 @@ import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,28 +28,33 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.Set;
-import java.util.function.Supplier;
 
 public class ModBlockLoot extends BlockLootSubProvider {
 
-    protected ModBlockLoot() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    HolderLookup.RegistryLookup<Enchantment> enchants;
+
+    public ModBlockLoot(HolderLookup.Provider lookupProvider) {
+        super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
     }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return ModBlocks.DATAGEN_LOOT_TABLE // Get all registered entries
-                .stream() // Stream the wrapped objects
-                .map(Supplier::get) // Get the object if available
-                ::iterator; // Create the iterable
+        return ModBlocks.DATAGEN_LOOT_TABLE.stream()
+                .map(Holder::value)::iterator;
     }
 
     @Override
     protected void generate() {
+        enchants = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
         this.dropSelf(ModBlocks.REED.get());
         this.dropSelf(ModBlocks.SHRUB.get());
         this.dropSelf(ModBlocks.HEATHER.get());
-        this.add(ModBlocks.CLOVER.get(), (block) -> createSilkTouchDispatchTable(block, this.applyExplosionCondition(block, LootItem.lootTableItem(ModItems.FOUR_LEAF_CLOVER.get()).when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, 0.001F, 0.005F, 0.025F, 0.125F)).otherwise(LootItem.lootTableItem(block)))));
+        this.add(ModBlocks.CLOVER.get(), (block) -> createSilkTouchDispatchTable(block,
+                this.applyExplosionCondition(block, LootItem.lootTableItem(ModItems.FOUR_LEAF_CLOVER.get())
+                        .when(BonusLevelTableCondition.bonusLevelFlatChance(
+                                enchants.getOrThrow(Enchantments.FORTUNE), 0.001F, 0.005F, 0.025F, 0.125F))
+                        .otherwise(LootItem.lootTableItem(block)))));
         this.add(ModBlocks.LEAF_LITTER.get(), (block) -> createSingleItemTableWithSilkTouch(block, Blocks.DIRT));
         this.dropSelf(ModBlocks.SUPER_SOIL.get());
         this.add(ModBlocks.GRASS_SUPER_SOIL.get(), (block) -> createSingleItemTableWithSilkTouch(block, ModBlocks.SUPER_SOIL.get()));
@@ -97,12 +106,12 @@ public class ModBlockLoot extends BlockLootSubProvider {
 
         this.add(ModBlocks.CHARRED_LOG.get(), (block) -> createCharredDrop(block, Items.CHARCOAL));
 
-        this.add(ModBlocks.IVY.get(), BlockLootSubProvider::createShearsOnlyDrop);
-        this.add(ModBlocks.BRUSH.get(), BlockLootSubProvider::createShearsOnlyDrop);
-        this.add(ModBlocks.THIN_LEAVES.get(), BlockLootSubProvider::createShearsOnlyDrop);
-        this.add(ModBlocks.ALPINE_PLANT.get(), BlockLootSubProvider::createShearsOnlyDrop);
-        this.add(ModBlocks.FERN_CORE.get(), BlockLootSubProvider::createShearsOnlyDrop);
-        this.add(ModBlocks.FERN_FRONDS.get(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.IVY.get(), (block) -> createShearsOnlyDrop(ModBlocks.IVY.get()));
+        this.add(ModBlocks.BRUSH.get(), (block) -> createShearsOnlyDrop(ModBlocks.BRUSH.get()));
+        this.add(ModBlocks.THIN_LEAVES.get(), (block) -> createShearsOnlyDrop(ModBlocks.THIN_LEAVES.get()));
+        this.add(ModBlocks.ALPINE_PLANT.get(), (block) -> createShearsOnlyDrop(ModBlocks.ALPINE_PLANT.get()));
+        this.add(ModBlocks.FERN_CORE.get(), (block) -> createShearsOnlyDrop(ModBlocks.FERN_CORE.get()));
+        this.add(ModBlocks.FERN_FRONDS.get(), (block) -> createShearsOnlyDrop(ModBlocks.FERN_FRONDS.get()));
 
         this.dropWhenSilkTouch(ModBlocks.SPIDER_NEST.get());
 
@@ -111,12 +120,14 @@ public class ModBlockLoot extends BlockLootSubProvider {
         // [deepslate_]garnet_cluster
     }
 
+
+
     private LootTable.Builder createPoorIronDrop(Block block) {
-        return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(ModItems.POOR_IRON.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1,2))).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+        return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(ModItems.POOR_IRON.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(1,2))).apply(ApplyBonusCount.addOreBonusCount(enchants.getOrThrow(Enchantments.FORTUNE)))));
     }
 
     private LootTable.Builder createRedstoneLikeDrop(Block block, Item result) {
-        return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(result).apply(SetItemCountFunction.setCount(UniformGenerator.between(1,4))).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+        return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(result).apply(SetItemCountFunction.setCount(UniformGenerator.between(1,4))).apply(ApplyBonusCount.addOreBonusCount(enchants.getOrThrow(Enchantments.FORTUNE)))));
     }
 
     private LootTable.Builder createCharredDrop(Block block, Item result) {

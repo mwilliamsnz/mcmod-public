@@ -4,9 +4,12 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -27,10 +30,10 @@ public class FernCentreBlock extends BushBlock {
 
     public static final MapCodec<FernCentreBlock> CODEC = simpleCodec(FernCentreBlock::new);
 
-    @Override
-    public MapCodec<FernCentreBlock> codec() {
-        return CODEC;
-    }
+//    @Override
+//    public MapCodec<FernCentreBlock> codec() {
+//        return CODEC;
+//    }
 
     protected final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0, 16.0D);;
 
@@ -70,14 +73,13 @@ public class FernCentreBlock extends BushBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState blockState, LevelAccessor levelAccessor, BlockPos here, BlockPos pos2) {
+    public BlockState updateShape(BlockState state, LevelReader levelAccessor, ScheduledTickAccess tickAccess, BlockPos here, Direction direction, BlockPos pos2, BlockState blockState, RandomSource randomSource) {
         if(!state.canSurvive(levelAccessor, here)) {
             return Blocks.AIR.defaultBlockState();
         }
         return direction.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(blockState, direction.getOpposite()))
-                        : super.updateShape(state, direction, blockState, levelAccessor, here, pos2);
+                        : super.updateShape(state, levelAccessor, tickAccess, here, direction, pos2, blockState, randomSource);
     }
-
 
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {

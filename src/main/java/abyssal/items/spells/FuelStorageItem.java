@@ -5,9 +5,8 @@ import abyssal.spells.SpellFuelType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.extensions.IItemExtension;
 
-public class FuelStorageItem extends Item implements IItemExtension, SpellFuelStorage {
+public class FuelStorageItem extends Item implements SpellFuelStorage {
 
     public FuelStorageItem(Properties props, SpellFuelType fuelType) {
         super(props);

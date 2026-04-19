@@ -1,7 +1,7 @@
 package abyssal.spells;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,8 +18,8 @@ public class HealSpell extends Spell {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
+    public InteractionResult cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
         player.heal((float) (baseHeal + apScaling * ap));
-        return InteractionResultHolder.success(staff);
+        return InteractionResult.SUCCESS;
     }
 }

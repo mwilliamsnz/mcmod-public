@@ -15,10 +15,10 @@ public class GroundCoverBlock extends BushBlock {
 
     public static final MapCodec<GroundCoverBlock> CODEC = simpleCodec(GroundCoverBlock::new);
 
-    @Override
-    public MapCodec<GroundCoverBlock> codec() {
-        return CODEC;
-    }
+//    @Override
+//    public MapCodec<GroundCoverBlock> codec() {
+//        return CODEC;
+//    }
 
     public GroundCoverBlock(BlockBehaviour.Properties p_53514_) {
         super(p_53514_);

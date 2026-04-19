@@ -4,7 +4,10 @@ import abyssal.blocks.blockentities.SpiderNestBlockEntity;
 import abyssal.init.ModBlockEntityTypes;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,13 +39,13 @@ public class SpiderNestBlock extends BaseEntityBlock {
         return createTickerHelper(blockEntityType, ModBlockEntityTypes.SPIDER_NEST.get(), level.isClientSide ? SpiderNestBlockEntity::clientTick : SpiderNestBlockEntity::serverTick);
     }
 
-    @Override
-    public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader world, net.minecraft.util.RandomSource randomSource, BlockPos pos, int fortune, int silktouch) {
-        return 15 + randomSource.nextInt(15) + randomSource.nextInt(15);
-    }
-
     public RenderShape getRenderShape(BlockState p_56794_) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    public int getExpDrop(BlockState state, LevelAccessor level, BlockPos pos, BlockEntity blockEntity, Entity breaker, ItemStack tool) {
+        return 2 + level.getRandom().nextInt(5) + level.getRandom().nextInt(5);
     }
 
 }

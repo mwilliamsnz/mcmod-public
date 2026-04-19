@@ -16,12 +16,7 @@
       "block_search_extent": 8,
       "offset": 2
     },
-    "music": {
-      "sound": "minecraft:music.overworld.swamp",
-      "min_delay": 12000,
-      "max_delay": 24000,
-      "replace_current_music": false
-    }
+    "music_volume": 1
   },
   "spawners": {
     "ambient": [
@@ -110,13 +105,11 @@
     "water_creature": []
   },
   "spawn_costs": {},
-  "carvers": {
-    "air": [
-      "minecraft:cave",
-      "minecraft:cave_extra_underground",
-      "minecraft:canyon"
-    ]
-  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground",
+    "minecraft:canyon"
+  ],
   "features": [
     [],
     [

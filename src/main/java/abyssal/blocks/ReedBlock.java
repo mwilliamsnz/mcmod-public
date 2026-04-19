@@ -7,10 +7,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -24,12 +25,11 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.IPlantable;
 import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nullable;
 
-public class ReedBlock extends Block implements IPlantable, SimpleWaterloggedBlock {
+public class ReedBlock extends Block implements SimpleWaterloggedBlock {
     public static final MapCodec<ReedBlock> CODEC = simpleCodec(ReedBlock::new);
     public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
     public static final IntegerProperty TYPE = IntegerProperty.create("type", 0, 3);
@@ -98,10 +98,10 @@ public class ReedBlock extends Block implements IPlantable, SimpleWaterloggedBlo
             }
 
             int age = pState.getValue(AGE);
-            if (net.neoforged.neoforge.common.CommonHooks.onCropsGrowPre(pLevel, pPos, pState, true)) {
+            if (net.neoforged.neoforge.common.CommonHooks.canCropGrow(pLevel, pPos, pState, true)) {
                 if (age >= 15) {
                     pLevel.setBlockAndUpdate(pPos.above(), this.defaultBlockState().setValue(TYPE, TYPE_MATURE_TOP));
-                    net.neoforged.neoforge.common.CommonHooks.onCropsGrowPost(pLevel, pPos.above(), this.defaultBlockState());
+                    net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(pLevel, pPos.above(), this.defaultBlockState());
                     pLevel.setBlockAndUpdate(pPos, pState.setValue(AGE, 0).setValue(TYPE, TYPE_MIDDLE));
                     if(below.is(this)) {
                         pLevel.setBlockAndUpdate(pPos.below(), below.setValue(TYPE, TYPE_UNDERWATER));
@@ -120,15 +120,16 @@ public class ReedBlock extends Block implements IPlantable, SimpleWaterloggedBlo
      * Note that this method should ideally consider only the specific direction passed in.
      */
     @Override
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (!pState.canSurvive(pLevel, pCurrentPos)) {
-            pLevel.scheduleTick(pCurrentPos, this, 1);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos,
+            Direction dir, BlockPos facingPos, BlockState facingState, RandomSource random) {
+        if (!state.canSurvive(level, pos)) {
+            tickAccess.scheduleTick(pos, this, 1);
         }
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+        if (state.getValue(WATERLOGGED)) {
+            tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+        return super.updateShape(state, level, tickAccess, pos, dir, facingPos, facingState, random);
     }
 
     @Override
@@ -137,26 +138,17 @@ public class ReedBlock extends Block implements IPlantable, SimpleWaterloggedBlo
         if(!pLevel.getFluidState(pPos.above()).isEmpty()) {
             return false;
         }
-        if (soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, this)) return true;
+        TriState canSustain = soil.canSustainPlant(pLevel, pPos.below(), Direction.UP, pState);
+        if (!canSustain.isDefault()) return canSustain.isTrue();
         BlockState blockstate = pLevel.getBlockState(pPos.below());
 
-        return blockstate.is(this) || blockstate.is(BlockTags.DIRT) || blockstate.is(BlockTags.SAND) || blockstate.is(Blocks.CLAY) || blockstate.is(Tags.Blocks.GRAVEL);
+        return blockstate.is(this) || blockstate.is(BlockTags.DIRT) || blockstate.is(BlockTags.SAND) || blockstate.is(Blocks.CLAY) || blockstate.is(Tags.Blocks.GRAVELS);
 
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(AGE).add(TYPE).add(WATERLOGGED);
-    }
-
-    @Override
-    public net.neoforged.neoforge.common.PlantType getPlantType(BlockGetter world, BlockPos pos) {
-        return net.neoforged.neoforge.common.PlantType.BEACH;
-    }
-
-    @Override
-    public BlockState getPlant(BlockGetter world, BlockPos pos) {
-        return defaultBlockState();
     }
 
     @Override

@@ -12,6 +12,6 @@ public class ModBlockEntityTypes {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Main.MOD_ID);
     public static final Supplier<BlockEntityType<SpiderNestBlockEntity>> SPIDER_NEST = BLOCK_ENTITY_TYPES.register(
-            "spider_nest", ()-> BlockEntityType.Builder.of(SpiderNestBlockEntity::new, ModBlocks.SPIDER_NEST.get()).build(null));
+            "spider_nest", ()-> new BlockEntityType<>(SpiderNestBlockEntity::new, ModBlocks.SPIDER_NEST.get()));
 
 }

@@ -4,6 +4,7 @@ import abyssal.Main;
 import abyssal.inventory.LapidaryMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,7 +16,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LapidaryScreen extends AbstractContainerScreen<LapidaryMenu> implements ContainerListener {
-    private static final ResourceLocation LAPIDARY_TABLE_LOCATION = new ResourceLocation(Main.MOD_ID, "textures/gui/lapidary.png");
+    private static final ResourceLocation LAPIDARY_TABLE_LOCATION = Main.rl("textures/gui/lapidary.png");
 
     public LapidaryScreen(LapidaryMenu menu, Inventory inv, Component component) {
         super(menu, inv, component);
@@ -65,7 +66,6 @@ public class LapidaryScreen extends AbstractContainerScreen<LapidaryMenu> implem
 
     @Override
     public void render(GuiGraphics gfx, int x, int y, float f) {
-        f = this.minecraft.getFrameTime();
         super.render(gfx, x, y, f);
         this.renderTooltip(gfx, x, y);
     }
@@ -74,13 +74,13 @@ public class LapidaryScreen extends AbstractContainerScreen<LapidaryMenu> implem
     protected void renderBg(GuiGraphics gfx, float f, int mouseX, int mouseY) {
         int xstart = (this.width - this.imageWidth) / 2;
         int ystart = (this.height - this.imageHeight) / 2;
-        gfx.blit(LAPIDARY_TABLE_LOCATION, xstart, ystart, 0, 0, this.imageWidth, this.imageHeight);
-        gfx.blit(LAPIDARY_TABLE_LOCATION, xstart + 59, ystart + 20, 0, this.imageHeight + (this.menu.getSlot(0).hasItem() ? 0 : 16), 110, 16);
+        gfx.blit(RenderType::guiTextured, LAPIDARY_TABLE_LOCATION, xstart, ystart, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        gfx.blit(RenderType::guiTextured, LAPIDARY_TABLE_LOCATION, xstart + 59, ystart + 20, 0, this.imageHeight + (this.menu.getSlot(0).hasItem() ? 0 : 16), 110, 16, 256, 256);
         if(isHovering(126,24,36,18,mouseX,mouseY)) {
-            gfx.blit(LAPIDARY_TABLE_LOCATION, xstart + 126, ystart + 24, this.imageWidth, 54, 36, 18);
+            gfx.blit(RenderType::guiTextured, LAPIDARY_TABLE_LOCATION, xstart + 126, ystart + 24, this.imageWidth, 54, 36, 18, 256, 256);
         }
         if(isHovering(126,51,36,18,mouseX,mouseY)) {
-            gfx.blit(LAPIDARY_TABLE_LOCATION, xstart + 126, ystart + 51, this.imageWidth, 92, 36, 18);
+            gfx.blit(RenderType::guiTextured, LAPIDARY_TABLE_LOCATION, xstart + 126, ystart + 51, this.imageWidth, 92, 36, 18, 256, 256);
         }
     }
 

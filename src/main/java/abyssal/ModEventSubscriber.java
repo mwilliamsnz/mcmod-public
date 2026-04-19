@@ -7,54 +7,63 @@ import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModEntityTypes;
 import abyssal.init.ModItems;
+import abyssal.items.AttributeHelper;
 import abyssal.items.curios.Gobbler;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import top.theillusivec4.curios.api.CuriosCapability;
-import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.*;
+import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
-@Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import static abyssal.Main.rl;
+
+@EventBusSubscriber(modid = Main.MOD_ID)
 public class ModEventSubscriber {
 
     @SubscribeEvent
     public static void onRegisterItems(RegisterEvent event) {
         event.register(Registries.ITEM,
                 itemRegisterHelper -> {
+//                    Set<Block> blocks = ModBlocks.DATAGEN_MODEL.stream().map(Holder::value).collect(Collectors.toSet());
                     ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).forEach(
-                        block -> {
-                            final Item.Properties properties = new Item.Properties();
-                            final BlockItem blockItem = new BlockItem(block, properties);
-                            itemRegisterHelper.register(BuiltInRegistries.BLOCK.getKey(block), blockItem);
-                        }
+                            block -> {
+                                ResourceLocation key = BuiltInRegistries.BLOCK.getKey(block);
+//                                if(!blocks.contains(block)) {
+                                    itemRegisterHelper.register(key, new BlockItem(block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, key))));
+//                                }
+                            }
                     );
+
                 }
         );
     }
@@ -62,7 +71,7 @@ public class ModEventSubscriber {
     @SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         // Add to existing tabs
-        ModItems.itemTabs.getOrDefault(event.getTab(), new ArrayList<>()).forEach((itemSupplier) -> event.accept(itemSupplier.get()));
+        ModItems.itemTabs.getOrDefault(event.getTabKey(), new ArrayList<>()).forEach((itemSupplier) -> event.accept(itemSupplier.get()));
     }
 
 
@@ -75,8 +84,8 @@ public class ModEventSubscriber {
 
     @SubscribeEvent
     public static void addAttributes(EntityAttributeModificationEvent event) {
-        event.add(EntityType.PLAYER, ModAttributes.MAGIC_RESIST.get());
-        event.add(EntityType.PLAYER, ModAttributes.ABILITY_POWER.get());
+        event.add(EntityType.PLAYER, ModAttributes.MAGIC_RESIST);
+        event.add(EntityType.PLAYER, ModAttributes.ABILITY_POWER);
     }
 
     @SubscribeEvent
@@ -105,79 +114,96 @@ public class ModEventSubscriber {
 
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(ModAttributes.MAGIC_RESIST.get(), new AttributeModifier(uuid, "Magic resistance", 25, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(ModAttributes.MAGIC_RESIST,
+                            new AttributeModifier(rl("null_mantle_mr"), 25, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.NULL_MAGIC_MANTLE.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback Resistance", 0.40, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.KNOCKBACK_RESISTANCE, 
+                            new AttributeModifier(rl("anchor_belt_resist"), 0.40, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.ANCHOR_BELT.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.LUCK, new AttributeModifier(uuid, "Luck", 1, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.LUCK, 
+                            new AttributeModifier(rl("clover_luck"), 1, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.FOUR_LEAF_CLOVER.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.LUCK, new AttributeModifier(uuid, "Luck", 2, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.LUCK, 
+                            new AttributeModifier(rl("luck_charm_luck"), 2, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.LUCK_CHARM.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max HP", 3, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.MAX_HEALTH, 
+                            new AttributeModifier(rl("ruby_hp"), 3, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.RUBY_CRYSTAL.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Damage", 1, AttributeModifier.Operation.ADDITION));
+                ringAttributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.ATTACK_DAMAGE, 
+                            new AttributeModifier(rl("fighters_ring_damage_slot0"), 1, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.DAMAGE_RING.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Damage", 2, AttributeModifier.Operation.ADDITION));
+                ringAttributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.ATTACK_DAMAGE, 
+                            new AttributeModifier(rl("champions_ring_damage_slot0"), 2, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.CHAMPIONS_RING.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(ModAttributes.ABILITY_POWER.get(), new AttributeModifier(uuid, "Ability Power", 15, AttributeModifier.Operation.ADDITION));
-                    modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", 1, AttributeModifier.Operation.ADDITION));
+                ringAttributeCurio((builder, slot)->{
+                    builder.addModifier(ModAttributes.ABILITY_POWER,
+                            new AttributeModifier(rl("dorans_ap_slot0"), 18, AttributeModifier.Operation.ADD_VALUE));
+                    builder.addModifier(Attributes.MAX_HEALTH, 
+                            new AttributeModifier(rl("dorans_hp_slot0"), 2, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.DORANS_RING.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Movement speed", -0.15, AttributeModifier.Operation.MULTIPLY_BASE));
-                    modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", 7, AttributeModifier.Operation.ADDITION));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.MOVEMENT_SPEED, 
+                            new AttributeModifier(rl("giant_belt_slow"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                    builder.addModifier(Attributes.MAX_HEALTH, 
+                            new AttributeModifier(rl("giant_belt_hp"), 7, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.GIANTS_BELT.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(ModAttributes.ABILITY_POWER.get(), new AttributeModifier(uuid, "Ability Power", 30, AttributeModifier.Operation.ADDITION));
-                    modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Movement Speed", 0.05, AttributeModifier.Operation.MULTIPLY_BASE));
+                attributeCurio((builder, slot)->{
+                    builder.addModifier(ModAttributes.ABILITY_POWER,
+                            new AttributeModifier(rl("wisp_ap"), 30, AttributeModifier.Operation.ADD_VALUE));
+                    builder.addModifier(Attributes.MOVEMENT_SPEED,
+                            new AttributeModifier(rl("wisp_speed"), 0.05, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
                 }),
                 ModItems.AETHER_WISP.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Movement speed", 0.07, AttributeModifier.Operation.ADDITION));
-                    modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", -8, AttributeModifier.Operation.ADDITION));
+                ringAttributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.MOVEMENT_SPEED,
+                            new AttributeModifier(rl("travel_ring_speed_slot0"), 0.07, AttributeModifier.Operation.ADD_VALUE));
+                    builder.addModifier(Attributes.MAX_HEALTH,
+                            new AttributeModifier(rl("travel_ring_hp_slot0"), -8, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.LIGHT_TRAVEL_RING.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
-                attributeCurio((modifiers, uuid)->{
-                    modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Attack Damage", 0.30, AttributeModifier.Operation.MULTIPLY_BASE));
-                    modifiers.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Max Health", -6, AttributeModifier.Operation.ADDITION));
+                ringAttributeCurio((builder, slot)->{
+                    builder.addModifier(Attributes.ATTACK_DAMAGE, 
+                            new AttributeModifier(rl("glass_cannon_slot0"), 0.30, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                    builder.addModifier(Attributes.MAX_HEALTH, 
+                            new AttributeModifier(rl("glass_cannon_hp_slot0"), -6, AttributeModifier.Operation.ADD_VALUE));
                 }),
                 ModItems.GLASS_CANNON_RING.get());
 
@@ -208,7 +234,7 @@ public class ModEventSubscriber {
                     LivingEntity e = ctx.entity();
                     if(!e.level().isClientSide()) {
                         if(e.getData(ModAttachmentTypes.COMBAT_TIME) > 0 ) {
-                            e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5));
+                            e.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 5));
                             if (!e.getActiveEffectsMap().containsKey(MobEffects.POISON)
                                     || e.getActiveEffectsMap().get(MobEffects.POISON).getAmplifier() < 1
                                     || e.getActiveEffectsMap().get(MobEffects.POISON).duration <= 2) {
@@ -231,7 +257,7 @@ public class ModEventSubscriber {
 
 
 
-    private static ICapabilityProvider<ItemStack, Void, ICurio> attributeCurio(BiConsumer<Multimap<Attribute, AttributeModifier>, UUID> attributeAdder) {
+    private static ICapabilityProvider<ItemStack, Void, ICurio> attributeCurio(BiConsumer<CurioAttributeModifiers.Builder, String> attributeAdder) {
         return (ItemStack stack, Void v) -> new ICurio() {
             @Override
             public ItemStack getStack() {
@@ -239,20 +265,56 @@ public class ModEventSubscriber {
             }
 
             @Override
-            public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext,
-                                                                                UUID uuid) {
-                Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
-                attributeAdder.accept(modifiers, uuid);
-                return modifiers;
+            public CurioAttributeModifiers getDefaultCurioAttributeModifiers() {
+                Map<String, ISlotType> slots = CuriosSlotTypes.getItemSlotTypes(this.getStack(), true);
+                CurioAttributeModifiers.Builder builder = CurioAttributeModifiers.builder();
+                
+                for (String slot : slots.keySet()) {
+                    attributeAdder.accept(builder, slot);
+//                    builder.addModifier(attributeHolder, attributeModifier, slot)
+                }
+                return builder.build();
             }
 
             @Override
-            public void onUnequip(SlotContext ctx, ItemStack newStack){
+            public void onUnequip(SlotContext ctx, ItemStack newStack) {
                 ctx.entity().setHealth(ctx.entity().getHealth()); // Clamp
             }
 
             @Override
-            public void onEquip(SlotContext ctx, ItemStack newStack){
+            public void onEquip(SlotContext ctx, ItemStack prevStack) {
+                ctx.entity().setHealth(ctx.entity().getHealth()); // Clamp
+            }
+        };
+    }
+
+    private static ICapabilityProvider<ItemStack, Void, ICurio> ringAttributeCurio(BiConsumer<CurioAttributeModifiers.Builder, String> attributeAdder) {
+        return (ItemStack stack, Void v) -> new ICurio() {
+            @Override
+            public ItemStack getStack() {
+                return stack;
+            }
+
+            @Override
+            public CurioAttributeModifiers getDefaultCurioAttributeModifiers() {
+                Map<String, ISlotType> slots = CuriosSlotTypes.getItemSlotTypes(this.getStack(), true);
+                CurioAttributeModifiers.Builder builder = CurioAttributeModifiers.builder();
+
+                for (String slot : slots.keySet()) {
+                    attributeAdder.accept(builder, slot);
+//                    builder.addModifier(attributeHolder, attributeModifier, slot)
+                }
+                return builder.build();
+            }
+
+            @Override
+            public void onUnequip(SlotContext ctx, ItemStack newStack) {
+                ctx.entity().setHealth(ctx.entity().getHealth()); // Clamp
+            }
+
+            @Override
+            public void onEquip(SlotContext ctx, ItemStack prevStack) {
+//                AttributeHelper.relabelCurioModifiers(getStack(), ctx, "slot" + ctx.index());
                 ctx.entity().setHealth(ctx.entity().getHealth()); // Clamp
             }
         };
@@ -298,7 +360,8 @@ public class ModEventSubscriber {
                 LivingEntity e = slotContext.entity();
                 if(e.tickCount % gobbler.ticksPerGobble() == 0) {
                     if(e instanceof Player p) {
-                        for(var inSlot : p.getAllSlots()) {
+                        for (int i = 0; i < 36; i++) {
+                            ItemStack inSlot = p.getSlot(1).get();
                             if(inSlot.is(gobbler.canGobble())) {
                                 inSlot.shrink(1);
                                 gobbler.gobble(p.level(), p.getInventory()::placeItemBackInInventory);

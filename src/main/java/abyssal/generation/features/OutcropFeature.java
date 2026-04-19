@@ -20,7 +20,7 @@ public class OutcropFeature extends Feature<BlockStateConfiguration> {
         RandomSource rand = ctx.random();
 
         BlockStateConfiguration bsc = ctx.config();
-        while (origin.getY() > level.getMinBuildHeight() + 10) {
+        while (origin.getY() > level.getMinY() + 10) {
             if (!level.isEmptyBlock(origin.below())) {
                 BlockState stateBelow = level.getBlockState(origin.below());
                 if (isDirt(stateBelow) || isStone(stateBelow)) {
@@ -30,7 +30,7 @@ public class OutcropFeature extends Feature<BlockStateConfiguration> {
             origin = origin.below();
         }
 
-        if (origin.getY() <= level.getMinBuildHeight() + 10) {
+        if (origin.getY() <= level.getMinY() + 10) {
             return false;
         } else {
             int lumps = rand.nextInt(5) -3;

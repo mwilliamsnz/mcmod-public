@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "N#N",
+        "#N#",
+        "N#N"
+    ],
+    "key": {
+        "#": [
+            "minecraft:sand",
+            "minecraft:red_sand"
+        ],
+        "N": "abyssal:nitro"
+    },
+    "result": {
+        "id": "minecraft:tnt",
+        "count": 1
+    }
+}

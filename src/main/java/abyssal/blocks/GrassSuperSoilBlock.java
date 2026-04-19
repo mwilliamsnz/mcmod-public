@@ -5,9 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.random.WeightedEntry;
-import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -19,7 +17,7 @@ public class GrassSuperSoilBlock extends SuperSoilBlock {
         super(properties);
     }
 
-    private static WeightedRandomList GRASS_PLANT_OPTIONS;
+    private static WeightedList<BlockState> GRASS_PLANT_OPTIONS;
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
@@ -46,14 +44,14 @@ public class GrassSuperSoilBlock extends SuperSoilBlock {
         } else if (stateAbove.getFluidState().getAmount() == 8) {
             return false;
         } else {
-            int light = LightEngine.getLightBlockInto(levelReader, state, pos, stateAbove, above, Direction.UP, stateAbove.getLightBlock(levelReader, above));
-            return light < levelReader.getMaxLightLevel();
+            int light = LightEngine.getLightBlockInto(state, stateAbove, Direction.UP, stateAbove.getLightBlock());
+            return light < 15;
         }
     }
 
-    WeightedRandomList<WeightedEntry.Wrapper<BlockState>> getPlantOptions() {
+    WeightedList<BlockState> getPlantOptions() {
         if(GRASS_PLANT_OPTIONS == null) {
-            GRASS_PLANT_OPTIONS = new SimpleWeightedRandomList.Builder<BlockState>()
+            GRASS_PLANT_OPTIONS = new WeightedList.Builder<BlockState>()
                     .add(ModBlocks.CLOVER.get().defaultBlockState(), 20)
                     .add(ModBlocks.FERN_CORE.get().defaultBlockState(), 20)
                     .add(ModBlocks.IVY.get().defaultBlockState().setValue(IvyBlock.DOWN, true), 20)

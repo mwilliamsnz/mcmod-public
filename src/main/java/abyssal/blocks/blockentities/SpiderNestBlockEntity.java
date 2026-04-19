@@ -4,17 +4,22 @@ import abyssal.blocks.BaseNest;
 import abyssal.init.ModBlockEntityTypes;
 import abyssal.init.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
+import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class SpiderNestBlockEntity extends BlockEntity {
+public class SpiderNestBlockEntity extends BlockEntity implements Spawner {
 
     public SpiderNestBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.SPIDER_NEST.get(), pos, state);
@@ -29,22 +34,34 @@ public class SpiderNestBlockEntity extends BlockEntity {
             super.setNextSpawnData(level, pos, spawnData);
             if (level != null) {
                 BlockState blockstate = level.getBlockState(pos);
-                level.sendBlockUpdated(pos, blockstate, blockstate, 4);
+                level.sendBlockUpdated(pos, blockstate, blockstate, 260);
             }
-
         }
-        public BlockEntity getSpawnerBlockEntity(){ return SpiderNestBlockEntity.this; }
+
+        @Override
+        public com.mojang.datafixers.util.Either<net.minecraft.world.level.block.entity.BlockEntity, net.minecraft.world.entity.Entity> getOwner() {
+            return com.mojang.datafixers.util.Either.left(SpiderNestBlockEntity.this);
+        }
 
     };
 
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         this.nest.load(this.level, this.worldPosition, tag);
     }
 
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
         this.nest.save(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider p_324015_) {
+        CompoundTag compoundtag = this.saveCustomOnly(p_324015_);
+        compoundtag.remove("SpawnPotentials");
+        return compoundtag;
     }
 
     public static void clientTick(Level level, BlockPos pos, BlockState state, SpiderNestBlockEntity nestBE) {
@@ -59,12 +76,6 @@ public class SpiderNestBlockEntity extends BlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public CompoundTag getUpdateTag() {
-        CompoundTag compoundtag = this.saveWithoutMetadata();
-        compoundtag.remove("SpawnPotentials");
-        return compoundtag;
-    }
-
     public boolean triggerEvent(int id, int p_59798_) {
         return this.nest.onEventTriggered(this.level, id) || super.triggerEvent(id, p_59798_);
     }
@@ -75,5 +86,11 @@ public class SpiderNestBlockEntity extends BlockEntity {
 
     public BaseNest getNest() {
         return this.nest;
+    }
+
+    @Override
+    public void setEntityId(EntityType<?> entityType, RandomSource random) {
+        this.nest.setEntityId(entityType, this.level, random, this.worldPosition);
+        this.setChanged();
     }
 }

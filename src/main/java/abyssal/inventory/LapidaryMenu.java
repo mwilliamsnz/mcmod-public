@@ -78,7 +78,7 @@ public class LapidaryMenu extends AbstractContainerMenu {
     }
 
     protected void onTake(Player player, ItemStack stack) {
-        stack.onCraftedBy(player.level(), player, stack.getCount());
+        stack.onCraftedBy(player, stack.getCount());
 //        this.resultSlots.awardUsedRecipes(player);
 //        this.shrinkStackInSlot(0);
 //        this.shrinkStackInSlot(1);
@@ -105,7 +105,7 @@ public class LapidaryMenu extends AbstractContainerMenu {
 //        }
     }
 
-    // Whether shift-click from inventory puts this item in secondary input slot rather than primary
+    // Whether shift-click from inventory puts this item in secondaryRL input slot rather than primaryRL
     protected boolean shouldQuickMoveToAdditionalSlot(ItemStack stack) {
         return false; //stack.is(ModTags.Items.GEMS);
     }
@@ -182,20 +182,16 @@ public class LapidaryMenu extends AbstractContainerMenu {
 
 //    @OnlyIn(Dist.CLIENT)
     public boolean clickMenuButton(Player player, int button) {
-        Main.LOGGER.info("Clicked button " + button);
         Slot input = this.slots.get(INPUT_SLOT);
         if(!input.hasItem()) {
-            Main.LOGGER.info("No input item");
             return false;
         }
         ItemStack inputStack = input.getItem();
         if(!Gems.isGemItem(inputStack)) {
-            Main.LOGGER.info("Input not a gem");
             return false;
         }
         Gems.GemSize size = Gems.getSize(inputStack);
         if(size == Gems.GemSize.POWDER) {
-            Main.LOGGER.info("Input is already powder");
             return false;
         }
         Gems.GemType type = Gems.getType(inputStack);
@@ -206,7 +202,6 @@ public class LapidaryMenu extends AbstractContainerMenu {
             if(outputSlot.hasItem()) {
                 ItemStack outStack = outputSlot.getItem();
                 if(Gems.getType(outStack) != type) {
-                    Main.LOGGER.info("Different type of gem in slot " + i + ": " + type);
                     return false;
                 }
             }

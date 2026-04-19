@@ -2,6 +2,10 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.blocks.*;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.*;
@@ -9,11 +13,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class ModBlocks {
 
@@ -21,77 +26,105 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =  DeferredRegister.createBlocks(Main.MOD_ID);
 
     // Manual loot table blocks are NOT in this list
-    public static final List<Supplier<Block>> DATAGEN_LOOT_TABLE = new ArrayList<>();
+    public static final List<Holder<Block>> DATAGEN_LOOT_TABLE = new ArrayList<>();
+    public static final List<Holder<Block>> DATAGEN_MODEL = new ArrayList<>();
 
     public static final BlockSetType ELDER_PINE = BlockSetType.register(new BlockSetType(Main.MOD_ID + ":elder_pine"));
 
-    public static final Supplier<Block> CORN_SEED = BLOCKS.register("corn_seed", () -> new CropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BEETROOTS)));
-    public static final Supplier<Block> REED = registerWithDataLoot("reed", () -> new ReedBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SUGAR_CANE)));
-    public static final Supplier<RotatedPillarBlock> ELDER_PINE_LOG = registerWithDataLoot("elder_pine_log", () -> woodenlog(100, 2));
-    public static final Supplier<Block> ELDER_PINE_PLANKS = registerWithDataLoot("elder_pine_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));
-    public static final Supplier<Block> ELDER_PINE_DOOR = registerWithDataLoot("elder_pine_door", () -> new DoorBlock(ELDER_PINE, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));
-    public static final Supplier<RotatedPillarBlock> MOSSY_BIRCH = registerWithDataLoot("mossy_birch", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG)));
-    public static final Supplier<RotatedPillarBlock> MOSSY_OAK = registerWithDataLoot("mossy_oak", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
-    public static final Supplier<Block> IVY = registerWithDataLoot("ivy", () -> new IvyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)));
-    public static final Supplier<Block> THIN_LEAVES = registerWithDataLoot("thin_leaves", () -> new PassableSlowingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).noCollission().speedFactor(0.8f)));
-    public static final Supplier<Block> BRUSH = registerWithDataLoot("brush", () -> new PassableSlowingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).noCollission().speedFactor(0.8f)));
-    public static final Supplier<Block> SHRUB = registerWithDataLoot("shrub", () -> new AzaleaBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AZALEA)));
-    public static final Supplier<Block> HEATHER = registerWithDataLoot("heather", () -> new FlowerBlock(MobEffects.ABSORPTION, 6, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
-    public static final Supplier<Block> ALPINE_PLANT = registerWithDataLoot("alpine_plant", () -> new DeadBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEAD_BUSH).offsetType(BlockBehaviour.OffsetType.XZ)));
-    public static final Supplier<Block> CLOVER = registerWithDataLoot("clover", () -> new GroundCoverBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
-    public static final Supplier<Block> FERN_CORE = registerWithDataLoot("fern_core", () -> new FernCentreBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
-    public static final Supplier<Block> FERN_FRONDS = registerWithDataLoot("fern_fronds", () -> new FernFrondsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
+    public static BlockBehaviour.Properties defaultPs(ResourceLocation l) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, l));
+    }
 
-    public static final Supplier<Block> LEAF_LITTER = registerWithDataLoot("leaf_litter", () -> new SnowyDirtBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PODZOL)));
-    public static final Supplier<Block> SUPER_SOIL = registerWithDataLoot("super_soil", () -> new SuperSoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).randomTicks()));
-    public static final Supplier<Block> GRASS_SUPER_SOIL = registerWithDataLoot("grass_super_soil", () -> new GrassSuperSoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).randomTicks()));
-    public static final Supplier<Block> PRISM = registerWithDataLoot("prism", () -> new HalfTransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_STAINED_GLASS).lightLevel((state) -> {
+    public static BlockBehaviour.Properties pCopy(ResourceLocation l, Block block) {
+        return BlockBehaviour.Properties.ofFullCopy(block).setId(ResourceKey.create(Registries.BLOCK, l));
+    }
+
+    public static final DeferredHolder<Block, Block> CORN_SEED = BLOCKS.register("corn_seed", l -> new CropBlock(pCopy(l, Blocks.BEETROOTS)));
+    public static final DeferredHolder<Block, Block> REED = register("reed", l -> new ReedBlock(pCopy(l, Blocks.SUGAR_CANE)));
+    public static final DeferredHolder<Block, RotatedPillarBlock> ELDER_PINE_LOG = register("elder_pine_log", l -> woodenlog(100, 2, l));
+    public static final DeferredHolder<Block, Block> ELDER_PINE_PLANKS = register("elder_pine_planks", l -> new Block(defaultPs(l).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));
+    public static final DeferredHolder<Block, Block> ELDER_PINE_DOOR = registerJSONModel("elder_pine_door", l -> new DoorBlock(ELDER_PINE, defaultPs(l).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(50f,2)));
+    public static final DeferredHolder<Block, RotatedPillarBlock> MOSSY_BIRCH = registerJSONModel("mossy_birch", l -> new RotatedPillarBlock(pCopy(l, Blocks.BIRCH_LOG)));
+    public static final DeferredHolder<Block, RotatedPillarBlock> MOSSY_OAK = registerJSONModel("mossy_oak", l -> new RotatedPillarBlock(pCopy(l, Blocks.OAK_LOG)));
+    public static final DeferredHolder<Block, Block> IVY = registerJSONModel("ivy", l -> new IvyBlock(pCopy(l, Blocks.VINE)));
+    public static final DeferredHolder<Block, Block> THIN_LEAVES = register("thin_leaves", l -> new PassableSlowingBlock(pCopy(l, Blocks.OAK_LEAVES).noCollission().speedFactor(0.8f)));
+    public static final DeferredHolder<Block, Block> BRUSH = registerJSONModel("brush", l -> new PassableSlowingBlock(pCopy(l, Blocks.BUSH).speedFactor(0.8f)));
+    public static final DeferredHolder<Block, Block> SHRUB = registerJSONModel("shrub", l -> new AzaleaBlock(pCopy(l, Blocks.AZALEA)));
+    public static final DeferredHolder<Block, Block> HEATHER = register("heather", l -> new FlowerBlock(MobEffects.ABSORPTION, 6, pCopy(l, Blocks.DANDELION)));
+    public static final DeferredHolder<Block, Block> ALPINE_PLANT = registerJSONModel("alpine_plant", l -> new DryVegetationBlock(pCopy(l, Blocks.DEAD_BUSH).offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final DeferredHolder<Block, Block> CLOVER = registerJSONModel("clover", l -> new GroundCoverBlock(pCopy(l, Blocks.SHORT_GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final DeferredHolder<Block, Block> FERN_CORE = registerJSONModel("fern_core", l -> new FernCentreBlock(pCopy(l, Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
+    public static final DeferredHolder<Block, Block> FERN_FRONDS = registerJSONModel("fern_fronds", l -> new FernFrondsBlock(pCopy(l, Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
+
+    public static final DeferredHolder<Block, Block> LEAF_LITTER = register("leaf_litter", l -> new SnowyDirtBlock(pCopy(l, Blocks.PODZOL)));
+    public static final DeferredHolder<Block, Block> SUPER_SOIL = register("super_soil", l -> new SuperSoilBlock(pCopy(l, Blocks.DIRT).randomTicks()));
+    public static final DeferredHolder<Block, Block> GRASS_SUPER_SOIL = register("grass_super_soil", l -> new GrassSuperSoilBlock(pCopy(l, Blocks.GRASS_BLOCK).randomTicks()));
+    public static final DeferredHolder<Block, Block> PRISM = register("prism", l -> new HalfTransparentBlock(pCopy(l, Blocks.RED_STAINED_GLASS).lightLevel((state) -> {
         return 15;
     })));
 
-    public static final Supplier<Block> ABYSSAL_STONE = registerWithDataLoot("abyssal_stone", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(10.0F, 2.0F).sound(SoundType.DEEPSLATE)));
-    public static final Supplier<Block> NITRE = registerWithDataLoot("nitre", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-    public static final Supplier<Block> DEEPSLATE_NITRE = registerWithDataLoot("deepslate_nitre", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-    public static final Supplier<Block> SULFUR = registerWithDataLoot("sulfur_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-    public static final Supplier<Block> DEEPSLATE_SULFUR = registerWithDataLoot("deepslate_sulfur_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-    public static final Supplier<Block> POWDER_BARREL = registerWithDataLoot("powder_barrel", () -> new PowderBarrelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TNT), 1.6f, 2f, 1.2f));
-    public static final Supplier<Block> POWDER_BARREL_FRAG = registerWithDataLoot("powder_barrel_frag", () -> new PowderBarrelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TNT), 1.3f, 3.85f, 0.2f));
-    public static final Supplier<Block> POWDER_BARREL_KNOCK = registerWithDataLoot("powder_barrel_knock", () -> new PowderBarrelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TNT), 1.6f, 2f, 3f));
-    public static final Supplier<Block> ENKATITE = registerWithDataLoot("enkatite", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(20.0F, 4F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredHolder<Block, Block> ABYSSAL_STONE = register("abyssal_stone", l -> new Block(defaultPs(l).mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(10.0F, 2.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredHolder<Block, Block> NITRE = register("nitre", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_NITRE = register("deepslate_nitre", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> SULFUR = register("sulfur_ore", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_SULFUR = register("deepslate_sulfur_ore", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> POWDER_BARREL = register("powder_barrel", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.6f, 2f, 1.2f));
+    public static final DeferredHolder<Block, Block> POWDER_BARREL_FRAG = register("powder_barrel_frag", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.3f, 3.85f, 0.2f));
+    public static final DeferredHolder<Block, Block> POWDER_BARREL_KNOCK = register("powder_barrel_knock", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.6f, 2f, 3f));
+    public static final DeferredHolder<Block, Block> ENKATITE = register("enkatite", l -> new Block(defaultPs(l).mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(20.0F, 4F).sound(SoundType.DEEPSLATE)));
 
-    public static final Supplier<Block> GOLD_GRAVEL = BLOCKS.register("gold_gravel", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.ofFullCopy(Blocks.GRAVEL)));
-    public static final Supplier<Block> POOR_IRON_ORE = registerWithDataLoot("poor_iron_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
-    public static final Supplier<Block> DEEPSLATE_POOR_IRON_ORE = registerWithDataLoot("poor_deepslate_iron_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)));
-    public static final Supplier<Block> SILVER_ORE = registerWithDataLoot("silver_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_ORE)));
-    public static final Supplier<Block> DEEPSLATE_SILVER_ORE = registerWithDataLoot("deepslate_silver_ore", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_GOLD_ORE)));
-    public static final Supplier<Block> GARNET_CLUSTER = BLOCKS.register("garnet_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.EMERALD_ORE)));
-    public static final Supplier<Block> DEEPSLATE_GARNET_CLUSTER = BLOCKS.register("deepslate_garnet_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_EMERALD_ORE)));
-    public static final Supplier<Block> ONYX_CLUSTER = BLOCKS.register("onyx_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.EMERALD_ORE)));
-    public static final Supplier<Block> DEEPSLATE_ONYX_CLUSTER = BLOCKS.register("deepslate_onyx_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_EMERALD_ORE)));
-    public static final Supplier<Block> NETHER_ONYX_CLUSTER = BLOCKS.register("nether_onyx_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_GOLD_ORE)));
-    public static final Supplier<Block> GEM_CLUSTER = BLOCKS.register("gem_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.EMERALD_ORE)));
-    public static final Supplier<Block> DEEPSLATE_GEM_CLUSTER = BLOCKS.register("deepslate_gem_cluster", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> GOLD_GRAVEL = BLOCKS.register("gold_gravel", l -> new ColoredFallingBlock(new ColorRGBA(-8356741), pCopy(l, Blocks.GRAVEL)));
+    public static final DeferredHolder<Block, Block> POOR_IRON_ORE = register("poor_iron_ore", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_POOR_IRON_ORE = register("poor_deepslate_iron_ore", l -> new Block(pCopy(l, Blocks.DEEPSLATE_IRON_ORE)));
+    public static final DeferredHolder<Block, Block> SILVER_ORE = register("silver_ore", l -> new Block(pCopy(l, Blocks.GOLD_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_SILVER_ORE = register("deepslate_silver_ore", l -> new Block(pCopy(l, Blocks.DEEPSLATE_GOLD_ORE)));
+    public static final DeferredHolder<Block, Block> GARNET_CLUSTER = BLOCKS.register("garnet_cluster", l -> new Block(pCopy(l, Blocks.EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_GARNET_CLUSTER = BLOCKS.register("deepslate_garnet_cluster", l -> new Block(pCopy(l, Blocks.DEEPSLATE_EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> ONYX_CLUSTER = BLOCKS.register("onyx_cluster", l -> new Block(pCopy(l, Blocks.EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_ONYX_CLUSTER = BLOCKS.register("deepslate_onyx_cluster", l -> new Block(pCopy(l, Blocks.DEEPSLATE_EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> NETHER_ONYX_CLUSTER = BLOCKS.register("nether_onyx_cluster", l -> new Block(pCopy(l, Blocks.NETHER_GOLD_ORE)));
+    public static final DeferredHolder<Block, Block> GEM_CLUSTER = BLOCKS.register("gem_cluster", l -> new Block(pCopy(l, Blocks.EMERALD_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_GEM_CLUSTER = BLOCKS.register("deepslate_gem_cluster", l -> new Block(pCopy(l, Blocks.DEEPSLATE_EMERALD_ORE)));
 
-    public static final Supplier<RotatedPillarBlock> NETHER_BRASS_BLOCK = registerWithDataLoot("nether_brass_block", () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK)));
-    public static final Supplier<Block> SILVER_BLOCK = registerWithDataLoot("silver_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK)));
-    public static final Supplier<Block> ALCHEMICAL_GOLD_BLOCK = registerWithDataLoot("alchemical_gold_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK)));
-    public static final Supplier<Block> AMP_BOOKSHELF = registerWithDataLoot("amplifying_bookshelf", () -> new AmpBookshelfBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BOOKSHELF)));
+    public static final DeferredHolder<Block, RotatedPillarBlock> NETHER_BRASS_BLOCK = register("nether_brass_block", l -> new RotatedPillarBlock(pCopy(l, Blocks.GOLD_BLOCK)));
+    public static final DeferredHolder<Block, Block> SILVER_BLOCK = register("silver_block", l -> new Block(pCopy(l, Blocks.GOLD_BLOCK)));
+    public static final DeferredHolder<Block, Block> ALCHEMICAL_GOLD_BLOCK = register("alchemical_gold_block", l -> new Block(pCopy(l, Blocks.GOLD_BLOCK)));
+    public static final DeferredHolder<Block, Block> AMP_BOOKSHELF = registerJSONModel("amplifying_bookshelf", l -> new AmpBookshelfBlock(pCopy(l, Blocks.BOOKSHELF)));
 
-    public static final Supplier<Block> LAPIDARY = registerWithDataLoot("lapidary_table", () -> new LapidaryBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SMITHING_TABLE)));
-    public static final Supplier<Block> HARMONISER = registerWithDataLoot("harmoniser", () -> new HarmoniserBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SMITHING_TABLE)));
+    public static final DeferredHolder<Block, Block> LAPIDARY = register("lapidary_table", l -> new LapidaryBlock(pCopy(l, Blocks.SMITHING_TABLE)));
+    public static final DeferredHolder<Block, Block> HARMONISER = register("harmoniser", l -> new HarmoniserBlock(pCopy(l, Blocks.SMITHING_TABLE)));
 
-//    public static final Supplier<Block> RAGE_CAGE = register("rage_cage", () -> new RageCageBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPAWNER)));
-    public static final Supplier<Block> SPIDER_NEST = registerWithDataLoot("spider_nest", () -> new SpiderNestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSS_BLOCK)));
-    public static final Supplier<Block> CHARRED_LOG = registerWithDataLoot("charred_log", () -> new CharredLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.XYLOPHONE).strength(0.8f, 1f).sound(SoundType.BASALT)));
+//    public static final DeferredHolder<Block, Block> RAGE_CAGE = register("rage_cage", l -> new RageCageBlock(pCopy(l, Blocks.SPAWNER)));
+    public static final DeferredHolder<Block, Block> SPIDER_NEST = register("spider_nest", l -> new SpiderNestBlock(pCopy(l, Blocks.MOSS_BLOCK)));
+    public static final DeferredHolder<Block, Block> CHARRED_LOG = register("charred_log", l -> new CharredLogBlock(defaultPs(l).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.XYLOPHONE).strength(0.8f, 1f).sound(SoundType.BASALT)));
 
-    private static <T extends Block> Supplier<T> registerWithDataLoot(String name, Supplier<T> sup) {
-        Supplier<T> r = BLOCKS.register(name, sup);
-        DATAGEN_LOOT_TABLE.add((Supplier<Block>) r);
+    private static <T extends Block> DeferredHolder<Block, T> register(String name, Function<ResourceLocation, T> sup) {
+        DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
+        DATAGEN_LOOT_TABLE.add(r);
+        DATAGEN_MODEL.add(r);
         return r;
     }
 
-    private static RotatedPillarBlock woodenlog(float mine, float blast) {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(mine, blast).sound(SoundType.WOOD));
+    private static <T extends Block> DeferredHolder<Block, T> registerJSONModel(String name, Function<ResourceLocation, T> sup) {
+        DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
+        DATAGEN_LOOT_TABLE.add(r);
+        return r;
+    }
+
+    private static <T extends Block> DeferredHolder<Block, T> registerJSONLoot(String name, Function<ResourceLocation, T> sup) {
+        DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
+        DATAGEN_MODEL.add(r);
+        return r;
+    }
+
+    private static <T extends Block> DeferredHolder<Block, T> registerJSON(String name, Function<ResourceLocation, T> sup) {
+        DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
+        return r;
+    }
+
+
+    private static RotatedPillarBlock woodenlog(float mine, float blast, ResourceLocation l) {
+        return new RotatedPillarBlock(defaultPs(l).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(mine, blast).sound(SoundType.WOOD));
     }
 
 }

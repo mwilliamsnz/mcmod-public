@@ -2,20 +2,20 @@ package abyssal;
 
 import abyssal.alchemy.Alchemy;
 import abyssal.data.*;
-import abyssal.entity.FishPainting;
 import abyssal.generation.OreDist;
 import abyssal.init.*;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
+import java.util.Set;
 
 
 @Mod(Main.MOD_ID)
@@ -38,36 +38,36 @@ public class Main {
         ModMenus.MENUS.register(modEventBus);
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
         ModBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
-        FishPainting.PAINTING_VARIANTS.register(modEventBus);
         ModAttributes.ATTRIBUTES.register(modEventBus);
         ModBlockStateProviders.BSPT.register(modEventBus);
         ModCreativeTabs.TABS.register(modEventBus);
         ModAttachmentTypes.ATTACHMENT_TYPES.register(modEventBus);
+        ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         modEventBus.addListener(this::gatherData);
 
 
         Gems.initGems();
         Alchemy.initAlchemy(358132134);
+
+        ModArmourMaterials.replaceArmourMaterials();
     }
 
-    public void gatherData(final GatherDataEvent event) {
-        DataGenerator generator = event.getGenerator();
-        ExistingFileHelper helper = event.getExistingFileHelper();
-        CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
-        PackOutput out = generator.getPackOutput();
-        if(event.includeClient()) {
-            generator.addProvider(true, new ModItemModelProvider(generator, helper));
-            generator.addProvider(true, new ModBlockStateProvider(generator, helper));
-        }
-        if(event.includeServer()) {
-            ModBlockTagProvider blocktags = new ModBlockTagProvider(generator, provider, helper);
-            generator.addProvider(true, blocktags);
-            generator.addProvider(true, new ModItemTagProvider(generator, provider, blocktags.contentsGetter(), helper));
+    public void gatherData(GatherDataEvent.Client event) {
+        event.createProvider(ModModelProvider::new);
+        event.createProvider(ModFeatureProvider::new);
+        event.createProvider(ModRecipeProvider.Runner::new);
+        event.createProvider(ModEquipmentInfoProvider::new);
+        event.createBlockAndItemTags(ModBlockTagProvider::new, ModItemTagProvider::new);
+        event.createProvider(ModPaintingTagProvider::new);
+        event.createProvider((output, lookupProvider) -> new LootTableProvider(output, Set.of(),
+                List.of(
+                        new LootTableProvider.SubProviderEntry(ModBlockLoot::new, LootContextParamSets.BLOCK)
+                ),
+                lookupProvider));
+    }
 
-            generator.addProvider(true, new ModRecipeProvider(out, provider));
-            generator.addProvider(true, new ModLootTableProvider(out));
-            generator.addProvider(true, new ModFeatureProvider(out, provider));
-        }
+    public static ResourceLocation rl(String path) {
+        return ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, path);
     }
 
 }

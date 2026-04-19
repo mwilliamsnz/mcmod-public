@@ -1,6 +1,5 @@
 package abyssal.spells;
 
-import abyssal.Main;
 import abyssal.items.spells.SpellFuelStorage;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -33,10 +32,8 @@ public class SpellFuelQuantity {
             final int[] remaining = {quantity};
             CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
                 int slots = itemHandler.getEquippedCurios().getSlots();
-                Main.LOGGER.info("Slots: " + slots);
                 for (int i = 0; i < slots; i++) {
                     ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
-                    Main.LOGGER.info(i + ": " + s);
                     remaining[0] = withdrawFromStack(s, remaining[0]);
                     if (remaining[0] <= 0) {
                         break;
@@ -75,7 +72,6 @@ public class SpellFuelQuantity {
 
         CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
             int slots = itemHandler.getEquippedCurios().getSlots();
-            Main.LOGGER.info("Slots: " + slots);
             for (int i = 0; i < slots; i++) {
                 ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
                 if(s.getItem() instanceof SpellFuelStorage fs) {

@@ -5,7 +5,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -21,7 +21,7 @@ public class ExtinguishSpell extends SphericalParticleSpell {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
+    public InteractionResult cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
         final double radius = Math.min(20, Math.cbrt(64 +  4*ap)); // cap at 20m for max of 41^3 < 70k blocks at ~2000 AP. Adds around 16 blocks per 1 AP.
         double rsq = radius*radius;
         Vec3 pp = player.getEyePosition();
@@ -43,6 +43,6 @@ public class ExtinguishSpell extends SphericalParticleSpell {
         });
         level.playSound(player, BlockPos.containing(player.position()), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1.0F, 1.0F);
         produceParticleInRadius(level, pp, (float) radius);
-        return InteractionResultHolder.success(staff);
+        return InteractionResult.SUCCESS;
     }
 }

@@ -75,7 +75,7 @@ public class AlchemyMenu extends AbstractContainerMenu {
     }
 
     protected void onTake(Player player, ItemStack stack) {
-        stack.onCraftedBy(player.level(), player, stack.getCount());
+        stack.onCraftedBy(player, stack.getCount());
     }
 
     private void shrinkStackInSlot(int slot) {

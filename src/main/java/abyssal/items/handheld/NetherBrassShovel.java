@@ -1,10 +1,10 @@
 package abyssal.items.handheld;
 
 import net.minecraft.world.item.ShovelItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 
 public class NetherBrassShovel extends ShovelItem {
-    public NetherBrassShovel(Tier p_43114_, float p_43115_, float p_43116_, Properties p_43117_) {
-        super(p_43114_, p_43115_, p_43116_, p_43117_);
+    public NetherBrassShovel(ToolMaterial material, float damage, float speed, Properties properties) {
+        super(material, damage, speed, properties);
     }
 }

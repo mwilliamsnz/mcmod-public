@@ -2,18 +2,17 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.data.ModTags;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class Gems {
     public enum GemType {
@@ -53,8 +52,8 @@ public class Gems {
         }
     }
 
-    private static EnumMap<GemSize, EnumMap<GemType, Supplier<Item>>> gemMap;
-    private static EnumMap<GemBlockType, EnumMap<GemType, Supplier<Block>>> gemBlockMap;
+    private static EnumMap<GemSize, EnumMap<GemType, Holder<Item>>> gemMap;
+    private static EnumMap<GemBlockType, EnumMap<GemType, Holder<Block>>> gemBlockMap;
 
     public static Item gem(GemSize size, GemType type) {
         if(type == GemType.NONE) {
@@ -63,7 +62,7 @@ public class Gems {
         if(size == GemSize.REGULAR && type == GemType.DIAMOND) {
             return Items.DIAMOND;
         }
-        return gemMap.get(size).get(type).get();
+        return gemMap.get(size).get(type).value();
     }
 
     public static String gemName(GemSize size, GemType type) {
@@ -83,7 +82,7 @@ public class Gems {
         if(blockType == GemBlockType.SLATE && type == GemType.NONE) {
             return Blocks.COBBLED_DEEPSLATE;
         }
-        return gemBlockMap.get(blockType).get(type).get();
+        return gemBlockMap.get(blockType).get(type).value();
     }
 
     public static String gemBlockName(GemBlockType blockType, GemType type) {
@@ -110,25 +109,26 @@ public class Gems {
     }
 
     public static void initGems() {
-        gemMap = new EnumMap<GemSize, EnumMap<GemType, Supplier<Item>>>(GemSize.class);
+        gemMap = new EnumMap<GemSize, EnumMap<GemType, Holder<Item>>>(GemSize.class);
         for(GemSize size : GemSize.values()) {
-            EnumMap<GemType, Supplier<Item>> map = new EnumMap<GemType, Supplier<Item>>(GemType.class);
+            EnumMap<GemType, Holder<Item>> map = new EnumMap<GemType, Holder<Item>>(GemType.class);
             gemMap.put(size, map);
             for(GemType type : GemType.values()) {
                 if(isVanillaGem(size, type) || type == GemType.NONE) continue;
-                map.put(type, ModItems.ITEMS.register(gemName(size, type), () -> new Item(ModItems.defaultItemProperties())));
+                map.put(type, ModItems.ITEMS.register(gemName(size, type), l -> new Item(ModItems.defaultPs(l))));
             }
         }
 
-        gemBlockMap = new EnumMap<GemBlockType, EnumMap<GemType, Supplier<Block>>>(GemBlockType.class);
+        gemBlockMap = new EnumMap<GemBlockType, EnumMap<GemType, Holder<Block>>>(GemBlockType.class);
         for(GemBlockType blockType : GemBlockType.values()) {
-            EnumMap<GemType, Supplier<Block>> map = new EnumMap<GemType, Supplier<Block>>(GemType.class);
+            EnumMap<GemType, Holder<Block>> map = new EnumMap<GemType, Holder<Block>>(GemType.class);
             gemBlockMap.put(blockType, map);
             for(GemType type : GemType.values()) {
                 if(isVanillaGemBlock(blockType, type)) continue;
-                Supplier<Block> r = ModBlocks.BLOCKS.register(gemBlockName(blockType, type), () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLED_DEEPSLATE)));
+                Holder<Block> r = ModBlocks.BLOCKS.register(gemBlockName(blockType, type), l -> new Block(ModBlocks.pCopy(l, Blocks.COBBLED_DEEPSLATE)));
                 map.put(type, r);
                 ModBlocks.DATAGEN_LOOT_TABLE.add(r);
+                ModBlocks.DATAGEN_MODEL.add(r);
             }
         }
     }
@@ -176,7 +176,7 @@ public class Gems {
     public static GemType getType(ItemStack stack) {
         Item i = stack.getItem();
         for(GemSize size : GemSize.values()) {
-            Map<GemType, Supplier<Item>> map = gemMap.get(size);
+            Map<GemType, Holder<Item>> map = gemMap.get(size);
             for (GemType type : GemType.values()) {
                 if(type == GemType.NONE) {
                     continue;
@@ -186,7 +186,7 @@ public class Gems {
                         return type;
                     }
                 } else {
-                    if(map.get(type).get().equals(i)) {
+                    if(map.get(type).value().equals(i)) {
                         return type;
                     }
                 }
@@ -199,7 +199,7 @@ public class Gems {
     public static GemSize getSize(ItemStack stack) {
         Item i = stack.getItem();
         for(GemSize size : GemSize.values()) {
-            Map<GemType, Supplier<Item>> map = gemMap.get(size);
+            Map<GemType, Holder<Item>> map = gemMap.get(size);
             for (GemType type : GemType.values()) {
                 if(type == GemType.NONE) {
                     continue;
@@ -209,7 +209,7 @@ public class Gems {
                         return size;
                     }
                 } else {
-                    if(map.get(type).get().equals(i)) {
+                    if(map.get(type).value().equals(i)) {
                         return size;
                     }
                 }

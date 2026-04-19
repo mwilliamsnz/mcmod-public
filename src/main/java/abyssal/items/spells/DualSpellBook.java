@@ -1,79 +1,51 @@
 package abyssal.items.spells;
 
 import abyssal.Main;
-import abyssal.ModAttributes;
-import abyssal.spells.ISpellProvider;
 import abyssal.spells.Spell;
 import abyssal.spells.Spells;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.extensions.IItemExtension;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
+import java.util.function.Consumer;
 
-public class DualSpellBook extends Item implements IItemExtension, ISpellProvider {
-    private final ImmutableMultimap<Attribute, AttributeModifier> bookModifiers;
-
+public class DualSpellBook extends Item {
 
     public static final String TAG_PRIMARY_SPELL = "PrimarySpell";
     public static final String TAG_SECONDARY_SPELL = "SecondarySpell";
 
-    public DualSpellBook(Properties properties, float abilityPower, UUID bookUUID) {
+    public DualSpellBook(Properties properties) {
         super(properties);
-
-        AttributeModifier ap = new AttributeModifier(bookUUID, "Ability power", abilityPower, AttributeModifier.Operation.ADDITION);
-
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableListMultimap.builder();
-        if(abilityPower != 0) {
-            builder.put(ModAttributes.ABILITY_POWER.get(), ap);
-        }
-        bookModifiers = builder.build();
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flags) {
-        super.appendHoverText(stack, level, components, flags);
-        Spell s1 = getActiveSpell(stack);
-        Spell s2 = getSecondarySpell(stack);
-        if(s1 != Spells.NO_OP) {
-            components.add(Component.translatable("spell." + s1.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
-
-        } else if(s2 != Spells.NO_OP) {
-            components.add(Component.translatable("spell." + Main.MOD_ID + ".empty_primary").withStyle(ChatFormatting.GRAY));
-        }
-        if(s2 != Spells.NO_OP) {
-            components.add(Component.translatable("spell." + s2.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
-        }
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
+//        Spell s1 = getActiveSpell(stack);
+//        Spell s2 = getSecondarySpell(stack);
+//        if(s1 != Spells.NO_OP) {
+//            tooltipAdder.accept(Component.translatable("spell." + s1.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
+//
+//        } else if(s2 != Spells.NO_OP) {
+//            tooltipAdder.accept(Component.translatable("spell." + Main.MOD_ID + ".empty_primary").withStyle(ChatFormatting.GRAY));
+//        }
+//        if(s2 != Spells.NO_OP) {
+//            tooltipAdder.accept(Component.translatable("spell." + s2.key.toLanguageKey()).withStyle(ChatFormatting.GRAY));
+//        }
     }
 
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND ? this.bookModifiers : super.getAttributeModifiers(slot, stack);
-    }
-
-    @Override
-    public Spell getActiveSpell(ItemStack book) {
-        return getSpellWithTag(book, TAG_PRIMARY_SPELL);
-    }
-
-    @Override
-    public Spell getSecondarySpell(ItemStack book) {
-        return getSpellWithTag(book, TAG_SECONDARY_SPELL);
-    }
+//    @Override
+//    public Spell getActiveSpell(ItemStack book) {
+//        return getSpellWithTag(book, TAG_PRIMARY_SPELL);
+//    }
+//
+//    @Override
+//    public Spell getSecondarySpell(ItemStack book) {
+//        return getSpellWithTag(book, TAG_SECONDARY_SPELL);
+//    }
 
     public static void setPrimarySpell(ItemStack book, Spell spell) {
         setSpellWithTag(book, TAG_PRIMARY_SPELL, spell);
@@ -84,20 +56,20 @@ public class DualSpellBook extends Item implements IItemExtension, ISpellProvide
     }
 
     public static void setSpellWithTag(ItemStack book, String spellLocationTag, Spell spell) {
-        CompoundTag bookTags = book.getOrCreateTag();
-        if (!bookTags.contains(spellLocationTag)) {
-            bookTags.put(spellLocationTag, Spells.toTag(spell));
-        }
+//        CompoundTag bookTags = book.getOrCreateTag();
+//        if (!bookTags.contains(spellLocationTag)) {
+//            bookTags.put(spellLocationTag, Spells.toTag(spell));
+//        }
     }
 
     public static Spell getSpellWithTag(ItemStack book, String tag) {
-        CompoundTag compoundtag = book.getOrCreateTag();
-        if (!compoundtag.contains(tag)) {
+//        CompoundTag compoundtag = book.getOrCreateTag();
+//        if (!compoundtag.contains(tag)) {
             return Spells.getFallbackSpell();
-        } else {
-            CompoundTag spellTag = compoundtag.getCompound(tag);
-            return Spells.fromTag(spellTag);
-        }
+//        } else {
+//            CompoundTag spellTag = compoundtag.getCompound(tag);
+//            return Spells.fromTag(spellTag);
+//        }
     }
 
 

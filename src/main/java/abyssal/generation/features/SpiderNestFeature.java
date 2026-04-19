@@ -7,10 +7,12 @@ import abyssal.init.ModBlocks;
 import abyssal.init.ModEntityTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,7 +54,7 @@ public class SpiderNestFeature extends Feature<NoneFeatureConfiguration> {
         this.tryPlaceBlock(level, raisedOrigin, ModBlocks.SPIDER_NEST.get().defaultBlockState());
         BlockEntity blockentity = level.getBlockEntity(raisedOrigin);
         if (blockentity instanceof SpiderNestBlockEntity) {
-            ((SpiderNestBlockEntity)blockentity).getNest().setEntityId(getSpawnEntity());
+            ((SpiderNestBlockEntity)blockentity).setEntityId(getSpawnEntity(), random);
         } else {
             Main.LOGGER.error("Failed to fetch mob nest entity at ({}, {}, {})", raisedOrigin.getX(), raisedOrigin.getY(), raisedOrigin.getZ());
         }
