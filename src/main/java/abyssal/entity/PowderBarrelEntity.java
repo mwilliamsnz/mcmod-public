@@ -9,8 +9,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import javax.annotation.Nullable;
 
@@ -42,7 +44,7 @@ public class PowderBarrelEntity extends PrimedTnt {
 
     @Override
     protected void explode() {
-        if (this.level() instanceof ServerLevel serverlevel && serverlevel.getGameRules().getBoolean(GameRules.RULE_TNT_EXPLODES)) {
+        if (this.level() instanceof ServerLevel serverlevel && serverlevel.getGameRules().get(GameRules.TNT_EXPLODES)) {
             this.level()
                     .explode(
                             this,
@@ -69,7 +71,7 @@ public class PowderBarrelEntity extends PrimedTnt {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("explosion_power", this.size);
         tag.putFloat("knock_factor", this.knockFactor);
@@ -77,7 +79,7 @@ public class PowderBarrelEntity extends PrimedTnt {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         this.size = Mth.clamp(tag.getFloatOr("explosion_power", 4.0F), 0.0F, 128.0F);
         this.knockFactor = Mth.clamp(tag.getFloatOr("knock_factor", 1.0F), 0.0F, 128.0F);

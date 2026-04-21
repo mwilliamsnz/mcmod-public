@@ -25,7 +25,7 @@ public class PassableSlowingBlock extends BushBlock implements IShearable {
 //    }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier p_405438_) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
         double factor = 0.6;
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(factor, 1.0D, factor));
     }

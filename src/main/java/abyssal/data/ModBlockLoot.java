@@ -3,7 +3,7 @@ package abyssal.data;
 import abyssal.init.Gems;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModItems;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;

@@ -7,13 +7,11 @@ import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModEntityTypes;
 import abyssal.init.ModItems;
-import abyssal.items.AttributeHelper;
 import abyssal.items.curios.Gobbler;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -24,7 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
@@ -39,11 +36,9 @@ import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static abyssal.Main.rl;
 
@@ -57,7 +52,7 @@ public class ModEventSubscriber {
 //                    Set<Block> blocks = ModBlocks.DATAGEN_MODEL.stream().map(Holder::value).collect(Collectors.toSet());
                     ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).forEach(
                             block -> {
-                                ResourceLocation key = BuiltInRegistries.BLOCK.getKey(block);
+                                Identifier key = BuiltInRegistries.BLOCK.getKey(block);
 //                                if(!blocks.contains(block)) {
                                     itemRegisterHelper.register(key, new BlockItem(block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, key))));
 //                                }

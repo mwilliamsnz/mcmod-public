@@ -4,7 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -27,7 +27,7 @@ public class AreaPotionEffectSpell extends SphericalParticleSpell {
     private final double baseRadius;
     private final double apScalingRadius;
 
-    protected AreaPotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, Holder<MobEffect> effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster, ParticleOptions particle) {
+    protected AreaPotionEffectSpell(Identifier key, SpellFuelQuantity cost, Holder<MobEffect> effect, int baseDuration, double apScaling, double baseRadius, double apScalingRadius, boolean affectsCaster, ParticleOptions particle) {
         super(key, cost, particle);
 
         this.mobEffect = effect;

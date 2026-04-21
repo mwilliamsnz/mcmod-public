@@ -1,8 +1,9 @@
 package abyssal.spells;
 
 import abyssal.Main;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public class Spells {
 
-    private static final Map<ResourceLocation, Spell> SPELLS = new HashMap<>();
+    private static final Map<Identifier, Spell> SPELLS = new HashMap<>();
 
     public static final Spell NO_OP = createSpell(new Spell(key("no_op")) {
         public InteractionResult cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {return InteractionResult.FAIL;}
@@ -27,7 +28,7 @@ public class Spells {
     // 5% AP scaling: 0 AP r=5, 100 AP r=10, 200 AP r=15, 500 AP r=30, 1200 AP r=65
     public static final Spell AREA_GLOW = createSpell(new AreaPotionEffectSpell(key("area_glow"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 5), MobEffects.GLOWING, 160, 0, 5, 0.05, false, ParticleTypes.GLOW));
     public static final Spell FEATHER_FALL = createSpell(new AreaPotionEffectSpell(key("feather_fall"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 5), MobEffects.SLOW_FALLING, 100, 0, 5, 0.05, true, ParticleTypes.CLOUD));
-    public static final Spell AREA_HEAL = createSpell(new AreaPotionEffectSpell(key("area_heal"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20), MobEffects.INSTANT_HEALTH, 1, 0, 5, 0.05, true, ParticleTypes.FLASH));
+    public static final Spell AREA_HEAL = createSpell(new AreaPotionEffectSpell(key("area_heal"), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20), MobEffects.INSTANT_HEALTH, 1, 0, 5, 0.05, true, ColorParticleOption.create(ParticleTypes.FLASH, 0, 1, 0)));
     public static final Spell EXTINGUISH = createSpell(new ExtinguishSpell(key("extinguish"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 2)));
     public static final Spell BANISH = createSpell(new PortalSpell(key("banish"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FIRE, 20)));
     public static final Spell LEAP = createSpell(new LeapSpell(key("leap"), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 5)));
@@ -38,11 +39,11 @@ public class Spells {
         return getSpell(key(name));
     }
 
-    public static Spell getSpell(ResourceLocation rl) {
+    public static Spell getSpell(Identifier rl) {
         return SPELLS.getOrDefault(rl, getFallbackSpell());
     }
 
-    public static Spell getSpell(Optional<ResourceLocation> rl) {
+    public static Spell getSpell(Optional<Identifier> rl) {
         return getSpell(rl.orElse(NO_OP.key));
     }
 
@@ -54,7 +55,7 @@ public class Spells {
         return spell;
     }
 
-    private static ResourceLocation key(String name) {
+    private static Identifier key(String name) {
         return Main.rl(name);
     }
 

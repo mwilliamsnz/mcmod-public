@@ -4,7 +4,7 @@ import abyssal.Main;
 import abyssal.items.AttributeHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 
 public class TitanicHydraItem extends TiamatItem {
 
-    private static final ResourceLocation BONUS_AD_LOC = Main.rl("hydra_damage");
+    private static final Identifier BONUS_AD_LOC = Main.rl("hydra_damage");
 
     public TitanicHydraItem(Properties properties) {
         super(properties);

@@ -38,7 +38,7 @@ public class ChunkDistributionFilter extends PlacementFilter {
         if(type == OreDist.OreChunkType.NONE) {
             return true;
         }
-        OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos) , context.getLevel().getSeed());
+        OreDist.OreChunkType here = Main.oreDist.at(ChunkPos.containing(pos), context.getLevel().getSeed());
         return here == type;
     }
 

@@ -13,7 +13,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -188,7 +190,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private void makeOverrides() {
-        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, Items.CHAIN, 4)
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, Items.IRON_CHAIN, 4)
                 .pattern("n")
                 .pattern("i")
                 .pattern("n")
@@ -667,7 +669,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern(" c ")
                 .pattern("iii")
                 .define('i', Items.IRON_INGOT)
-                .define('c', Items.CHAIN)
+                .define('c', Items.IRON_CHAIN)
                 .define('b', ModItems.BELT.get())
                 .unlockedBy("has_item", has(Items.IRON_INGOT))
                 .save(output);
@@ -989,12 +991,12 @@ public class ModRecipeProvider extends RecipeProvider {
         standardSmeltable(ModBlocks.DEEPSLATE_SILVER_ORE.get(), ModItems.SILVER_INGOT.get(), 0.7f);
         standardSmeltable(ModItems.RAW_SILVER.get(), ModItems.SILVER_INGOT.get(), 0.7f);
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.POOR_IRON), RecipeCategory.MISC,
-                        Items.IRON_NUGGET.getDefaultInstance().copyWithCount(2), 0.2f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.POOR_IRON), RecipeCategory.MISC, CookingBookCategory.MISC,
+                        new ItemStackTemplate(Items.IRON_NUGGET, 2), 0.2f, 200)
                 .unlockedBy("has_item", has(ModItems.POOR_IRON))
                 .save(output, BuiltInRegistries.ITEM.getKey(ModItems.POOR_IRON.get()) + "_smelt");
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.POOR_IRON), RecipeCategory.MISC,
-                        Items.IRON_NUGGET.getDefaultInstance().copyWithCount(2), 0.2f, 50)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModItems.POOR_IRON), RecipeCategory.MISC, CookingBookCategory.MISC,
+                        new ItemStackTemplate(Items.IRON_NUGGET, 2), 0.2f, 50)
                 .unlockedBy("has_item", has(ModItems.POOR_IRON))
                 .save(output, BuiltInRegistries.ITEM.getKey(ModItems.POOR_IRON.get()) + "_blast");
 
@@ -1073,7 +1075,7 @@ public class ModRecipeProvider extends RecipeProvider {
 
 
     private void standardSmeltableOnly(Item in, Item out, float xp) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(in), RecipeCategory.MISC,
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(in), RecipeCategory.MISC, CookingBookCategory.MISC,
                         out, xp, 200)
                 .unlockedBy("has_item", has(in))
                 .save(output, BuiltInRegistries.ITEM.getKey(in) + "_smelt");
@@ -1089,7 +1091,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private void standardBlastable(Item in, Item out, float xp) {
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(in), RecipeCategory.MISC,
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(in), RecipeCategory.MISC, CookingBookCategory.MISC,
                         out, xp, 100)
                 .unlockedBy("has_item", has(in))
                 .save(output, BuiltInRegistries.ITEM.getKey(in) + "_blast");

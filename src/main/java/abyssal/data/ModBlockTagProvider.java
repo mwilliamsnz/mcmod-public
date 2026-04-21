@@ -88,15 +88,15 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.REPLACEABLE).add(ModBlocks.BRUSH.get());
         this.tag(BlockTags.REPLACEABLE).add(ModBlocks.ALPINE_PLANT.get());
 
-        this.tag(BlockTags.DIRT).add(ModBlocks.LEAF_LITTER.get());
-        this.tag(BlockTags.DIRT).add(ModBlocks.SUPER_SOIL.get());
-        this.tag(BlockTags.DIRT).add(ModBlocks.GRASS_SUPER_SOIL.get());
+        this.tag(BlockTags.SUBSTRATE_OVERWORLD).add(ModBlocks.LEAF_LITTER.get());
+        this.tag(BlockTags.SUBSTRATE_OVERWORLD).add(ModBlocks.SUPER_SOIL.get());
+        this.tag(BlockTags.SUBSTRATE_OVERWORLD).add(ModBlocks.GRASS_SUPER_SOIL.get());
 
         this.tag(ModTags.Blocks.GRASS_SPREADERS).add(ModBlocks.GRASS_SUPER_SOIL.get());
         this.tag(ModTags.Blocks.GRASS_SPREADERS).add(Blocks.GRASS_BLOCK);
 
         this.tag(Tags.Blocks.GRAVELS).add(ModBlocks.GOLD_GRAVEL.get());
-        this.tag(BlockTags.BAMBOO_PLANTABLE_ON).add(ModBlocks.GOLD_GRAVEL.get());
+        this.tag(BlockTags.SUPPORTS_BAMBOO).add(ModBlocks.GOLD_GRAVEL.get());
 
         this.tag(Tags.Blocks.BOOKSHELVES).add(ModBlocks.AMP_BOOKSHELF.get());
         this.tag(BlockTags.ENCHANTMENT_POWER_PROVIDER).add(ModBlocks.AMP_BOOKSHELF.get());

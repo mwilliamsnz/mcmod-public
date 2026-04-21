@@ -20,7 +20,6 @@ import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
@@ -30,13 +29,14 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
@@ -55,27 +55,23 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
-    private static final RandomPatchConfiguration HEATHER_SPREAD = new RandomPatchConfiguration(
-            96, 6, 2,
-            PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK,
-                    new SimpleBlockConfiguration(
-                            new SupplementNoiseProvider(
-                                    ModBlocks.HEATHER.get().defaultBlockState(),
-                                    new InclusiveRange<Integer>(1, 3),
-                                    new NormalNoise.NoiseParameters(-7, 1.0D, 0.5D),
-                                    1.0F,
-                                    List.of(
-                                            Blocks.ALLIUM.defaultBlockState(),
-                                            Blocks.DANDELION.defaultBlockState(),
-                                            Blocks.SHORT_GRASS.defaultBlockState(),
-                                            Blocks.OXEYE_DAISY.defaultBlockState()
-                                    ),
-                                    2345L,
-                                    new NormalNoise.NoiseParameters(-3, 1.0D),
-                                    1.0F
-                            )
+    private static final SimpleBlockConfiguration HEATHER_SPREAD =
+            new SimpleBlockConfiguration(
+                    new SupplementNoiseProvider(
+                            ModBlocks.HEATHER.get().defaultBlockState(),
+                            new InclusiveRange<Integer>(1, 3),
+                            new NormalNoise.NoiseParameters(-7, 1.0D, 0.5D),
+                            1.0F,
+                            List.of(
+                                    Blocks.ALLIUM.defaultBlockState(),
+                                    Blocks.DANDELION.defaultBlockState(),
+                                    Blocks.SHORT_GRASS.defaultBlockState(),
+                                    Blocks.OXEYE_DAISY.defaultBlockState()
+                            ),
+                            2345L,
+                            new NormalNoise.NoiseParameters(-3, 1.0D),
+                            1.0F
                     )
-            )
     );
 
     public ModFeatureProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
@@ -91,19 +87,17 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     new ConfiguredFeature<>(ModGeneration.SPIDER_NEST.get(), new NoneFeatureConfiguration()));
                             bootstrap.register(cfk("reeds"),
                                 new ConfiguredFeature<>(ModGeneration.REED_DISK.get(), new DiskConfiguration(
-                                        new RuleBasedBlockStateProvider(BlockStateProvider.simple(ModBlocks.REED.get()), List.of()),
+                                        BlockStateProvider.simple(ModBlocks.REED.get()),
                                         BlockPredicate.wouldSurvive(ModBlocks.REED.get().defaultBlockState(), BlockPos.ZERO),
                                         UniformInt.of(2, 8),
                                         1
                                 )));
 
                             bootstrap.register(cfk("brush"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
-                                            32, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BRUSH.get()))))));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.BRUSH.get()))));
 
                             bootstrap.register(cfk("alpine_plant"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
-                                            32, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ALPINE_PLANT.get()))))));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.ALPINE_PLANT.get()))));
 
                             bootstrap.register(cfk("alpine_rock"),
                                     new ConfiguredFeature<>(ModGeneration.OUTCROP.get(), new BlockStateConfiguration(Blocks.STONE.defaultBlockState())));
@@ -112,45 +106,24 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                             new ConfiguredFeature<>(ModGeneration.OUTCROP.get(), new BlockStateConfiguration(Blocks.ANDESITE.defaultBlockState())));
 
                             bootstrap.register(cfk("shrub"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
-                                            8, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.SHRUB.get()))))));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.SHRUB.get()))));
 
                             bootstrap.register(cfk("heather"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, FeatureUtils.simpleRandomPatchConfiguration(
-                                            12, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HEATHER.get()))))));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HEATHER.get()))));
 
-                            bootstrap.register(cfk("heath_vegetation"), new ConfiguredFeature<>(Feature.RANDOM_PATCH, HEATHER_SPREAD));
+                            bootstrap.register(cfk("heath_vegetation"), new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, HEATHER_SPREAD));
 
                             bootstrap.register(cfk("surface_moss"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                                            20, 5, 3, PlacementUtils.filtered(
-                                                    Feature.SIMPLE_BLOCK,
-                                                    new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.MOSS_CARPET)),BlockPredicate.allOf(
-                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE,
-                                                            BlockPredicate.anyOf(
-                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.DIRT),
-                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.LOGS),
-                                                                    BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.MOSSY_COBBLESTONE)
-                                                            )
-                                                    ))
-                                    )));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.MOSS_CARPET))));
 
                             bootstrap.register(cfk("clover"),
-                                    new ConfiguredFeature<>(Feature.RANDOM_PATCH, new RandomPatchConfiguration(30, 3, 2, PlacementUtils.filtered(
-                                                    Feature.SIMPLE_BLOCK,
-                                                    new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.CLOVER.get())), BlockPredicate.allOf(
-                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE,
-                                                            BlockPredicate.anyOf(
-                                                                    BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.GRASS_BLOCK)
-                                                            )
-                                                    ))
-                                    )));
+                                    new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.CLOVER.get()))));
 
                             bootstrap.register(cfk("disk_coarse"),
                                     new ConfiguredFeature<>(Feature.DISK, new DiskConfiguration(
-                                            new RuleBasedBlockStateProvider(
+                                            new RuleBasedStateProvider(
                                                     BlockStateProvider.simple(Blocks.COARSE_DIRT),
-                                                    List.of(new RuleBasedBlockStateProvider.Rule(
+                                                    List.of(new RuleBasedStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
                                                                             BlockPredicate.solid(Direction.UP.getUnitVec3i()),
@@ -166,9 +139,9 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
                             bootstrap.register(cfk("disk_litter"),
                                     new ConfiguredFeature<>(Feature.DISK, new DiskConfiguration(
-                                            new RuleBasedBlockStateProvider(
+                                            new RuleBasedStateProvider(
                                                     BlockStateProvider.simple(Blocks.DIRT),
-                                                    List.of(new RuleBasedBlockStateProvider.Rule(
+                                                    List.of(new RuleBasedStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
                                                                             BlockPredicate.solid(Direction.UP.getUnitVec3i()),
@@ -184,9 +157,9 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
 
                             bootstrap.register(cfk("disk_mud"),
                                     new ConfiguredFeature<>(ModGeneration.RAGGED_DISK.get(), new DiskConfiguration(
-                                            new RuleBasedBlockStateProvider(
+                                            new RuleBasedStateProvider(
                                                     BlockStateProvider.simple(Blocks.DIRT),
-                                                    List.of(new RuleBasedBlockStateProvider.Rule(
+                                                    List.of(new RuleBasedStateProvider.Rule(
                                                             BlockPredicate.not(
                                                                     BlockPredicate.anyOf(
                                                                             BlockPredicate.solid(Direction.UP.getUnitVec3i())
@@ -247,7 +220,13 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     BlockStateProvider.simple(Blocks.OAK_LEAVES),
                                     new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
                                     new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))
-                            )).ignoreVines().decorators(ImmutableList.of(new AlterGroundDecorator(BlockStateProvider.simple(ModBlocks.LEAF_LITTER.get())))).build()
+                            )).ignoreVines().decorators(
+                                    ImmutableList.of(
+                                            new AlterGroundDecorator(
+                                                    RuleBasedStateProvider.ifTrueThenProvide(BlockPredicate.matchesTag(BlockTags.BENEATH_TREE_PODZOL_REPLACEABLE), ModBlocks.LEAF_LITTER.get())
+                                            )
+                                    )
+                            ).build()
                             ));
 
 
@@ -337,7 +316,18 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     ));
                             bootstrap.register(pfk("brush"),
                                     new PlacedFeature(configured.getOrThrow(cfk("brush")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.5D, 2, 12), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseBasedCountPlacement.of(300, 40, -0.2),
+                                                    InSquarePlacement.spread(),
+//                                                    RandomOffsetPlacement.ofTriangle(10, 3),
+                                                    CountPlacement.of(50),
+                                                    PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                                                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                                            BlockPredicate.anyOf(
+                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD)
+                                                            ))),
+                                                    BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("forest_rock_rare"),
                                     new PlacedFeature(configured.getOrThrow(MiscOverworldFeatures.FOREST_ROCK),
@@ -353,27 +343,107 @@ public class ModFeatureProvider extends DatapackBuiltinEntriesProvider {
                                     ));
                             bootstrap.register(pfk("shrub"),
                                     new PlacedFeature(configured.getOrThrow(cfk("shrub")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.8D, 3, 7), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.8D, 3, 15),
+                                                    InSquarePlacement.spread(),
+                                                    CountPlacement.of(5),
+                                                    RandomOffsetPlacement.ofTriangle(6, 4),
+                                                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE
+//                                                            BlockPredicate.anyOf(
+//                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD)
+//                                                            )
+                                                            )),
+                                                    PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
                                     ));
                             bootstrap.register(pfk("alpine_plant"),
                                     new PlacedFeature(configured.getOrThrow(cfk("alpine_plant")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.8D, 6, 10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.8D, 12, 45),
+                                                    InSquarePlacement.spread(),
+                                                    RandomOffsetPlacement.ofTriangle(6, 4),
+                                                    CountPlacement.of(20),
+                                                    PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                                                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE
+//                                                            BlockPredicate.anyOf(
+//                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD)
+//                                                            )
+                                                            )),
+                                                    BiomeFilter.biome()
+                                            )
                                     ));
                             bootstrap.register(pfk("heather"),
                                     new PlacedFeature(configured.getOrThrow(cfk("heather")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.8D, 5, 10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.7D, 20, 120),
+                                                    InSquarePlacement.spread(),
+                                                    RandomOffsetPlacement.ofTriangle(7, 3),
+                                                    CountPlacement.of(50),
+                                                    PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                                                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE
+//                                                            BlockPredicate.anyOf(
+//                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD)
+//                                                            )
+                                                            )),
+                                                    BiomeFilter.biome()
+                                            )
                                     ));
                             bootstrap.register(pfk("heath_vegetation"),
                                     new PlacedFeature(configured.getOrThrow(cfk("heath_vegetation")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.8D, 5, 10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.7D, 120, 20),
+                                                    InSquarePlacement.spread(),
+                                                    RandomOffsetPlacement.ofTriangle(7, 3),
+                                                    CountPlacement.of(132),
+                                                    PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                                                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE
+//                                                            BlockPredicate.anyOf(
+//                                                                    BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD)
+//                                                            )
+                                                    )),
+                                                    BiomeFilter.biome()
+                                            )
                                     ));
                             bootstrap.register(pfk("surface_moss"),
                                     new PlacedFeature(configured.getOrThrow(cfk("surface_moss")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.8D, 5, 10), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES), BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.8D, 5, 10),
+                                                    InSquarePlacement.spread(),
+                                                    CountPlacement.of(20),
+                                                    RandomOffsetPlacement.ofTriangle(7, 4),
+                                                    HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES),
+                                                    BlockPredicateFilter.forPredicate(
+                                                            BlockPredicate.allOf(
+                                                                    BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                                                    BlockPredicate.anyOf(
+                                                                            BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.SUBSTRATE_OVERWORLD),
+                                                                            BlockPredicate.matchesTag(new Vec3i(0,-1,0), BlockTags.LOGS),
+                                                                            BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.MOSSY_COBBLESTONE)
+                                                                    )
+                                                            )
+                                                    ),
+                                                    BiomeFilter.biome()
+                                            )
                                     ));
                             bootstrap.register(pfk("clover"),
                                     new PlacedFeature(configured.getOrThrow(cfk("clover")),
-                                            List.of(NoiseThresholdCountPlacement.of(-0.4D, 2, 8), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES), BiomeFilter.biome())
+                                            List.of(
+                                                    NoiseThresholdCountPlacement.of(-0.4D, 2, 8),
+                                                    InSquarePlacement.spread(),
+                                                    CountPlacement.of(30),
+                                                    RandomOffsetPlacement.ofTriangle(7, 3),
+                                                    HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES),
+                                                    BlockPredicateFilter.forPredicate(
+                                                        BlockPredicate.allOf(
+                                                            BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                                            BlockPredicate.matchesBlocks(new Vec3i(0,-1,0), Blocks.GRASS_BLOCK)
+                                                        )
+                                                    ),
+                                                    BiomeFilter.biome()
+                                            )
                                     ));
                             bootstrap.register(pfk("elder_pine"),
                                     new PlacedFeature(configured.getOrThrow(cfk("tree_elder_pine")),

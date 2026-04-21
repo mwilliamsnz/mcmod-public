@@ -5,7 +5,7 @@ import abyssal.items.curios.CoinPurseBundleContents;
 import abyssal.spells.SpellComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;

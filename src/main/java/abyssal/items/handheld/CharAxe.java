@@ -53,7 +53,7 @@ public class CharAxe extends AxeItem {
             level.playSound(player, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
             if (player != null) {
-                inHand.hurtAndBreak(superBurn ? 10 : 5, player, LivingEntity.getSlotForHand(ctx.getHand()));
+                inHand.hurtAndBreak(superBurn ? 10 : 5, player, ctx.getHand());
             }
             return InteractionResult.SUCCESS;
         } else {

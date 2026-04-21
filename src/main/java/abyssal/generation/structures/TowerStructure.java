@@ -6,7 +6,7 @@ package abyssal.generation.structures;//package cornmod.generation.structures;
 //import net.minecraft.core.Registry;
 //import net.minecraft.core.RegistryAccess;
 //import net.minecraft.core.Vec3i;
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 //import net.minecraft.world.level.ChunkPos;
 //import net.minecraft.world.level.LevelHeightAccessor;
 //import net.minecraft.world.level.NoiseColumn;
@@ -177,7 +177,7 @@ package abyssal.generation.structures;//package cornmod.generation.structures;
 //                            // "resources/data/structure_tutorial/worldgen/template_pool/run_down_house/start_pool.json"
 //                            // This is why your pool files must be in "data/<modid>/worldgen/template_pool/<the path to the pool here>"
 //                            // because the game automatically will check in worldgen/template_pool for the pools.
-//                            .get(new ResourceLocation(Main.MOD_ID, "tower_start")),
+//                            .get(new Identifier(Main.MOD_ID, "tower_start")),
 //
 //                            // How many pieces outward from center can a recursive jigsaw structure spawn.
 //                            // Our structure is only 1 piece outward and isn't recursive so any value of 1 or more doesn't change anything.

@@ -2,7 +2,7 @@ package abyssal.spells;
 
 import abyssal.Main;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -10,7 +10,7 @@ public abstract class SphericalParticleSpell extends Spell {
 
     public final ParticleOptions particle;
 
-    protected SphericalParticleSpell(ResourceLocation key, SpellFuelQuantity baseCost, ParticleOptions particle) {
+    protected SphericalParticleSpell(Identifier key, SpellFuelQuantity baseCost, ParticleOptions particle) {
         super(key, baseCost);
         this.particle = particle;
     }
@@ -18,9 +18,9 @@ public abstract class SphericalParticleSpell extends Spell {
     public void produceParticleInRadius(Level level, Vec3 centre, float radius) {
         Main.LOGGER.debug(radius * radius + " particles");
         for (int i = 0; i < radius*radius; i++) {
-            double rx = (level.random.nextDouble() - 0.5) * 2;
-            double ry = (level.random.nextDouble() - 0.5) * 2;
-            double rz = (level.random.nextDouble() - 0.5) * 2;
+            double rx = (level.getRandom().nextDouble() - 0.5) * 2;
+            double ry = (level.getRandom().nextDouble() - 0.5) * 2;
+            double rz = (level.getRandom().nextDouble() - 0.5) * 2;
             level.addParticle(
                     particle,
                     centre.x + rx * radius,

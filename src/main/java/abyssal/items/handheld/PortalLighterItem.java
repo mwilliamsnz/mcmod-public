@@ -61,11 +61,11 @@ public class PortalLighterItem extends ProjectileWeaponItem {
                             }
                             ItemStack powder = p.getProjectile(ctx.getItemInHand());
                             if(powder == ItemStack.EMPTY) {
-                                level.playLocalSound(p.getX(),p.getY(),p.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, p.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+                                level.playLocalSound(p.getX(),p.getY(),p.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, p.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
                                 return InteractionResult.FAIL;
                             }
                             powder.shrink(1);
-                            level.playLocalSound(p.getX(),p.getY(),p.getZ(), SoundEvents.AMETHYST_BLOCK_CHIME, p.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+                            level.playLocalSound(p.getX(),p.getY(),p.getZ(), SoundEvents.AMETHYST_BLOCK_CHIME, p.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
                             optional.get().createPortalBlocks(ctx.getLevel());
                             return InteractionResult.CONSUME;
                         }

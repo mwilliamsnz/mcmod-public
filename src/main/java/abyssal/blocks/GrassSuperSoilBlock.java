@@ -44,8 +44,8 @@ public class GrassSuperSoilBlock extends SuperSoilBlock {
         } else if (stateAbove.getFluidState().getAmount() == 8) {
             return false;
         } else {
-            int light = LightEngine.getLightBlockInto(state, stateAbove, Direction.UP, stateAbove.getLightBlock());
-            return light < 15;
+            int lightBlockInto = LightEngine.getLightBlockInto(state, stateAbove, Direction.UP, stateAbove.getLightDampening());
+            return lightBlockInto < 15;
         }
     }
 

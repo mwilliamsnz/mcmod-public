@@ -15,6 +15,7 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
@@ -35,10 +36,6 @@ import java.util.stream.Stream;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 public class ModModelProvider extends ModelProvider {
-
-    final ExtendedModelTemplate CUTOUT_CROSS = ModelTemplates.CROSS.extend().renderType("minecraft:cutout").build();
-    final ExtendedModelTemplate CUTOUT_CROP = ModelTemplates.CROP.extend().renderType("minecraft:cutout").build();
-    final ExtendedModelTemplate TRANSLUCENT_CUBE_ALL = ModelTemplates.CUBE_ALL.extend().renderType("minecraft:translucent").build();
 
     public ModModelProvider(PackOutput output) {
         super(output, Main.MOD_ID);
@@ -65,8 +62,8 @@ public class ModModelProvider extends ModelProvider {
         List<Block> differentItemTexture = new ArrayList<>();
         differentItemTexture.add(ModBlocks.CORN_SEED.get());
         differentItemTexture.add(ModBlocks.REED.get());
-        differentItemTexture.add(ModBlocks.MOSSY_BIRCH.get());
-        differentItemTexture.add(ModBlocks.MOSSY_OAK.get());
+//        differentItemTexture.add(ModBlocks.MOSSY_BIRCH.get());
+//        differentItemTexture.add(ModBlocks.MOSSY_OAK.get());
         differentItemTexture.add(ModBlocks.IVY.get());
         differentItemTexture.add(ModBlocks.CLOVER.get());
         differentItemTexture.add(ModBlocks.AMP_BOOKSHELF.get());
@@ -84,28 +81,40 @@ public class ModModelProvider extends ModelProvider {
         Gems.forAllGemBlocks(blockModels::createTrivialCube);
 
         blockModels.createTrivialBlock(ModBlocks.POWDER_BARREL.get(), TexturedModel.CUBE_TOP_BOTTOM);
-        blockModels.createTrivialBlock(ModBlocks.POWDER_BARREL_KNOCK.get(), TexturedModel.CUBE_TOP_BOTTOM);
-        blockModels.createTrivialBlock(ModBlocks.POWDER_BARREL_FRAG.get(), TexturedModel.CUBE_TOP_BOTTOM);
+        blockModels.createTrivialBlock(ModBlocks.POWDER_BARREL_KNOCK.get(),
+                TexturedModel.CUBE_TOP_BOTTOM.updateTexture(mapping ->
+                        mapping.put(TextureSlot.SIDE, new Material(modLocation("block/powder_barrel_knock_side")))
+                                .put(TextureSlot.BOTTOM, new Material(modLocation("block/powder_barrel_bottom")))
+                                .put(TextureSlot.TOP, new Material(modLocation("block/powder_barrel_top")))
+                )
+        );
+        blockModels.createTrivialBlock(ModBlocks.POWDER_BARREL_FRAG.get(),
+                TexturedModel.CUBE_TOP_BOTTOM.updateTexture(mapping ->
+                        mapping.put(TextureSlot.SIDE, new Material(modLocation("block/powder_barrel_frag_side")))
+                                .put(TextureSlot.BOTTOM, new Material(modLocation("block/powder_barrel_bottom")))
+                                .put(TextureSlot.TOP, new Material(modLocation("block/powder_barrel_top")))
+                )
+        );
 
         blockModels.createTrivialBlock(ModBlocks.LEAF_LITTER.get(),
                 TexturedModel.CUBE_TOP_BOTTOM.updateTexture(mapping ->
-                        mapping.put(TextureSlot.SIDE, this.modLocation("block/leaf_litter_side"))
-                                .put(TextureSlot.BOTTOM, this.mcLocation("block/dirt"))
-                                .put(TextureSlot.TOP, this.modLocation("block/leaf_litter_top"))
+                        mapping.put(TextureSlot.SIDE, new Material(modLocation("block/leaf_litter_side")))
+                                .put(TextureSlot.BOTTOM, new Material(mcLocation("block/dirt")))
+                                .put(TextureSlot.TOP, new Material(modLocation("block/leaf_litter_top")))
                 )
         );
         blockModels.createTrivialBlock(ModBlocks.GRASS_SUPER_SOIL.get(),
                 TexturedModel.CUBE_TOP_BOTTOM.updateTexture(mapping ->
-                        mapping.put(TextureSlot.SIDE, this.modLocation("block/grass_super_soil_side"))
-                                .put(TextureSlot.BOTTOM, this.modLocation("block/super_soil"))
-                                .put(TextureSlot.TOP, this.modLocation("block/grass_super_soil_top"))
+                        mapping.put(TextureSlot.SIDE, new Material(modLocation("block/grass_super_soil_side")))
+                                .put(TextureSlot.BOTTOM, new Material(modLocation("block/super_soil")))
+                                .put(TextureSlot.TOP, new Material(modLocation("block/grass_super_soil_top")))
                 )
         );
         blockModels.createTrivialBlock(ModBlocks.LAPIDARY.get(),
                 TexturedModel.CUBE_TOP_BOTTOM.updateTexture(mapping ->
-                        mapping.put(TextureSlot.SIDE, this.modLocation("block/lapidary_side"))
-                                .put(TextureSlot.BOTTOM, this.mcLocation("block/cobbled_deepslate"))
-                                .put(TextureSlot.TOP, this.modLocation("block/lapidary_top"))
+                        mapping.put(TextureSlot.SIDE, new Material(modLocation("block/lapidary_side")))
+                                .put(TextureSlot.BOTTOM, new Material(mcLocation("block/cobbled_deepslate")))
+                                .put(TextureSlot.TOP, new Material(modLocation("block/lapidary_top")))
                 )
         );
         blockModels.createTrivialCube(ModBlocks.HARMONISER.get());
@@ -132,7 +141,7 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.SUPER_SOIL.get());
         blockModels.createTrivialCube(ModBlocks.GOLD_GRAVEL.get());
 
-        multivariant = plainVariant(blockModels.createSuffixedVariant(ModBlocks.PRISM.get(), "", TRANSLUCENT_CUBE_ALL, TextureMapping::cube));
+        multivariant = plainVariant(blockModels.createSuffixedVariant(ModBlocks.PRISM.get(), "", ModelTemplates.CUBE_ALL, TextureMapping::cube));
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.PRISM.get(), multivariant));
 
 
@@ -144,13 +153,13 @@ public class ModModelProvider extends ModelProvider {
         // Ivy - vines are complicated
 
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.REED.get()).with(PropertyDispatch.initial(ReedBlock.TYPE)
-                .select(0, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_tips", CUTOUT_CROP, TextureMapping::crop)))
-                .select(1, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_base", CUTOUT_CROP, TextureMapping::crop)))
-                .select(2, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_wet", CUTOUT_CROP, TextureMapping::crop)))
-                .select(3, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_heads", CUTOUT_CROP, TextureMapping::crop)))
+                .select(0, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_tips", ModelTemplates.CROP, TextureMapping::crop)))
+                .select(1, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_base", ModelTemplates.CROP, TextureMapping::crop)))
+                .select(2, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_wet", ModelTemplates.CROP, TextureMapping::crop)))
+                .select(3, plainVariant(blockModels.createSuffixedVariant(ModBlocks.REED.get(), "_heads", ModelTemplates.CROP, TextureMapping::crop)))
         ));
 
-        multivariant = plainVariant(blockModels.createSuffixedVariant(ModBlocks.HEATHER.get(), "", CUTOUT_CROSS, TextureMapping::cross));
+        multivariant = plainVariant(blockModels.createSuffixedVariant(ModBlocks.HEATHER.get(), "", ModelTemplates.CROSS, TextureMapping::cross));
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.HEATHER.get(), multivariant));
 
         blockModels.createTrivialBlock(ModBlocks.SPIDER_NEST.get(), TexturedModel.COLUMN);

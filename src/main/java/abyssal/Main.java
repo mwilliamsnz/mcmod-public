@@ -5,10 +5,11 @@ import abyssal.data.*;
 import abyssal.generation.OreDist;
 import abyssal.init.*;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ public class Main {
 
     public static OreDist oreDist = new OreDist();
 
-    public Main(IEventBus modEventBus) {
+    public Main(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.ITEMS.register(modEventBus);
         ModItems.OVERRIDE_ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -66,8 +67,8 @@ public class Main {
                 lookupProvider));
     }
 
-    public static ResourceLocation rl(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, path);
+    public static Identifier rl(String path) {
+        return Identifier.fromNamespaceAndPath(Main.MOD_ID, path);
     }
 
 }

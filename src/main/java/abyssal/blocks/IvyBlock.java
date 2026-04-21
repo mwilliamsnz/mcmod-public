@@ -1,7 +1,7 @@
 package abyssal.blocks;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -145,10 +146,10 @@ public class IvyBlock extends Block implements IShearable {
 
     @Override
     public void randomTick(BlockState stateHere, ServerLevel level, BlockPos pos, RandomSource rand) {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_DO_VINES_SPREAD)) {
+        if (!level.getGameRules().get(GameRules.SPREAD_VINES)) {
             return;
         }
-        if (level.random.nextInt(4) == 0 && level.isAreaLoaded(pos, 4)) { // Forge: check area to prevent loading unloaded chunks
+        if (level.getRandom().nextInt(4) == 0 && level.isAreaLoaded(pos, 4)) { // Forge: check area to prevent loading unloaded chunks
             Direction spreadDir = Direction.getRandom(rand);
             if (spreadDir.getAxis().isHorizontal() && !stateHere.getValue(getPropertyForFace(spreadDir))) {
                 if (this.canSpread(level, pos)) {

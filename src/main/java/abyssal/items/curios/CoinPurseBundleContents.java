@@ -1,7 +1,8 @@
 package abyssal.items.curios;
 
 import abyssal.init.ModDataComponents;
-import com.google.common.collect.Lists;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.component.DataComponents;
@@ -11,133 +12,126 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.Bees;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import org.apache.commons.lang3.math.Fraction;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public final class CoinPurseBundleContents implements TooltipComponent {
     public static final CoinPurseBundleContents EMPTY = new CoinPurseBundleContents(List.of());
-    public static final Codec<CoinPurseBundleContents> CODEC = ItemStack.CODEC
-            .listOf()
-            .flatXmap(CoinPurseBundleContents::checkAndCreate, p_381696_ -> DataResult.success(p_381696_.items));
-    public static final StreamCodec<RegistryFriendlyByteBuf, CoinPurseBundleContents> STREAM_CODEC = ItemStack.STREAM_CODEC
+    public static final Codec<CoinPurseBundleContents> CODEC = ItemStackTemplate.CODEC.listOf().xmap(CoinPurseBundleContents::new, contents -> contents.items);
+    public static final StreamCodec<RegistryFriendlyByteBuf, CoinPurseBundleContents> STREAM_CODEC = ItemStackTemplate.STREAM_CODEC
             .apply(ByteBufCodecs.list())
-            .map(CoinPurseBundleContents::new, p_331551_ -> p_331551_.items);
+            .map(CoinPurseBundleContents::new, contents -> contents.items);
     private static final Fraction BUNDLE_IN_BUNDLE_WEIGHT = Fraction.getFraction(1, 16);
     private static final int NO_STACK_INDEX = -1;
     public static final int NO_SELECTED_ITEM_INDEX = -1;
-    final List<ItemStack> items;
-    final Fraction weight;
-    final int selectedItem;
+    private static final int STACKS_PER_COIN_PURSE = 4;
+    public static final DataResult<Fraction> BEEHIVE_WEIGHT = DataResult.success(Fraction.ONE);
+    private final List<ItemStackTemplate> items;
+    private final int selectedItem;
+    private final Supplier<DataResult<Fraction>> weight;
 
-    CoinPurseBundleContents(List<ItemStack> items, Fraction weight, int selectedItem) {
+    private CoinPurseBundleContents(List<ItemStackTemplate> items, int selectedItem) {
         this.items = items;
-        this.weight = weight;
         this.selectedItem = selectedItem;
+        this.weight = Suppliers.memoize(() -> computeContentWeight(this.items));
     }
 
-    private static DataResult<CoinPurseBundleContents> checkAndCreate(List<ItemStack> items) {
+    public CoinPurseBundleContents(List<ItemStackTemplate> items) {
+        this(items, -1);
+    }
+
+    private static DataResult<Fraction> computeContentWeight(List<? extends ItemInstance> items) {
         try {
-            Fraction fraction = computeContentWeight(items);
-            return DataResult.success(new CoinPurseBundleContents(items, fraction, NO_SELECTED_ITEM_INDEX));
-        } catch (ArithmeticException arithmeticexception) {
+            Fraction weight = Fraction.ZERO;
+
+            for (ItemInstance stack : items) {
+                DataResult<Fraction> itemWeight = getWeight(stack);
+                if (itemWeight.isError()) {
+                    return itemWeight;
+                }
+
+                weight = weight.add(itemWeight.getOrThrow().multiplyBy(Fraction.getFraction(stack.count(), 1)));
+            }
+
+            return DataResult.success(weight);
+        } catch (ArithmeticException var5) {
             return DataResult.error(() -> "Excessive total bundle weight");
         }
     }
 
-    public CoinPurseBundleContents(List<ItemStack> items) {
-        this(items, computeContentWeight(items), NO_SELECTED_ITEM_INDEX);
-    }
-
-    private static Fraction computeContentWeight(List<ItemStack> content) {
-        Fraction fraction = Fraction.ZERO;
-
-        for (ItemStack itemstack : content) {
-            fraction = fraction.add(getWeight(itemstack).multiplyBy(Fraction.getFraction(itemstack.getCount(), 1)));
-        }
-
-        return fraction;
-    }
-
-    static Fraction getWeight(ItemStack stack) {
-        CoinPurseBundleContents bundlecontents = stack.get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS);
-        if (bundlecontents != null) {
-            return BUNDLE_IN_BUNDLE_WEIGHT.add(bundlecontents.weight());
+    private static DataResult<Fraction> getWeight(ItemInstance item) {
+        CoinPurseBundleContents bundle = item.get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS);
+        if (bundle != null) {
+            return bundle.weight().map(nestedWeight -> nestedWeight.add(BUNDLE_IN_BUNDLE_WEIGHT));
         } else {
-            List<BeehiveBlockEntity.Occupant> list = stack.getOrDefault(DataComponents.BEES, Bees.EMPTY).bees();
-            return !list.isEmpty() ? Fraction.ONE : Fraction.getFraction(1, 4*stack.getMaxStackSize());
+            List<BeehiveBlockEntity.Occupant> bees = item.getOrDefault(DataComponents.BEES, Bees.EMPTY).bees();
+            return !bees.isEmpty() ? BEEHIVE_WEIGHT : DataResult.success(Fraction.getFraction(1, STACKS_PER_COIN_PURSE * item.getMaxStackSize()));
         }
     }
 
-    public static boolean canItemBeInBundle(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem().canFitInsideContainerItems();
+    public static boolean canItemBeInBundle(ItemStack itemToAdd) {
+        // Neo: stack-aware placeability check
+        return !itemToAdd.isEmpty() && itemToAdd.canFitInsideContainerItems();
     }
 
     public int getNumberOfItemsToShow() {
-        int i = this.size();
-        int j = i > 12 ? 11 : 12;
-        int k = i % 4;
-        int l = k == 0 ? 0 : 4 - k;
-        return Math.min(i, j - l);
-    }
-
-    public ItemStack getItemUnsafe(int index) {
-        return this.items.get(index);
+        int numberOfItemStacks = this.size();
+        int availableItemsToShow = numberOfItemStacks > 12 ? 11 : 12;
+        int itemsOnNonFullRow = numberOfItemStacks % 4;
+        int emptySpaceOnNonFullRow = itemsOnNonFullRow == 0 ? 0 : 4 - itemsOnNonFullRow;
+        return Math.min(numberOfItemStacks, availableItemsToShow - emptySpaceOnNonFullRow);
     }
 
     public Stream<ItemStack> itemCopyStream() {
-        return this.items.stream().map(ItemStack::copy);
+        return this.items.stream().map(ItemStackTemplate::create);
     }
 
-    public Iterable<ItemStack> items() {
+    public List<ItemStackTemplate> items() {
         return this.items;
-    }
-
-    public Iterable<ItemStack> itemsCopy() {
-        return Lists.transform(this.items, ItemStack::copy);
     }
 
     public int size() {
         return this.items.size();
     }
 
-    public Fraction weight() {
-        return this.weight;
+    public DataResult<Fraction> weight() {
+        return this.weight.get();
     }
 
     public boolean isEmpty() {
         return this.items.isEmpty();
     }
 
-    public int getSelectedItem() {
+    public int getSelectedItemIndex() {
         return this.selectedItem;
     }
 
-    public boolean hasSelectedItem() {
-        return this.selectedItem != NO_SELECTED_ITEM_INDEX;
+    public @org.jspecify.annotations.Nullable ItemStackTemplate getSelectedItem() {
+        return this.selectedItem == -1 ? null : this.items.get(this.selectedItem);
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (this == other) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         } else {
-            return !(other instanceof CoinPurseBundleContents bundlecontents)
-                    ? false
-                    : this.weight.equals(bundlecontents.weight) && ItemStack.listMatches(this.items, bundlecontents.items);
+            return obj instanceof CoinPurseBundleContents contents ? this.items.equals(contents.items) : false;
         }
     }
 
     @Override
     public int hashCode() {
-        return ItemStack.hashStackList(this.items);
+        return this.items.hashCode();
     }
 
     @Override
@@ -151,96 +145,107 @@ public final class CoinPurseBundleContents implements TooltipComponent {
         private int selectedItem;
 
         public Mutable(CoinPurseBundleContents contents) {
-            this.items = new ArrayList<>(contents.items);
-            this.weight = contents.weight;
-            this.selectedItem = contents.selectedItem;
+            DataResult<Fraction> currentWeight = contents.weight.get();
+            if (currentWeight.isError()) {
+                this.items = new ArrayList<>();
+                this.weight = Fraction.ZERO;
+                this.selectedItem = -1;
+            } else {
+                this.items = new ArrayList<>(contents.items.size());
+
+                for (ItemStackTemplate item : contents.items) {
+                    this.items.add(item.create());
+                }
+
+                this.weight = currentWeight.getOrThrow();
+                this.selectedItem = contents.selectedItem;
+            }
         }
 
-        public CoinPurseBundleContents.Mutable clearItems() {
+        public Mutable clearItems() {
             this.items.clear();
             this.weight = Fraction.ZERO;
-            this.selectedItem = NO_SELECTED_ITEM_INDEX;
+            this.selectedItem = -1;
             return this;
         }
 
-        private int findStackIndex(ItemStack stack) {
-            if (!stack.isStackable()) {
-                return NO_STACK_INDEX;
+        private int findStackIndex(ItemStack itemsToAdd) {
+            if (!itemsToAdd.isStackable()) {
+                return -1;
             } else {
                 for (int i = 0; i < this.items.size(); i++) {
-                    ItemStack candidate = this.items.get(i);
-                    if (ItemStack.isSameItemSameComponents(candidate, stack)) {
-                        if(candidate.getCount() == candidate.getMaxStackSize()) {
-                            continue;
-                        }
+                    if (ItemStack.isSameItemSameComponents(this.items.get(i), itemsToAdd)) {
                         return i;
                     }
                 }
 
-                return NO_STACK_INDEX;
+                return -1;
             }
         }
 
-        private int getMaxAmountToAdd(ItemStack stack) {
-            Fraction fraction = Fraction.ONE.subtract(this.weight);
-            return Math.max(fraction.divideBy(getWeight(stack)).intValue(), 0);
+        private int getMaxAmountToAdd(Fraction itemWeight) {
+            Fraction remainingWeight = Fraction.ONE.subtract(this.weight);
+            return Math.max(remainingWeight.divideBy(itemWeight).intValue(), 0);
         }
 
-        public int tryInsert(ItemStack inStack) {
-            if (!canItemBeInBundle(inStack)) {
+        public int tryInsert(ItemStack itemsToAdd) {
+            if (!CoinPurseBundleContents.canItemBeInBundle(itemsToAdd)) {
                 return 0;
             } else {
-                int i = Math.min(inStack.getCount(), this.getMaxAmountToAdd(inStack));
-                if (i == 0) {
+                DataResult<Fraction> maybeItemWeight = CoinPurseBundleContents.getWeight(itemsToAdd);
+                if (maybeItemWeight.isError()) {
                     return 0;
                 } else {
-                    this.weight = this.weight.add(getWeight(inStack).multiplyBy(Fraction.getFraction(i, 1)));
-                    int j = this.findStackIndex(inStack);
-                    if (j != NO_STACK_INDEX) {
-                        ItemStack matched = this.items.remove(j);
-                        int desiredCount = matched.getCount() + i;
-                        ItemStack merged = matched.copyWithCount(Math.min(desiredCount, matched.getMaxStackSize()));
-                        int remainderCount = desiredCount - matched.getMaxStackSize();
-                        inStack.shrink(i);
-                        this.items.add(0, merged);
-                        if(remainderCount > 0) {
-                            ItemStack remainder = matched.copyWithCount(remainderCount);
-                            this.items.add(0, remainder);
+                    Fraction itemWeight = maybeItemWeight.getOrThrow();
+                    int amountToAdd = Math.min(itemsToAdd.getCount(), this.getMaxAmountToAdd(itemWeight));
+                    if (amountToAdd == 0) {
+                        return 0;
+                    } else {
+                        this.weight = this.weight.add(itemWeight.multiplyBy(Fraction.getFraction(amountToAdd, 1)));
+                        int stackIndex = this.findStackIndex(itemsToAdd);
+                        if (stackIndex != -1) {
+                            ItemStack removedStack = this.items.remove(stackIndex);
+                            ItemStack mergedStack = removedStack.copyWithCount(removedStack.getCount() + amountToAdd);
+                            itemsToAdd.shrink(amountToAdd);
+                            this.items.add(0, mergedStack);
+                        } else {
+                            this.items.add(0, itemsToAdd.split(amountToAdd));
                         }
 
-                    } else {
-                        this.items.add(0, inStack.split(i));
+                        return amountToAdd;
                     }
-
-                    return i;
                 }
             }
         }
 
         public int tryTransfer(Slot slot, Player player) {
-            ItemStack itemstack = slot.getItem();
-            int i = this.getMaxAmountToAdd(itemstack);
-            return canItemBeInBundle(itemstack) ? this.tryInsert(slot.safeTake(itemstack.getCount(), i, player)) : 0;
+            ItemStack other = slot.getItem();
+            DataResult<Fraction> itemWeight = CoinPurseBundleContents.getWeight(other);
+            if (itemWeight.isError()) {
+                return 0;
+            } else {
+                int maxAmount = this.getMaxAmountToAdd(itemWeight.getOrThrow());
+                return CoinPurseBundleContents.canItemBeInBundle(other) ? this.tryInsert(slot.safeTake(other.getCount(), maxAmount, player)) : 0;
+            }
         }
 
         public void toggleSelectedItem(int selectedItem) {
-            this.selectedItem = this.selectedItem != selectedItem && !this.indexIsOutsideAllowedBounds(selectedItem) ? selectedItem : NO_SELECTED_ITEM_INDEX;
+            this.selectedItem = this.selectedItem != selectedItem && !this.indexIsOutsideAllowedBounds(selectedItem) ? selectedItem : -1;
         }
 
-        private boolean indexIsOutsideAllowedBounds(int index) {
-            return index < 0 || index >= this.items.size();
+        private boolean indexIsOutsideAllowedBounds(int selectedItem) {
+            return selectedItem < 0 || selectedItem >= this.items.size();
         }
 
-        @Nullable
-        public ItemStack removeOne() {
+        public @Nullable ItemStack removeOne() {
             if (this.items.isEmpty()) {
                 return null;
             } else {
-                int i = this.indexIsOutsideAllowedBounds(this.selectedItem) ? 0 : this.selectedItem;
-                ItemStack itemstack = this.items.remove(i).copy();
-                this.weight = this.weight.subtract(getWeight(itemstack).multiplyBy(Fraction.getFraction(itemstack.getCount(), 1)));
-                this.toggleSelectedItem(NO_SELECTED_ITEM_INDEX);
-                return itemstack;
+                int removeIndex = this.indexIsOutsideAllowedBounds(this.selectedItem) ? 0 : this.selectedItem;
+                ItemStack stack = this.items.remove(removeIndex).copy();
+                this.weight = this.weight.subtract(CoinPurseBundleContents.getWeight(stack).getOrThrow().multiplyBy(Fraction.getFraction(stack.getCount(), 1)));
+                this.toggleSelectedItem(-1);
+                return stack;
             }
         }
 
@@ -249,7 +254,13 @@ public final class CoinPurseBundleContents implements TooltipComponent {
         }
 
         public CoinPurseBundleContents toImmutable() {
-            return new CoinPurseBundleContents(List.copyOf(this.items), this.weight, this.selectedItem);
+            ImmutableList.Builder<ItemStackTemplate> builder = ImmutableList.builder();
+
+            for (ItemStack item : this.items) {
+                builder.add(ItemStackTemplate.fromNonEmptyStack(item));
+            }
+
+            return new CoinPurseBundleContents(builder.build(), this.selectedItem);
         }
     }
 }

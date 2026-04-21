@@ -17,7 +17,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -49,12 +49,12 @@ public final class ModItems {
     public static final List<DeferredItem<Item>> tab1Items = new ArrayList<>();
     public static final List<DeferredItem<Item>> tab2Items = new ArrayList<>();
 
-    public static Item.Properties defaultPs(ResourceLocation l) {
+    public static Item.Properties defaultPs(Identifier l) {
         return new Item.Properties().setId(ResourceKey.create(Registries.ITEM, l));
     }
 
     // public for InitGems
-    public static Item.Properties noStackPs(ResourceLocation l) {
+    public static Item.Properties noStackPs(Identifier l) {
         return new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, l));
     }
 
@@ -264,19 +264,19 @@ public final class ModItems {
 //    public static final DeferredItem<Item> LEATHER_BOOTS = OVERRIDE_ITEMS.register("leather_boots", l -> new DyeableArmorItem(ModArmourMaterials.MOD_LEATHER, ArmorItem.Type.BOOTS, new Item.Properties()));
 
 
-    private static <T extends Item> DeferredItem<T> register(String name, Function<ResourceLocation, T> supplier) {
+    private static <T extends Item> DeferredItem<T> register(String name, Function<Identifier, T> supplier) {
         DeferredItem<T> r = ITEMS.register(name, supplier);
         tab1Items.add((DeferredItem<Item>) r);
         return r;
     }
 
-    private static <T extends Item> DeferredItem<T> registerCurio(String name, Function<ResourceLocation, T> supplier) {
+    private static <T extends Item> DeferredItem<T> registerCurio(String name, Function<Identifier, T> supplier) {
         DeferredItem<T> r = ITEMS.register(name, supplier);
         tab2Items.add((DeferredItem<Item>) r);
         return r;
     }
 
-    private static <T extends Item> DeferredItem<T> register(String name, Function<ResourceLocation, T> supplier, ResourceKey<CreativeModeTab> tab) {
+    private static <T extends Item> DeferredItem<T> register(String name, Function<Identifier, T> supplier, ResourceKey<CreativeModeTab> tab) {
         DeferredItem<T> r = ITEMS.register(name, supplier);
         itemTabs.putIfAbsent(tab, new ArrayList<>());
         List<DeferredItem<Item>> l = itemTabs.get(tab);

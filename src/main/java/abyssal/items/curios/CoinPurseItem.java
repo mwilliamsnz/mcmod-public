@@ -3,6 +3,7 @@ package abyssal.items.curios;
 import abyssal.data.ModTags;
 import abyssal.init.ModDataComponents;
 import abyssal.inventory.CoinPurseTooltip;
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -21,9 +22,11 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.math.Fraction;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -44,9 +47,17 @@ public class CoinPurseItem extends BundleItem {
         super(properties);
     }
 
+    private static Fraction getWeightSafe(CoinPurseBundleContents contents) {
+        return switch (contents.weight()) {
+            case DataResult.Success<Fraction> success -> (Fraction)success.value();
+            case DataResult.Error<?> error -> Fraction.ONE;
+            default -> throw new MatchException(null, null);
+        };
+    }
+
     public static float getFullnessDisplay(ItemStack stack) {
         CoinPurseBundleContents bundlecontents = stack.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-        return bundlecontents.weight().floatValue();
+        return getWeightSafe(bundlecontents).floatValue();
     }
 
     @Override
@@ -147,19 +158,19 @@ public class CoinPurseItem extends BundleItem {
     @Override
     public boolean isBarVisible(ItemStack p_150769_) {
         CoinPurseBundleContents bundlecontents = p_150769_.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-        return bundlecontents.weight().compareTo(Fraction.ZERO) > 0;
+        return getWeightSafe(bundlecontents).compareTo(Fraction.ZERO) > 0;
     }
 
     @Override
     public int getBarWidth(ItemStack p_150771_) {
         CoinPurseBundleContents bundlecontents = p_150771_.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-        return Math.min(1 + Mth.mulAndTruncate(bundlecontents.weight(), 12), 13);
+        return Math.min(1 + Mth.mulAndTruncate(getWeightSafe(bundlecontents), 12), 13);
     }
 
     @Override
     public int getBarColor(ItemStack p_150773_) {
         CoinPurseBundleContents bundlecontents = p_150773_.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-        return bundlecontents.weight().compareTo(Fraction.ONE) >= 0 ? FULL_BAR_COLOR : BAR_COLOR;
+        return getWeightSafe(bundlecontents).compareTo(Fraction.ONE) >= 0 ? FULL_BAR_COLOR : BAR_COLOR;
     }
 
     public static void toggleSelectedItem(ItemStack purse, int selectedItem) {
@@ -173,19 +184,16 @@ public class CoinPurseItem extends BundleItem {
 
     public static boolean hasSelectedItem(ItemStack purse) {
         CoinPurseBundleContents contents = purse.get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS);
-        return contents != null && contents.getSelectedItem() != -1;
+        return contents != null && contents.getSelectedItemIndex() != -1;
     }
 
-    public static int getSelectedItem(ItemStack purse) {
+    public static int getSelectedItemIndex(ItemStack purse) {
         CoinPurseBundleContents contents = purse.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-        return contents.getSelectedItem();
+        return contents.getSelectedItemIndex();
     }
 
-    public static ItemStack getSelectedItemStack(ItemStack purse) {
-        CoinPurseBundleContents contents = purse.get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS);
-        return contents != null && contents.getSelectedItem() != -1
-                ? contents.getItemUnsafe(contents.getSelectedItem())
-                : ItemStack.EMPTY;
+    public static @Nullable ItemStackTemplate getSelectedItem(ItemStack purse) {
+        return purse.getOrDefault(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY).getSelectedItem();
     }
 
     public static int getNumberOfItemsToShow(ItemStack purse) {
@@ -250,11 +258,11 @@ public class CoinPurseItem extends BundleItem {
     }
 
     @Override
-    public void onDestroyed(ItemEntity p_150728_) {
-        CoinPurseBundleContents bundlecontents = p_150728_.getItem().get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS);
-        if (bundlecontents != null) {
-            p_150728_.getItem().set(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY);
-            ItemUtils.onContainerDestroyed(p_150728_, bundlecontents.itemsCopy());
+    public void onDestroyed(ItemEntity entity) {
+        CoinPurseBundleContents contents = entity.getItem().get(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS.get());
+        if (contents != null) {
+            entity.getItem().set(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY);
+            ItemUtils.onContainerDestroyed(entity, contents.itemCopyStream());
         }
     }
 

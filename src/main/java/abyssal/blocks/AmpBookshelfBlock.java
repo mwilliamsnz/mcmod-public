@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,7 +34,7 @@ public class AmpBookshelfBlock extends HorizontalDirectionalBlock implements IBl
     }
 
     @Override
-    public float getEnchantPowerBonus(BlockState state, LevelReader level, BlockPos pos) {
+    public float getEnchantPowerBonus(BlockState state, BlockGetter level, BlockPos pos) {
         Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
         return 0.5f + (
                 amplificationAt(level, pos.below()) + amplificationAt(level, pos.above())
@@ -41,7 +42,7 @@ public class AmpBookshelfBlock extends HorizontalDirectionalBlock implements IBl
         ) / 6f;
     }
 
-    private static int amplificationAt(LevelReader levelReader, BlockPos pos) {
+    private static int amplificationAt(BlockGetter levelReader, BlockPos pos) {
         BlockState state = levelReader.getBlockState(pos);
         int power = 0;
         if(state.is(Blocks.CHISELED_BOOKSHELF)) {

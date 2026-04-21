@@ -5,7 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class EnchantSpell extends Spell {
-    protected EnchantSpell(ResourceLocation key, SpellFuelQuantity cost) {
+    protected EnchantSpell(Identifier key, SpellFuelQuantity cost) {
         super(key, cost);
     }
 
@@ -48,7 +48,7 @@ public class EnchantSpell extends Spell {
         List<Holder.Reference<Enchantment>> possible = available.stream()
                 .map(reg::getOrThrow)
                 .filter(toEnchant::isPrimaryItemFor).toList();
-        Holder.Reference<Enchantment> e = possible.get(level.random.nextInt(possible.size()));
+        Holder.Reference<Enchantment> e = possible.get(level.getRandom().nextInt(possible.size()));
         toEnchant.enchant(e, 1);
         level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
         return InteractionResult.SUCCESS;

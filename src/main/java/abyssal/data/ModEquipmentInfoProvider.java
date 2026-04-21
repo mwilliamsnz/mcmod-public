@@ -5,7 +5,7 @@ import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class ModEquipmentInfoProvider implements DataProvider {
         this.path = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "equipment");
     }
 
-    private void add(BiConsumer<ResourceLocation, EquipmentClientInfo> registrar) {
+    private void add(BiConsumer<Identifier, EquipmentClientInfo> registrar) {
         registrar.accept(
                 // Must match Equippable#assetId
                 Main.rl("silver"),
@@ -107,7 +107,7 @@ public class ModEquipmentInfoProvider implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        Map<ResourceLocation, EquipmentClientInfo> map = new HashMap<>();
+        Map<Identifier, EquipmentClientInfo> map = new HashMap<>();
         this.add((name, info) -> {
             if (map.putIfAbsent(name, info) != null) {
                 throw new IllegalStateException("Tried to register equipment client info twice for id: " + name);

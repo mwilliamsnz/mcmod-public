@@ -5,7 +5,7 @@ import abyssal.blocks.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.*;
@@ -31,11 +31,11 @@ public class ModBlocks {
 
     public static final BlockSetType ELDER_PINE = BlockSetType.register(new BlockSetType(Main.MOD_ID + ":elder_pine"));
 
-    public static BlockBehaviour.Properties defaultPs(ResourceLocation l) {
+    public static BlockBehaviour.Properties defaultPs(Identifier l) {
         return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, l));
     }
 
-    public static BlockBehaviour.Properties pCopy(ResourceLocation l, Block block) {
+    public static BlockBehaviour.Properties pCopy(Identifier l, Block block) {
         return BlockBehaviour.Properties.ofFullCopy(block).setId(ResourceKey.create(Registries.BLOCK, l));
     }
 
@@ -47,7 +47,7 @@ public class ModBlocks {
     public static final DeferredHolder<Block, RotatedPillarBlock> MOSSY_BIRCH = registerJSONModel("mossy_birch", l -> new RotatedPillarBlock(pCopy(l, Blocks.BIRCH_LOG)));
     public static final DeferredHolder<Block, RotatedPillarBlock> MOSSY_OAK = registerJSONModel("mossy_oak", l -> new RotatedPillarBlock(pCopy(l, Blocks.OAK_LOG)));
     public static final DeferredHolder<Block, Block> IVY = registerJSONModel("ivy", l -> new IvyBlock(pCopy(l, Blocks.VINE)));
-    public static final DeferredHolder<Block, Block> THIN_LEAVES = register("thin_leaves", l -> new PassableSlowingBlock(pCopy(l, Blocks.OAK_LEAVES).noCollission().speedFactor(0.8f)));
+    public static final DeferredHolder<Block, Block> THIN_LEAVES = register("thin_leaves", l -> new PassableSlowingBlock(pCopy(l, Blocks.OAK_LEAVES).noCollision().speedFactor(0.8f)));
     public static final DeferredHolder<Block, Block> BRUSH = registerJSONModel("brush", l -> new PassableSlowingBlock(pCopy(l, Blocks.BUSH).speedFactor(0.8f)));
     public static final DeferredHolder<Block, Block> SHRUB = registerJSONModel("shrub", l -> new AzaleaBlock(pCopy(l, Blocks.AZALEA)));
     public static final DeferredHolder<Block, Block> HEATHER = register("heather", l -> new FlowerBlock(MobEffects.ABSORPTION, 6, pCopy(l, Blocks.DANDELION)));
@@ -56,7 +56,7 @@ public class ModBlocks {
     public static final DeferredHolder<Block, Block> FERN_CORE = registerJSONModel("fern_core", l -> new FernCentreBlock(pCopy(l, Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
     public static final DeferredHolder<Block, Block> FERN_FRONDS = registerJSONModel("fern_fronds", l -> new FernFrondsBlock(pCopy(l, Blocks.FERN).offsetType(BlockBehaviour.OffsetType.NONE)));
 
-    public static final DeferredHolder<Block, Block> LEAF_LITTER = register("leaf_litter", l -> new SnowyDirtBlock(pCopy(l, Blocks.PODZOL)));
+    public static final DeferredHolder<Block, Block> LEAF_LITTER = register("leaf_litter", l -> new SnowyBlock(pCopy(l, Blocks.PODZOL)));
     public static final DeferredHolder<Block, Block> SUPER_SOIL = register("super_soil", l -> new SuperSoilBlock(pCopy(l, Blocks.DIRT).randomTicks()));
     public static final DeferredHolder<Block, Block> GRASS_SUPER_SOIL = register("grass_super_soil", l -> new GrassSuperSoilBlock(pCopy(l, Blocks.GRASS_BLOCK).randomTicks()));
     public static final DeferredHolder<Block, Block> PRISM = register("prism", l -> new HalfTransparentBlock(pCopy(l, Blocks.RED_STAINED_GLASS).lightLevel((state) -> {
@@ -65,9 +65,9 @@ public class ModBlocks {
 
     public static final DeferredHolder<Block, Block> ABYSSAL_STONE = register("abyssal_stone", l -> new Block(defaultPs(l).mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(10.0F, 2.0F).sound(SoundType.DEEPSLATE)));
     public static final DeferredHolder<Block, Block> NITRE = register("nitre", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
-    public static final DeferredHolder<Block, Block> DEEPSLATE_NITRE = register("deepslate_nitre", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_NITRE = register("deepslate_nitre", l -> new Block(pCopy(l, Blocks.DEEPSLATE_IRON_ORE)));
     public static final DeferredHolder<Block, Block> SULFUR = register("sulfur_ore", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
-    public static final DeferredHolder<Block, Block> DEEPSLATE_SULFUR = register("deepslate_sulfur_ore", l -> new Block(pCopy(l, Blocks.IRON_ORE)));
+    public static final DeferredHolder<Block, Block> DEEPSLATE_SULFUR = register("deepslate_sulfur_ore", l -> new Block(pCopy(l, Blocks.DEEPSLATE_IRON_ORE)));
     public static final DeferredHolder<Block, Block> POWDER_BARREL = register("powder_barrel", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.6f, 2f, 1.2f));
     public static final DeferredHolder<Block, Block> POWDER_BARREL_FRAG = register("powder_barrel_frag", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.3f, 3.85f, 0.2f));
     public static final DeferredHolder<Block, Block> POWDER_BARREL_KNOCK = register("powder_barrel_knock", l -> new PowderBarrelBlock(pCopy(l, Blocks.TNT), 1.6f, 2f, 3f));
@@ -98,32 +98,32 @@ public class ModBlocks {
     public static final DeferredHolder<Block, Block> SPIDER_NEST = register("spider_nest", l -> new SpiderNestBlock(pCopy(l, Blocks.MOSS_BLOCK)));
     public static final DeferredHolder<Block, Block> CHARRED_LOG = register("charred_log", l -> new CharredLogBlock(defaultPs(l).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.XYLOPHONE).strength(0.8f, 1f).sound(SoundType.BASALT)));
 
-    private static <T extends Block> DeferredHolder<Block, T> register(String name, Function<ResourceLocation, T> sup) {
+    private static <T extends Block> DeferredHolder<Block, T> register(String name, Function<Identifier, T> sup) {
         DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
         DATAGEN_LOOT_TABLE.add(r);
         DATAGEN_MODEL.add(r);
         return r;
     }
 
-    private static <T extends Block> DeferredHolder<Block, T> registerJSONModel(String name, Function<ResourceLocation, T> sup) {
+    private static <T extends Block> DeferredHolder<Block, T> registerJSONModel(String name, Function<Identifier, T> sup) {
         DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
         DATAGEN_LOOT_TABLE.add(r);
         return r;
     }
 
-    private static <T extends Block> DeferredHolder<Block, T> registerJSONLoot(String name, Function<ResourceLocation, T> sup) {
+    private static <T extends Block> DeferredHolder<Block, T> registerJSONLoot(String name, Function<Identifier, T> sup) {
         DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
         DATAGEN_MODEL.add(r);
         return r;
     }
 
-    private static <T extends Block> DeferredHolder<Block, T> registerJSON(String name, Function<ResourceLocation, T> sup) {
+    private static <T extends Block> DeferredHolder<Block, T> registerJSON(String name, Function<Identifier, T> sup) {
         DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
         return r;
     }
 
 
-    private static RotatedPillarBlock woodenlog(float mine, float blast, ResourceLocation l) {
+    private static RotatedPillarBlock woodenlog(float mine, float blast, Identifier l) {
         return new RotatedPillarBlock(defaultPs(l).mapColor(MapColor.WOOD).ignitedByLava().instrument(NoteBlockInstrument.BASS).strength(mine, blast).sound(SoundType.WOOD));
     }
 

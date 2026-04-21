@@ -3,7 +3,7 @@ package abyssal.items.handheld;
 import abyssal.Main;
 import abyssal.ModAttributes;
 import abyssal.items.AttributeHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class NashorsToothItem extends Item {
 
-    private static final ResourceLocation BONUS_AD_LOC = Main.rl("nashors_damage");
+    private static final Identifier BONUS_AD_LOC = Main.rl("nashors_damage");
 
     public NashorsToothItem(Properties properties) {
         super(properties);

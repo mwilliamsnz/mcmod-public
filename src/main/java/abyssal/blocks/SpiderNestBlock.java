@@ -36,7 +36,7 @@ public class SpiderNestBlock extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModBlockEntityTypes.SPIDER_NEST.get(), level.isClientSide ? SpiderNestBlockEntity::clientTick : SpiderNestBlockEntity::serverTick);
+        return createTickerHelper(blockEntityType, ModBlockEntityTypes.SPIDER_NEST.get(), level.isClientSide() ? SpiderNestBlockEntity::clientTick : SpiderNestBlockEntity::serverTick);
     }
 
     public RenderShape getRenderShape(BlockState p_56794_) {

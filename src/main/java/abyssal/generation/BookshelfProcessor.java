@@ -20,6 +20,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +33,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -128,7 +132,10 @@ public class BookshelfProcessor extends StructureProcessor {
         for(EnchantmentInstance instance : enchants) {
             stack.enchant(instance.enchantment(), instance.level());
         }
-        return stack.save(levelReader.registryAccess());
+        ProblemReporter.ScopedCollector problems = new ProblemReporter.ScopedCollector(LoggerFactory.getLogger(BookshelfProcessor.class));
+        TagValueOutput out = TagValueOutput.createWithContext(problems, levelReader.registryAccess());
+        out.storeNullable("item", ItemStack.CODEC, stack);
+        return out.buildResult().getCompoundOrEmpty("item");
     }
 
     private static Tag spellbookNBT(LevelReader levelReader, RandomSource rand) {
@@ -137,7 +144,10 @@ public class BookshelfProcessor extends StructureProcessor {
             SpellComponent component = new SpellComponent(spell);
             stack.set(ModDataComponents.SPELLBOOK, component);
         });
-        return stack.save(levelReader.registryAccess());
+        ProblemReporter.ScopedCollector problems = new ProblemReporter.ScopedCollector(LoggerFactory.getLogger(BookshelfProcessor.class));
+        TagValueOutput out = TagValueOutput.createWithContext(problems, levelReader.registryAccess());
+        out.storeNullable("item", ItemStack.CODEC, stack);
+        return out.buildResult().getCompoundOrEmpty("item");
     }
 
 

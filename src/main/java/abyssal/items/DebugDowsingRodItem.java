@@ -29,22 +29,22 @@ public class DebugDowsingRodItem extends Item {
             Player p = ctx.getPlayer();
             Block block = ctx.getLevel().getBlockState(ctx.getClickedPos()).getBlock();
             long seed = ((ServerLevel)ctx.getLevel()).getSeed();
-            ChunkPos pos = new ChunkPos(ctx.getClickedPos());
+            ChunkPos pos = ChunkPos.containing(ctx.getClickedPos());
             for(int i = -5; i <= 5; i++) {
                 StringBuilder s = new StringBuilder();
                 for(int j = -5; j <= 5; j++) {
-                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x - i, pos.z + j), seed);
+                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x() - i, pos.z() + j), seed);
                     s.append(here.debugSymbol);
                     s.append(" ");
                 }
-                p.displayClientMessage(Component.translatable(s.toString()), false);
+                p.sendSystemMessage(Component.translatable(s.toString()));
             }
             Map<OreDist.OreChunkType, Integer> count = new EnumMap<>(OreDist.OreChunkType.class);
             StringBuilder s = new StringBuilder();
             for(int i = -50; i <= 50; i++) {
                 s.append("\n");
                 for(int j = -50; j <= 50; j++) {
-                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x - i, pos.z + j), seed);
+                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x() - i, pos.z() + j), seed);
                     if(here == null) {
                         here = OreDist.OreChunkType.NONE;
                     }

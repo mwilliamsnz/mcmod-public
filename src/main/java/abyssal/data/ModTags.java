@@ -1,11 +1,11 @@
 package abyssal.data;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -50,7 +50,7 @@ public class ModTags {
             return ItemTags.create(rl(name));
         }
         private static TagKey<Item> curioTag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CuriosResources.MOD_ID, name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath(CuriosResources.MOD_ID, name));
         }
     }
 

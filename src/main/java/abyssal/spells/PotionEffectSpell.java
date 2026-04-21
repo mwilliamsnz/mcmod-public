@@ -1,7 +1,7 @@
 package abyssal.spells;
 
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
@@ -15,7 +15,7 @@ public class PotionEffectSpell extends Spell {
     private final Holder<MobEffect> mobEffect;
     private final int baseDuration;
     private final double apScaling;
-    protected PotionEffectSpell(ResourceLocation key, SpellFuelQuantity cost, Holder<MobEffect> effect, int baseDuration, double apScaling) {
+    protected PotionEffectSpell(Identifier key, SpellFuelQuantity cost, Holder<MobEffect> effect, int baseDuration, double apScaling) {
         super(key, cost);
         this.mobEffect = effect;
         this.baseDuration = baseDuration;

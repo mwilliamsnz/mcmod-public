@@ -180,7 +180,6 @@ public class LapidaryMenu extends AbstractContainerMenu {
         return stack;
     }
 
-//    @OnlyIn(Dist.CLIENT)
     public boolean clickMenuButton(Player player, int button) {
         Slot input = this.slots.get(INPUT_SLOT);
         if(!input.hasItem()) {

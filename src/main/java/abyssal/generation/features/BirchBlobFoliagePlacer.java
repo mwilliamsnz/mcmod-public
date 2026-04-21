@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
@@ -35,7 +36,7 @@ public class BirchBlobFoliagePlacer  extends FoliagePlacer {
 
     @Override
     protected void createFoliage(
-            LevelSimulatedReader level,
+            WorldGenLevel level,
             FoliageSetter pBlockSetter,
             RandomSource rand,
             TreeConfiguration cfg,
@@ -59,7 +60,7 @@ public class BirchBlobFoliagePlacer  extends FoliagePlacer {
     }
 
     private void placeLeavesRowExtras(
-            LevelSimulatedReader pLevel,
+            WorldGenLevel pLevel,
             FoliagePlacer.FoliageSetter pFoliageSetter,
             RandomSource rand,
             TreeConfiguration pTreeConfiguration,

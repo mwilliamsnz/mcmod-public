@@ -7,7 +7,7 @@ package abyssal.generation;//package cornmod.generation;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 //import cornmod.init.ModBlocks;
 //import net.minecraft.SharedConstants;
-//import net.minecraft.Util;
+//import net.minecraft.util.Util;
 //import net.minecraft.core.BlockPos;
 //import net.minecraft.core.QuartPos;
 //import net.minecraft.core.Registry;

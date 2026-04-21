@@ -2,7 +2,10 @@ package abyssal.entity;
 
 import abyssal.data.ModTags;
 import abyssal.init.ModItems;
-import net.minecraft.Util;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -11,13 +14,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.decoration.Painting;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.painting.Painting;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.variant.VariantUtils;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRules;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -25,6 +28,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class FishPainting extends Painting {
+
+    private static final EntityDataAccessor<Holder<PaintingVariant>> DATA_PAINTING_VARIANT_ID = SynchedEntityData.defineId(
+            FishPainting.class, EntityDataSerializers.PAINTING_VARIANT
+    );
 
     public FishPainting(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant) {
         super(level, pos, direction, variant);
@@ -35,7 +42,7 @@ public class FishPainting extends Painting {
     }
 
     private void setVariant(Holder<PaintingVariant> variant) {
-        this.entityData.set(Painting.DATA_PAINTING_VARIANT_ID, variant);
+        this.entityData.set(DATA_PAINTING_VARIANT_ID, variant);
     }
 
     private static int variantArea(Holder<PaintingVariant> variant) {
@@ -73,7 +80,7 @@ public class FishPainting extends Painting {
 
     @Override
     public void dropItem(ServerLevel p_376289_, @Nullable Entity p_31925_) {
-        if (p_376289_.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+        if (p_376289_.getGameRules().get(GameRules.ENTITY_DROPS)) {
             this.playSound(SoundEvents.PAINTING_BREAK, 1.0F, 1.0F);
             if (!(p_31925_ instanceof Player player && player.hasInfiniteMaterials())) {
                 this.spawnAtLocation(p_376289_, ModItems.FISH_PAINTING.get());

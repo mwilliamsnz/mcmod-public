@@ -1,6 +1,6 @@
 package abyssal.spells;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -8,15 +8,15 @@ import net.minecraft.world.level.Level;
 
 public abstract class Spell {
 
-    public final ResourceLocation key;
+    public final Identifier key;
 
     public final SpellFuelQuantity baseCost;
 
-    protected Spell(ResourceLocation key) {
+    protected Spell(Identifier key) {
         this(key, SpellFuelQuantity.NONE);
     }
 
-    protected Spell(ResourceLocation key, SpellFuelQuantity baseCost) {
+    protected Spell(Identifier key, SpellFuelQuantity baseCost) {
         this.key = key;
         this.baseCost = baseCost;
     }

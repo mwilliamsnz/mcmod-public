@@ -2,6 +2,7 @@ package abyssal.generation.features;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -100,5 +101,13 @@ public class OutcropFeature extends Feature<BlockStateConfiguration> {
 
             return true;
         }
+    }
+
+    private boolean isStone(BlockState stateBelow) {
+        return stateBelow.is(BlockTags.STONE_ORE_REPLACEABLES);
+    }
+
+    private boolean isDirt(BlockState stateBelow) {
+        return stateBelow.is(BlockTags.SUBSTRATE_OVERWORLD);
     }
 }

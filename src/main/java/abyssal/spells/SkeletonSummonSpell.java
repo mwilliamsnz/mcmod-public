@@ -4,7 +4,7 @@ import abyssal.Main;
 import abyssal.entity.Minion;
 import abyssal.init.ModEntityTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -17,7 +17,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 
 public class SkeletonSummonSpell extends Spell {
-    protected SkeletonSummonSpell(ResourceLocation key, SpellFuelQuantity cost) {
+    protected SkeletonSummonSpell(Identifier key, SpellFuelQuantity cost) {
         super(key, cost);
     }
 

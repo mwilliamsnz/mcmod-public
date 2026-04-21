@@ -10,6 +10,7 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
@@ -63,7 +64,7 @@ public class SupplementNoiseProvider extends NoiseBasedStateProvider {
     }
 
     @Override
-    public @NotNull BlockState getState(RandomSource randomSource, BlockPos pos) {
+    public @NotNull BlockState getState(WorldGenLevel level, RandomSource randomSource, BlockPos pos) {
         double d0 = this.getSlowNoiseValue(pos);
         int i = (int) Mth.clampedMap(d0, -1.0D, 1.0D, this.variety.minInclusive(), this.variety.maxInclusive() + 1);
         List<BlockState> list = Lists.newArrayListWithCapacity(i+1);

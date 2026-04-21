@@ -29,8 +29,8 @@ public class DowsingRodItem extends Item {
             Block block = ctx.getLevel().getBlockState(ctx.getClickedPos()).getBlock();
             if(block == Blocks.STONE || block == Blocks.DEEPSLATE) {
                 long seed = ((ServerLevel)ctx.getLevel()).getSeed();
-                OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(ctx.getClickedPos()), seed);
-                p.displayClientMessage(Component.translatable(here.name()), false);
+                OreDist.OreChunkType here = Main.oreDist.at(ChunkPos.containing(ctx.getClickedPos()), seed);
+                p.sendSystemMessage(Component.translatable(here.name()));
                 return InteractionResult.SUCCESS;
             }
         }

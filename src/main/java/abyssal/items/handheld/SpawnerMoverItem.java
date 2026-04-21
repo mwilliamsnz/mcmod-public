@@ -3,7 +3,7 @@ package abyssal.items.handheld;
 import abyssal.Main;
 import abyssal.init.Gems;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -47,7 +47,7 @@ public class SpawnerMoverItem extends ProjectileWeaponItem {
     }
 
     @Nullable
-    private static ResourceLocation getEntityId(ItemStack stack) {
+    private static Identifier getEntityId(ItemStack stack) {
         Main.LOGGER.info("NOT YET IMPLEMENTED! SpawnerMoverItem.java");
 //        Main.LOGGER.info("Getting entity ID:");
 //        CompoundTag tag = stack.getTagElement(SAVE_AS_TAG);
@@ -62,7 +62,7 @@ public class SpawnerMoverItem extends ProjectileWeaponItem {
 //                tag = tag.getCompound(ENTITY_TAG);
 //                if (tag.contains(ID_TAG)) {
 //                    Main.LOGGER.info("\ttrying to parse:" + tag.getString(ID_TAG));
-//                    return ResourceLocation.tryParse(tag.getString(ID_TAG));
+//                    return Identifier.tryParse(tag.getString(ID_TAG));
 //                }
 //            }
 //            Main.LOGGER.info("\tno spawner ID tag:");
@@ -95,7 +95,7 @@ public class SpawnerMoverItem extends ProjectileWeaponItem {
 //            infoList.add(MOVER_MALFORMED_2_MSG);
 //            return;
 //        }
-//        ResourceLocation id = getEntityId(stack);
+//        Identifier id = getEntityId(stack);
 //        if (id != null) {
 //            BuiltInRegistries.ENTITY_TYPE.getOptional(id).ifPresent(type -> infoList.add(type.getDescription()));
 //        }
@@ -122,12 +122,12 @@ public class SpawnerMoverItem extends ProjectileWeaponItem {
 //
 //        ItemStack powder = player.getProjectile(ctx.getItemInHand());
 //        if(powder == ItemStack.EMPTY) {
-//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, player.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, player.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
 //            Main.LOGGER.info("No powder, aborting.");
 //            return InteractionResult.FAIL;
 //        }
 //
-//        level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, player.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+//        level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, player.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
 //        ((BlockItem)Blocks.SPAWNER.asItem()).place(bpc);
 //
 //        if (!level.isClientSide) {
@@ -159,12 +159,12 @@ public class SpawnerMoverItem extends ProjectileWeaponItem {
 //
 //        ItemStack powder = player.getProjectile(ctx.getItemInHand());
 //        if(powder == ItemStack.EMPTY) {
-//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, player.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.GENERIC_EXTINGUISH_FIRE, player.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
 //            return InteractionResult.FAIL;
 //        }
 //
 //        if (level.getBlockState(pos).is(Blocks.SPAWNER)) {
-//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.CHAIN_STEP, player.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+//            level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.CHAIN_STEP, player.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
 //            if (!level.isClientSide) {
 //                SpawnerBlockEntity blockEntity = (SpawnerBlockEntity) level.getBlockEntity(pos);
 //                stack.getOrCreateTag().put(SAVE_AS_TAG, blockEntity.getSpawner().save(new CompoundTag()));

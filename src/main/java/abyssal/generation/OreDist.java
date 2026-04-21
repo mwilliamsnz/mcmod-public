@@ -56,7 +56,7 @@ public class OreDist {
         }
         for(int x = -RADIUS; x <= RADIUS; x++) {
             for(int z = -RADIUS; z <= RADIUS; z++) {
-                ChunkPos there = new ChunkPos(pos.x+x,pos.z+z);
+                ChunkPos there = new ChunkPos(pos.x()+x,pos.z()+z);
                 OreChunkType oreThere = findSeedType(there, seed);
                 if(oreNear == OreChunkType.NONE) {
                     oreNear = oreThere;

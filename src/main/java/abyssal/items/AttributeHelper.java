@@ -3,7 +3,7 @@ package abyssal.items;
 import abyssal.Main;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -59,7 +59,7 @@ public class AttributeHelper {
         ICurioItem.forEachModifier(stack, slot, (atr, m) -> {
             String newPath = replaceSuffix(m.id().getPath(), suffix);
             AttributeModifier newMod = new AttributeModifier(
-                    ResourceLocation.fromNamespaceAndPath(m.id().getNamespace(), newPath),
+                    Identifier.fromNamespaceAndPath(m.id().getNamespace(), newPath),
                     m.amount(), m.operation());
             builder.addModifier(atr, newMod);
         });

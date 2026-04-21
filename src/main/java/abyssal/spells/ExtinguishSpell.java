@@ -2,7 +2,7 @@ package abyssal.spells;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class ExtinguishSpell extends SphericalParticleSpell {
 
-    protected ExtinguishSpell(ResourceLocation key, SpellFuelQuantity cost) {
+    protected ExtinguishSpell(Identifier key, SpellFuelQuantity cost) {
         super(key, cost, ParticleTypes.ASH);
     }
 

@@ -1,10 +1,12 @@
 package abyssal.blocks;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.Difficulty;
@@ -13,14 +15,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class BaseNest implements IOwnedSpawner {
+    private static final Logger LOGGER = LogUtils.getLogger();
     public static final String SPAWN_DATA_TAG = "SpawnData";
     private static final int EVENT_SPAWN = 1;
     private static final int DEFAULT_SPAWN_DELAY = 20;
@@ -61,107 +68,114 @@ public abstract class BaseNest implements IOwnedSpawner {
         level.addParticle(ParticleTypes.FLAME, xpos, ypos, zpos, 0.0D, 0.0D, 0.0D);
     }
 
-    public void serverTick(ServerLevel serverLevel, BlockPos pos) {
-        if (this.isNearPlayer(serverLevel, pos)) {
+    public void serverTick(ServerLevel level, BlockPos pos) {
+        if (this.isNearPlayer(level, pos) && level.isSpawnerBlockEnabled()) {
             if (this.spawnDelay == -1) {
-                this.delay(serverLevel, pos);
+                this.delay(level, pos);
             }
 
             if (this.spawnDelay > 0) {
                 this.spawnDelay--;
             } else {
-                boolean flag = false;
-                RandomSource randomsource = serverLevel.getRandom();
-                SpawnData spawndata = this.getOrCreateNextSpawnData(serverLevel, randomsource, pos);
+                boolean delay = false;
+                RandomSource random = level.getRandom();
+                SpawnData nextSpawnData = this.getOrCreateNextSpawnData(level, random, pos);
 
-                for (int i = 0; i < this.spawnCount; i++) {
-                    CompoundTag compoundtag = spawndata.getEntityToSpawn();
-                    Optional<EntityType<?>> optional = EntityType.by(compoundtag);
-                    if (optional.isEmpty()) {
-                        this.delay(serverLevel, pos);
-                        return;
-                    }
+                for (int c = 0; c < this.spawnCount; c++) {
+                    try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(this::toString, LOGGER)) {
+                        ValueInput input = TagValueInput.create(reporter, level.registryAccess(), nextSpawnData.getEntityToSpawn());
+                        Optional<EntityType<?>> entityType = EntityType.by(input);
+                        if (entityType.isEmpty()) {
+                            this.delay(level, pos);
+                            return;
+                        }
 
-                    Vec3 vec3 = compoundtag.read("Pos", Vec3.CODEC)
-                            .orElseGet(
-                                    () -> new Vec3(
-                                            pos.getX() + (randomsource.nextDouble() - randomsource.nextDouble()) * this.spawnRange + 0.5,
-                                            pos.getY() + randomsource.nextInt(3) - 1,
-                                            pos.getZ() + (randomsource.nextDouble() - randomsource.nextDouble()) * this.spawnRange + 0.5
+                        Vec3 spawnPos = input.read("Pos", Vec3.CODEC)
+                                .orElseGet(
+                                        () -> new Vec3(
+                                                pos.getX() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5,
+                                                pos.getY() + random.nextInt(3) - 1,
+                                                pos.getZ() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5
+                                        )
+                                );
+                        if (level.noCollision(entityType.get().getSpawnAABB(spawnPos.x, spawnPos.y, spawnPos.z))) {
+                            BlockPos spawnBlockPos = BlockPos.containing(spawnPos);
+                            if (nextSpawnData.getCustomSpawnRules().isPresent()) {
+                                if (!entityType.get().getCategory().isFriendly() && level.getDifficulty() == Difficulty.PEACEFUL) {
+                                    continue;
+                                }
+
+                                SpawnData.CustomSpawnRules customSpawnRules = nextSpawnData.getCustomSpawnRules().get();
+                                if (!customSpawnRules.isValidPosition(spawnBlockPos, level)) {
+                                    continue;
+                                }
+                            } else if (!SpawnPlacements.checkSpawnRules(entityType.get(), level, EntitySpawnReason.SPAWNER, spawnBlockPos, level.getRandom())) {
+                                continue;
+                            }
+
+                            Entity entity = EntityType.loadEntityRecursive(input, level, EntitySpawnReason.SPAWNER, e -> {
+                                e.snapTo(spawnPos.x, spawnPos.y, spawnPos.z, e.getYRot(), e.getXRot());
+                                return e;
+                            });
+                            if (entity == null) {
+                                this.delay(level, pos);
+                                return;
+                            }
+
+                            int nearBy = level.getEntities(
+                                            EntityTypeTest.forExactClass(entity.getClass()),
+                                            new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).inflate(this.spawnRange),
+                                            EntitySelector.NO_SPECTATORS
                                     )
-                            );
-                    if (serverLevel.noCollision(optional.get().getSpawnAABB(vec3.x, vec3.y, vec3.z))) {
-                        BlockPos blockpos = BlockPos.containing(vec3);
-                        if (spawndata.getCustomSpawnRules().isPresent()) {
-                            if (!optional.get().getCategory().isFriendly() && serverLevel.getDifficulty() == Difficulty.PEACEFUL) {
-                                continue;
+                                    .size();
+                            if (nearBy >= this.maxNearbyEntities) {
+                                this.delay(level, pos);
+                                return;
                             }
 
-                            SpawnData.CustomSpawnRules spawndata$customspawnrules = spawndata.getCustomSpawnRules().get();
-                            if (!spawndata$customspawnrules.isValidPosition(blockpos, serverLevel)) {
-                                continue;
+                            entity.snapTo(entity.getX(), entity.getY(), entity.getZ(), random.nextFloat() * 360.0F, 0.0F);
+                            if (entity instanceof Mob mob) {
+                                // Abyssal: Event hook here removed because it takes a BaseSpawner
+//                                if (!net.neoforged.neoforge.event.EventHooks.checkSpawnPositionSpawner(mob, level, EntitySpawnReason.SPAWNER, nextSpawnData, this)) {
+//                                    continue;
+//                                }
+
+                                boolean hasNoConfiguration = nextSpawnData.getEntityToSpawn().size() == 1
+                                        && nextSpawnData.getEntityToSpawn().getString("id").isPresent();
+                                // Neo: Patch in FinalizeSpawn for spawners so it may be fired unconditionally, instead of only when vanilla would normally call it.
+                                // The local hasNoConfiguration is the conditions under which the spawner will normally call Mob#finalizeSpawn.
+                                net.neoforged.neoforge.event.EventHooks.finalizeMobSpawnSpawner(mob, level, level.getCurrentDifficultyAt(entity.blockPosition()), EntitySpawnReason.SPAWNER, null, this, hasNoConfiguration);
+
+                                nextSpawnData.getEquipment().ifPresent(mob::equip);
                             }
-                        } else if (!SpawnPlacements.checkSpawnRules(optional.get(), serverLevel, EntitySpawnReason.SPAWNER, blockpos, serverLevel.getRandom())) {
-                            continue;
+
+                            if (!level.tryAddFreshEntityWithPassengers(entity)) {
+                                this.delay(level, pos);
+                                return;
+                            }
+
+                            level.levelEvent(2004, pos, 0);
+                            level.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnBlockPos);
+                            if (entity instanceof Mob) {
+                                ((Mob)entity).spawnAnim();
+                            }
+
+                            delay = true;
                         }
-
-                        Entity entity = EntityType.loadEntityRecursive(compoundtag, serverLevel, EntitySpawnReason.SPAWNER, p_404552_ -> {
-                            p_404552_.snapTo(vec3.x, vec3.y, vec3.z, p_404552_.getYRot(), p_404552_.getXRot());
-                            return p_404552_;
-                        });
-                        if (entity == null) {
-                            this.delay(serverLevel, pos);
-                            return;
-                        }
-
-                        int j = serverLevel.getEntities(
-                                        EntityTypeTest.forExactClass(entity.getClass()),
-                                        new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1)
-                                                .inflate(RANGE_TO_CHECK_FOR_EXISTING),
-                                        EntitySelector.NO_SPECTATORS
-                                )
-                                .size();
-                        if (j >= this.maxNearbyEntities) {
-                            this.delay(serverLevel, pos);
-                            return;
-                        }
-
-                        entity.snapTo(entity.getX(), entity.getY(), entity.getZ(), randomsource.nextFloat() * 360.0F, 0.0F);
-                        if (entity instanceof Mob mob) {
-                            // event hook removed because it uses a BaseSpawner
-
-                            boolean flag1 = spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().getString("id").isPresent();
-                            // Neo: Patch in FinalizeSpawn for spawners so it may be fired unconditionally, instead of only when vanilla would normally call it.
-                            // The local flag1 is the conditions under which the spawner will normally call Mob#finalizeSpawn.
-                            net.neoforged.neoforge.event.EventHooks.finalizeMobSpawnSpawner(mob, serverLevel, serverLevel.getCurrentDifficultyAt(entity.blockPosition()), EntitySpawnReason.SPAWNER, null, this, flag1);
-
-                            spawndata.getEquipment().ifPresent(mob::equip);
-                        }
-
-                        if (!serverLevel.tryAddFreshEntityWithPassengers(entity)) {
-                            this.delay(serverLevel, pos);
-                            return;
-                        }
-
-                        serverLevel.levelEvent(2004, pos, 0);
-                        serverLevel.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
-                        if (entity instanceof Mob) {
-                            ((Mob)entity).spawnAnim();
-                        }
-
-                        flag = true;
                     }
                 }
 
-                if (flag) {
-                    this.delay(serverLevel, pos);
+                if (delay) {
+                    this.delay(level, pos);
                 }
+
+                return;
             }
         }
     }
 
     private void delay(Level level, BlockPos pos) {
-        RandomSource randomsource = level.random;
+        RandomSource randomsource = level.getRandom();
         if (this.maxSpawnDelay <= this.minSpawnDelay) {
             this.spawnDelay = this.minSpawnDelay;
         } else {
@@ -172,35 +186,34 @@ public abstract class BaseNest implements IOwnedSpawner {
         this.broadcastEvent(level, pos, 1);
     }
 
-    public void load(@Nullable Level level, BlockPos pos, CompoundTag tag) {
-        this.spawnDelay = tag.getShortOr("Delay", (short) DEFAULT_SPAWN_DELAY);
-        tag.read(SPAWN_DATA_TAG, SpawnData.CODEC).ifPresent(p_400944_ -> this.setNextSpawnData(level, pos, p_400944_));
-        this.spawnPotentials = tag.read("SpawnPotentials", SpawnData.LIST_CODEC)
+    public void load(@Nullable Level level, BlockPos pos, ValueInput input) {
+        this.spawnDelay = input.getShortOr("Delay", (short) DEFAULT_SPAWN_DELAY);
+        input.read(SPAWN_DATA_TAG, SpawnData.CODEC).ifPresent(p_400944_ -> this.setNextSpawnData(level, pos, p_400944_));
+        this.spawnPotentials = input.read("SpawnPotentials", SpawnData.LIST_CODEC)
                 .orElseGet(() -> WeightedList.of(this.nextSpawnData != null ? this.nextSpawnData : new SpawnData()));
-        this.minSpawnDelay = tag.getIntOr("MinSpawnDelay", DEFAULT_MIN_SPAWN_DELAY);
-        this.maxSpawnDelay = tag.getIntOr("MaxSpawnDelay", DEFAULT_MAX_SPAWN_DELAY);
-        this.spawnCount = tag.getIntOr("SpawnCount", DEFAULT_SPAWN_COUNT);
-        this.maxNearbyEntities = tag.getIntOr("MaxNearbyEntities", DEFAULT_MAX_NEARBY_ENTITIES);
-        this.requiredPlayerRange = tag.getIntOr("RequiredPlayerRange", DEFAULT_REQUIRED_PLAYER_RANGE);
-        this.spawnRange = tag.getIntOr("SpawnRange", DEFAULT_SPAWN_RANGE);
+        this.minSpawnDelay = input.getIntOr("MinSpawnDelay", DEFAULT_MIN_SPAWN_DELAY);
+        this.maxSpawnDelay = input.getIntOr("MaxSpawnDelay", DEFAULT_MAX_SPAWN_DELAY);
+        this.spawnCount = input.getIntOr("SpawnCount", DEFAULT_SPAWN_COUNT);
+        this.maxNearbyEntities = input.getIntOr("MaxNearbyEntities", DEFAULT_MAX_NEARBY_ENTITIES);
+        this.requiredPlayerRange = input.getIntOr("RequiredPlayerRange", DEFAULT_REQUIRED_PLAYER_RANGE);
+        this.spawnRange = input.getIntOr("SpawnRange", DEFAULT_SPAWN_RANGE);
     }
 
-    public CompoundTag save(CompoundTag tag) {
-        tag.putShort("Delay", (short)this.spawnDelay);
-        tag.putShort("MinSpawnDelay", (short)this.minSpawnDelay);
-        tag.putShort("MaxSpawnDelay", (short)this.maxSpawnDelay);
-        tag.putShort("SpawnCount", (short)this.spawnCount);
-        tag.putShort("MaxNearbyEntities", (short)this.maxNearbyEntities);
-        tag.putShort("RequiredPlayerRange", (short)this.requiredPlayerRange);
-        tag.putShort("SpawnRange", (short)this.spawnRange);
-        tag.storeNullable(SPAWN_DATA_TAG, SpawnData.CODEC, this.nextSpawnData);
-        tag.store("SpawnPotentials", SpawnData.LIST_CODEC, this.spawnPotentials);
-        return tag;
+    public void save(ValueOutput output) {
+        output.putShort("Delay", (short)this.spawnDelay);
+        output.putShort("MinSpawnDelay", (short)this.minSpawnDelay);
+        output.putShort("MaxSpawnDelay", (short)this.maxSpawnDelay);
+        output.putShort("SpawnCount", (short)this.spawnCount);
+        output.putShort("MaxNearbyEntities", (short)this.maxNearbyEntities);
+        output.putShort("RequiredPlayerRange", (short)this.requiredPlayerRange);
+        output.putShort("SpawnRange", (short)this.spawnRange);
+        output.storeNullable("SpawnData", SpawnData.CODEC, this.nextSpawnData);
+        output.store("SpawnPotentials", SpawnData.LIST_CODEC, this.spawnPotentials);
     }
 
     public boolean onEventTriggered(Level level, int id) {
         if (id == 1) {
-            if (level.isClientSide) {
+            if (level.isClientSide()) {
                 this.spawnDelay = this.minSpawnDelay;
             }
 

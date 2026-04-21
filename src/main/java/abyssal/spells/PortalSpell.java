@@ -3,7 +3,7 @@ package abyssal.spells;
 import abyssal.Main;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 
 public class PortalSpell extends Spell {
-    protected PortalSpell(ResourceLocation key, SpellFuelQuantity cost) {
+    protected PortalSpell(Identifier key, SpellFuelQuantity cost) {
         super(key);
     }
 
@@ -31,17 +31,17 @@ public class PortalSpell extends Spell {
             DimensionType n = level.dimensionType();
             double scale = DimensionType.getTeleportationScale(o, n);
 
-            int randx = level.random.nextIntBetweenInclusive(-8,8);
-            int randy = level.random.nextIntBetweenInclusive(-8,8);
-            int randz = level.random.nextIntBetweenInclusive(-8,8);
+            int randx = level.getRandom().nextIntBetweenInclusive(-8,8);
+            int randy = level.getRandom().nextIntBetweenInclusive(-8,8);
+            int randz = level.getRandom().nextIntBetweenInclusive(-8,8);
             float yRatio = (float) (player.getBlockY() - o.minY()) / o.height();
             int targetx = (int) (player.getX() * scale + randx);
             int targety = Mth.lerpInt(yRatio,  12, 110) + randy; // hardcoded values because bedrock ceiling is weird
             int targetz = (int) (player.getZ() * scale + randz);
             Main.LOGGER.debug("targeting " + targetx + "," + targety + "," + targetz);
-            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.8f+level.random.nextFloat()*0.4f);
+            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
             player.teleportTo(nether, targetx, targety, targetz, Relative.ALL, player.getYRot(), player.getXRot(), true);
-            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 0.8f+level.random.nextFloat()*0.4f);
+            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
 
 
             BlockPos.MutableBlockPos target = new BlockPos.MutableBlockPos(targetx, targety, targety);
@@ -61,7 +61,7 @@ public class PortalSpell extends Spell {
 
             return InteractionResult.CONSUME;
         }
-        level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.FIRE_EXTINGUISH, player.getSoundSource(), 0.8f, 0.8f+level.random.nextFloat()*0.4f, false);
+        level.playLocalSound(player.getX(),player.getY(),player.getZ(), SoundEvents.FIRE_EXTINGUISH, player.getSoundSource(), 0.8f, 0.8f+level.getRandom().nextFloat()*0.4f, false);
         return InteractionResult.CONSUME;
     }
 }

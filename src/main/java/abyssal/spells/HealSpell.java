@@ -1,6 +1,6 @@
 package abyssal.spells;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +11,7 @@ public class HealSpell extends Spell {
 
     private final int baseHeal;
     private final double apScaling;
-    protected HealSpell(ResourceLocation key, SpellFuelQuantity cost, int baseDuration, double apScaling) {
+    protected HealSpell(Identifier key, SpellFuelQuantity cost, int baseDuration, double apScaling) {
         super(key, cost);
         this.baseHeal = baseDuration;
         this.apScaling = apScaling;

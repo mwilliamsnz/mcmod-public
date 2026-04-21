@@ -12,8 +12,8 @@ public class ModAttachmentTypes {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, Main.MOD_ID);
 
     public static final Supplier<AttachmentType<Integer>> COMBAT_TIME = ATTACHMENT_TYPES.register(
-            "combat_time", ()-> AttachmentType.builder(() -> 0).serialize(Codec.INT).build());
+            "combat_time", ()-> AttachmentType.builder(() -> 0).build());
     public static final Supplier<AttachmentType<Integer>> NO_COMBAT_TIME = ATTACHMENT_TYPES.register(
-            "no_combat_time", ()-> AttachmentType.builder(() -> 0).serialize(Codec.INT).build());
+            "no_combat_time", ()-> AttachmentType.builder(() -> 0).build());
 
 }
