@@ -150,6 +150,6 @@ public class InCombatHandler {
     }
 
     private static float getMagicDamageMultiplier(Player p) {
-        return 100f/ (100f + (float) p.getAttributeValue(Holder.direct(ModAttributes.MAGIC_RESIST.get())));
+        return 100f/ (100f + (float) p.getAttributeValue(ModAttributes.MAGIC_RESIST));
     }
 }
