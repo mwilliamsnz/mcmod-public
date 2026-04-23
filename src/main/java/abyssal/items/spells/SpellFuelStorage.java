@@ -7,6 +7,8 @@ public interface SpellFuelStorage {
 
     SpellFuelQuantity getSpellFuelQuantity(ItemStack stack);
 
+    SpellFuelQuantity getSpellFuelMax(ItemStack stack);
+
     SpellFuelQuantity changeSpellFuelQuantity(ItemStack stack, int q);
 
 }

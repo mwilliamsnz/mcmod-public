@@ -16,7 +16,6 @@ public abstract class SphericalParticleSpell extends Spell {
     }
 
     public void produceParticleInRadius(Level level, Vec3 centre, float radius) {
-        Main.LOGGER.debug(radius * radius + " particles");
         for (int i = 0; i < radius*radius; i++) {
             double rx = (level.getRandom().nextDouble() - 0.5) * 2;
             double ry = (level.getRandom().nextDouble() - 0.5) * 2;

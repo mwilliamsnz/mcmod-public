@@ -4,7 +4,6 @@ import abyssal.data.ModTags;
 import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
 import abyssal.items.AttributeHelper;
-import net.minecraft.core.Holder;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,8 +19,7 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
-import net.neoforged.neoforge.event.level.BlockDropsEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosSlotTypes;
@@ -107,15 +105,14 @@ public class InCombatHandler {
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(BlockDropsEvent event) {
-        if (event.getBreaker() instanceof Player p) {
-            CuriosApi.getCuriosInventory(p).ifPresent((itemHandler)-> {
-                itemHandler.findFirstCurio(ModItems.CLOCKWORK_AMULET.get()).ifPresent((result) -> {
-                    p.addEffect(new MobEffectInstance(MobEffects.HUNGER, 200, 0, false, false));
-                    p.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, 0, false, false));
-                });
+    public static void onBlockBreak(BreakBlockEvent event) {
+        Player p = event.getPlayer();
+        CuriosApi.getCuriosInventory(p).ifPresent((itemHandler) -> {
+            itemHandler.findFirstCurio(ModItems.CLOCKWORK_AMULET.get()).ifPresent((result) -> {
+                p.addEffect(new MobEffectInstance(MobEffects.HUNGER, 200, 0, false, false));
+                p.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, 0, false, false));
             });
-        }
+        });
     }
 
     @SubscribeEvent

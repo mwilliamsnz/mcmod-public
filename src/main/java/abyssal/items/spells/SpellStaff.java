@@ -1,6 +1,5 @@
 package abyssal.items.spells;
 
-import abyssal.Main;
 import abyssal.ModAttributes;
 import abyssal.init.ModDataComponents;
 import abyssal.spells.*;
@@ -45,7 +44,7 @@ public class SpellStaff extends Item {
             if(cost.depleteIfSatisfied(player)) {
                 result = spell.cast(level, player, staff, book, ap);
                 onCast(level, player, staff, book, ap);
-                player.getCooldowns().addCooldown(staff, 20);
+                player.getCooldowns().addCooldown(staff, 10);
 
             }
         }

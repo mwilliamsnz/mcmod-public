@@ -27,19 +27,14 @@ public class SkeletonSummonSpell extends Spell {
             return InteractionResult.SUCCESS;
         } else {
             BlockPos blockpos = player.getOnPos();
-            AABB box = AABB.ofSize(blockpos.getCenter().subtract(2f,2f,2f), 4f, 4f, 4f);
+            AABB box = AABB.ofSize(blockpos.getCenter(), 4f, 5f, 4f);
             box.expandTowards(player.getLookAngle().normalize().scale(3)); // Summon should appear in general direction of facing
-            //
             List<BlockPos> validPositions = BlockPos.MutableBlockPos.betweenClosedStream(box).filter((pos -> level.getBlockState(pos).getCollisionShape(level, pos).isEmpty())).toList();
             if(validPositions.isEmpty()) {
                 return InteractionResult.FAIL;
             }
             summon(level, player, validPositions.get((int)(Math.random()* validPositions.size())), staff, false);
-
-
-//            return InteractionResult.CONSUME;
         }
-
         return InteractionResult.SUCCESS;
     }
 

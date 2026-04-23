@@ -50,7 +50,7 @@ public class EnchantSpell extends Spell {
                 .filter(toEnchant::isPrimaryItemFor).toList();
         Holder.Reference<Enchantment> e = possible.get(level.getRandom().nextInt(possible.size()));
         toEnchant.enchant(e, 1);
-        level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
+        level.playSound(player, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
         return InteractionResult.SUCCESS;
 
 

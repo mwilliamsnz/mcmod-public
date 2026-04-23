@@ -52,7 +52,7 @@ public class AreaPotionEffectSpell extends SphericalParticleSpell {
                 }
             }
         })));
-        level.playSound(player, BlockPos.containing(player.position()), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.PLAYERS, 1.0F, 1.0F);
+        level.playSound(player, player.blockPosition(), SoundEvents.FIREWORK_ROCKET_TWINKLE, SoundSource.PLAYERS, 1.0F, 1.0F);
 
         return InteractionResult.SUCCESS;
     }

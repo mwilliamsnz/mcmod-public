@@ -22,6 +22,11 @@ public class FuelStorageItem extends Item implements SpellFuelStorage {
     }
 
     @Override
+    public SpellFuelQuantity getSpellFuelMax(ItemStack stack) {
+        return new SpellFuelQuantity(fuelType, getMaxDamage(stack));
+    }
+
+    @Override
     public SpellFuelQuantity changeSpellFuelQuantity(ItemStack stack, int q) {
         setDamage(stack, Mth.clamp(getDamage(stack) - q, 0, getMaxDamage(stack)));
         return getSpellFuelQuantity(stack);

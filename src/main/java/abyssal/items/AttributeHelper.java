@@ -55,6 +55,9 @@ public class AttributeHelper {
     }
 
     public static void relabelCurioModifiers(ItemStack stack, ISlotType slot, String suffix) {
+        if(slot == null) {
+            return;
+        }
         CurioAttributeModifiers.Builder builder = CurioAttributeModifiers.builder();
         ICurioItem.forEachModifier(stack, slot, (atr, m) -> {
             String newPath = replaceSuffix(m.id().getPath(), suffix);

@@ -54,6 +54,33 @@ public class SpellFuelQuantity {
         return false;
     }
 
+    public boolean topUp(Player player) {
+        final int[] remaining = {quantity};
+        if(player instanceof ServerPlayer p) {
+            CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
+                int slots = itemHandler.getEquippedCurios().getSlots();
+                for (int i = 0; i < slots; i++) {
+                    ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
+                    remaining[0] = topUpStack(s, remaining[0]);
+                    if (remaining[0] <= 0) {
+                        break;
+                    }
+                }
+            });
+            if (remaining[0] <= 0) {
+                return quantity != remaining[0];
+            }
+            for(int i = 0; i < p.getInventory().getContainerSize(); i++) {
+                ItemStack s = p.getInventory().getItem(i);
+                remaining[0] = topUpStack(s, remaining[0]);
+                if (remaining[0] <= 0) {
+                    return quantity != remaining[0];
+                }
+            }
+        }
+        return quantity != remaining[0];
+    }
+
     private int withdrawFromStack(ItemStack s, int remaining) {
         if(s.getItem() instanceof SpellFuelStorage fs) {
             SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
@@ -61,6 +88,20 @@ public class SpellFuelQuantity {
             if((q.type == type || q.type == SpellFuelTypes.FUEL_COLOURLESS) && q.quantity > 0) {
                 int d = Math.min(remaining, q.quantity);
                 fs.changeSpellFuelQuantity(s, -d);
+                remaining -= d;
+            }
+        }
+        return remaining;
+    }
+
+    private int topUpStack(ItemStack s, int remaining) {
+        if(s.getItem() instanceof SpellFuelStorage fs) {
+            SpellFuelQuantity current = fs.getSpellFuelQuantity(s);
+            SpellFuelQuantity capacity = fs.getSpellFuelMax(s);
+
+            if((capacity.type == type || type == SpellFuelTypes.FUEL_COLOURLESS) && capacity.quantity > current.quantity) {
+                int d = Math.min(remaining, capacity.quantity - current.quantity);
+                fs.changeSpellFuelQuantity(s, d);
                 remaining -= d;
             }
         }

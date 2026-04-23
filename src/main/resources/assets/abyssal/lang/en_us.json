@@ -20,6 +20,9 @@
   "item.abyssal.prismatic_powder": "Prismatic Powder",
   "item.abyssal.fish_painting": "Fish Painting",
   "item.abyssal.wacky_skull": "Sinister Metallic Skull",
+  "item.abyssal.glowing_paste": "Glowing Paste",
+  "item.abyssal.grains_of_force": "Grains of Force",
+  "item.abyssal.incendiary_powder": "Incendiary Powder",
 
   "item.abyssal.mover": "Soul Wand",
   "item.abyssal.booster": "Wand of Launching",
@@ -48,6 +51,11 @@
 
   "item.abyssal.ruby_crystal": "Ruby Crystal",
   "item.abyssal.sapphire_crystal": "Sapphire Crystal",
+  "item.abyssal.kindlegem": "Kindlegem",
+  "item.abyssal.smoldering_tablet": "Smoldering Tablet",
+  "item.abyssal.resonating_star": "Resonating Star",
+  "item.abyssal.reverberating_star": "Reverberating Star",
+  "item.abyssal.omnistone": "Omnistone",
   "item.abyssal.luck_charm": "Luck Charm",
   "item.abyssal.rejuvenation_bead": "Rejuvenation Bead",
   "item.abyssal.toxic_totem": "Toxic Totem",
@@ -252,5 +260,6 @@
   "spell.abyssal.summon_skeleton" : "Summon Skeletal Minion",
   "spell.abyssal.enchant" : "Minor Enchantment",
   "spell.abyssal.heal" : "Heal",
-  "spell.abyssal.area_heal" : "Purifying Light"
+  "spell.abyssal.area_heal" : "Purifying Light",
+  "spell.abyssal.dowsing" : "Dowsing"
 }

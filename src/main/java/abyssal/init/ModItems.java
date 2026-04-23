@@ -11,6 +11,8 @@ import abyssal.items.handheld.*;
 import abyssal.items.spells.BasicStaff;
 import abyssal.items.spells.DualSpellBook;
 import abyssal.items.spells.FuelStorageItem;
+import abyssal.items.spells.FuelSupplyItem;
+import abyssal.spells.SpellFuelQuantity;
 import abyssal.spells.SpellFuelTypes;
 import abyssal.spells.Spells;
 import net.minecraft.core.HolderSet;
@@ -26,7 +28,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -97,7 +98,7 @@ public final class ModItems {
             l -> new RecallStaff(defaultPs(l).stacksTo(1)));
 
     public static final DeferredItem<Item> DOWSING_ROD = registerCurio("dowsing_rod",
-            l -> new DowsingRodItem(defaultPs(l).stacksTo(1)));
+            l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.DOWSING));
     public static final DeferredItem<Item> DEBUG_DOWSING_ROD = registerCurio("debug_dowsing_rod",
             l -> new DebugDowsingRodItem(defaultPs(l).stacksTo(1)));
     public static final DeferredItem<Item> PORTAL_LIGHTER = registerCurio("portal_lighter",
@@ -119,13 +120,17 @@ public final class ModItems {
     public static final DeferredItem<Item> SKELETON_STAFF = registerCurio("skeleton_staff", l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.SUMMON_SKELETON));
     public static final DeferredItem<Item> ENCHANTING_STAFF = registerCurio("enchanting_staff", l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.ENCHANT));
     public static final DeferredItem<Item> KINDLEGEM = registerCurio("kindlegem", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FIRE));
-    public static final DeferredItem<Item> DARK_CUBE = registerCurio("dark_cube", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_EVIL));
-    public static final DeferredItem<Item> RADIANT_PRISM = registerCurio("radiant_prism", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_LIGHT));
-    public static final DeferredItem<Item> ENERGISED_ORB = registerCurio("energised_orb", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FORCE));
-    public static final DeferredItem<Item> OMNISTONE = registerCurio("omnistone", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_COLOURLESS));
+    public static final DeferredItem<Item> SMOLDERING_TABLET = registerCurio("smoldering_tablet", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FIRE));
+    public static final DeferredItem<Item> RESONATING_STAR = registerCurio("resonating_star", l -> new FuelStorageItem(noStackPs(l).durability(100), SpellFuelTypes.FUEL_FORCE));
+    public static final DeferredItem<Item> REVERBERATING_STAR = registerCurio("reverberating_star", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FORCE));
+    public static final DeferredItem<Item> OMNISTONE = registerCurio("omnistone", l -> new FuelStorageItem(noStackPs(l).durability(600), SpellFuelTypes.FUEL_COLOURLESS));
+
+    public static final DeferredItem<Item> GLOWING_PASTE = register("glowing_paste", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20) ));
+    public static final DeferredItem<Item> GRAINS_OF_FORCE = register("grains_of_force", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 20)));
+    public static final DeferredItem<Item> INCENDIARY_POWDER = register("incendiary_powder", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_FIRE, 20)));
 
     public static final DeferredItem<Item> WACKY_SKULL = registerCurio("wacky_skull", l -> new Item(defaultPs(l)));
-    public static final DeferredItem<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_GENERIC));
+    public static final DeferredItem<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_LIGHT));
     public static final DeferredItem<Item> RUBY_CRYSTAL = registerCurio("ruby_crystal", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> RAGE_TOTEM = registerCurio("rage_totem", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", l -> new Item(noStackPs(l)));
