@@ -48,7 +48,6 @@ public class Main {
 
 
         Gems.initGems();
-        Alchemy.initAlchemy(358132134);
 
         ModArmourMaterials.replaceArmourMaterials();
     }

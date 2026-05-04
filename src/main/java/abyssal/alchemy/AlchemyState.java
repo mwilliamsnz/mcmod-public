@@ -86,7 +86,7 @@ public class AlchemyState {
 
     @Override
     public String toString() {
-        return "[" + getMaterialHere().name + " at " + this.position + ", useful quantity " + quantity + ", total quantity " + (quantity+impurityQuantity) + ", purity " + (quantity/(quantity+impurityQuantity)) + "]";
+        return "[" + getMaterialHere().name + " at " + this.position + ", useful fuel " + quantity + ", total fuel " + (quantity+impurityQuantity) + ", purity " + (quantity/(quantity+impurityQuantity)) + "]";
     }
 
 }

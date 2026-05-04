@@ -13,6 +13,8 @@ public class Alchemy {
 
     private static final long SALT = 495104;
 
+    private static long currentSeed;
+
     private static Map<BoardPosition, AlchemyMaterialGroup> board;
     private static Map<AlchemyMaterial, BoardPosition> boardReverse;
 
@@ -55,6 +57,10 @@ public class Alchemy {
     }
 
     public static void initAlchemy(long seed) {
+        if(currentSeed == seed) {
+            return;
+        }
+        currentSeed = seed;
         Random r = new Random(seed + SALT);
         initAlchemyMaterials(r);
         AlchemyReagents.makeReagents(r);
