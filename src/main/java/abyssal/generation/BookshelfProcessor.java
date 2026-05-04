@@ -1,21 +1,17 @@
 package abyssal.generation;
 
-import abyssal.Main;
 import abyssal.init.ModDataComponents;
 import abyssal.init.ModItems;
-import abyssal.items.spells.DualSpellBook;
 import abyssal.spells.Spell;
-import abyssal.spells.SpellComponent;
+import abyssal.components.SpellComponent;
 import abyssal.spells.Spells;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -34,7 +30,6 @@ import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import net.minecraft.world.level.storage.TagValueOutput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;

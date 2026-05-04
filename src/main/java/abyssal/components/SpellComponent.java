@@ -1,5 +1,9 @@
-package abyssal.spells;
+package abyssal.components;
 
+import abyssal.Main;
+import abyssal.spells.Spell;
+import abyssal.spells.SpellFuelQuantity;
+import abyssal.spells.Spells;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
@@ -69,11 +73,17 @@ public record SpellComponent(Identifier primaryRL, Optional<Identifier> secondar
 
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag flag, DataComponentGetter componentGetter) {
-        tooltipAdder.accept(tooltip(primaryRL));
-        secondaryRL.ifPresent(Identifier -> tooltipAdder.accept(tooltip(secondaryRL.get())));
+        tooltip(tooltipAdder, primary());
+        secondaryRL.ifPresent(_ -> tooltip(tooltipAdder, secondary()));
     }
 
-    private Component tooltip(Identifier rl) {
-        return Component.translatable("spell." + rl.toLanguageKey()).withStyle(ChatFormatting.GOLD);
+    private void tooltip(Consumer<Component> tooltipAdder, Spell spell) {
+        Identifier id = spell.key;
+        SpellFuelQuantity cost = spell.baseCost;
+        tooltipAdder.accept(Component.translatable("spell." + id.toLanguageKey()).withStyle(ChatFormatting.LIGHT_PURPLE));
+        tooltipAdder.accept(Component.translatable("tooltips." + Main.MOD_ID + ".fuel_spend")
+                .append(cost.quantity() + " ")
+                .append(Component.translatable(cost.type().getLanguageKey()))
+                .withStyle(cost.type().getColour()));
     }
 }

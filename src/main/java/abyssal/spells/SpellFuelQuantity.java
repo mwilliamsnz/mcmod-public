@@ -1,27 +1,28 @@
 package abyssal.spells;
 
-import abyssal.items.spells.SpellFuelStorage;
+import abyssal.Main;
+import abyssal.components.SpellBatteryComponent;
+import abyssal.init.ModDataComponents;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
 
-public class SpellFuelQuantity {
+public record SpellFuelQuantity (SpellFuelType type, int quantity) {
 
-    final SpellFuelType type;
-    int quantity;
+    public static final MapCodec<SpellFuelQuantity> CODEC = RecordCodecBuilder.mapCodec(
+            i -> i.group(
+                    SpellFuelType.CODEC.fieldOf("type").forGetter(SpellFuelQuantity::type),
+                    Codec.intRange(-10000000, 10000000).fieldOf("quantity").forGetter(SpellFuelQuantity::quantity)
+            ).apply(i, SpellFuelQuantity::new));
 
     public static final SpellFuelQuantity NONE = new SpellFuelQuantity(SpellFuelTypes.FUEL_NONE, 0);
 
-
-    public SpellFuelQuantity(SpellFuelType type, int quantity) {
-        this.type = type;
-        this.quantity = quantity;
-    }
-
-    public  SpellFuelQuantity add(int q) {
-        this.quantity += q;
-        return this;
+    public SpellFuelQuantity add(int q) {
+        return new SpellFuelQuantity(type, quantity + q);
     }
 
     public boolean depleteIfSatisfied(Player player) {
@@ -82,12 +83,15 @@ public class SpellFuelQuantity {
     }
 
     private int withdrawFromStack(ItemStack s, int remaining) {
-        if(s.getItem() instanceof SpellFuelStorage fs) {
-            SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
+        if(s.has(ModDataComponents.SPELL_BATTERY)) {
+            SpellBatteryComponent batt = s.get(ModDataComponents.SPELL_BATTERY);
+            int stored = batt.stored();
+            SpellFuelQuantity capacity = batt.capacity();
 
-            if((q.type == type || q.type == SpellFuelTypes.FUEL_COLOURLESS) && q.quantity > 0) {
-                int d = Math.min(remaining, q.quantity);
-                fs.changeSpellFuelQuantity(s, -d);
+            if((capacity.type == type || capacity.type == SpellFuelTypes.FUEL_COLOURLESS) && stored > 0) {
+                int d = Math.min(remaining, stored);
+                SpellBatteryComponent newBatt = new SpellBatteryComponent(capacity, stored - d);
+                s.set(ModDataComponents.SPELL_BATTERY, newBatt);
                 remaining -= d;
             }
         }
@@ -95,13 +99,14 @@ public class SpellFuelQuantity {
     }
 
     private int topUpStack(ItemStack s, int remaining) {
-        if(s.getItem() instanceof SpellFuelStorage fs) {
-            SpellFuelQuantity current = fs.getSpellFuelQuantity(s);
-            SpellFuelQuantity capacity = fs.getSpellFuelMax(s);
+        if(s.has(ModDataComponents.SPELL_BATTERY)) {
+            SpellBatteryComponent batt = s.get(ModDataComponents.SPELL_BATTERY);
+            int stored = batt.stored();
+            SpellFuelQuantity capacity = batt.capacity();
 
-            if((capacity.type == type || type == SpellFuelTypes.FUEL_COLOURLESS) && capacity.quantity > current.quantity) {
-                int d = Math.min(remaining, capacity.quantity - current.quantity);
-                fs.changeSpellFuelQuantity(s, d);
+            if((capacity.type == type || type == SpellFuelTypes.FUEL_COLOURLESS) && capacity.quantity > stored) {
+                int d = Math.min(remaining, capacity.quantity - stored);
+                SpellBatteryComponent newBatt = new SpellBatteryComponent(capacity, stored + d);
                 remaining -= d;
             }
         }
@@ -110,18 +115,22 @@ public class SpellFuelQuantity {
 
     public boolean canAfford(ServerPlayer player) {
         final int[] remaining = {quantity};
-
+        Main.LOGGER.info("Checking if we can afford quantity " + remaining[0] + " of " + type.id());
         CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
             int slots = itemHandler.getEquippedCurios().getSlots();
             for (int i = 0; i < slots; i++) {
                 ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
-                if(s.getItem() instanceof SpellFuelStorage fs) {
-                    SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
-                    if(q.type != type && q.type != SpellFuelTypes.FUEL_COLOURLESS) {
+                if(s.has(ModDataComponents.SPELL_BATTERY)) {
+                    SpellBatteryComponent batt = s.get(ModDataComponents.SPELL_BATTERY);
+                    int stored = batt.stored();
+                    SpellFuelQuantity capacity = batt.capacity();
+
+                    if(!capacity.type.equals(type) && !capacity.type.equals(SpellFuelTypes.FUEL_COLOURLESS)) {
                         continue;
                     }
-                    if(q.quantity > 0) {
-                        remaining[0] -= q.quantity;
+
+                    if(stored > 0) {
+                        remaining[0] -= stored;
                         if (remaining[0] <= 0) {
                             break;
                         }
@@ -134,13 +143,18 @@ public class SpellFuelQuantity {
         }
         for(int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack s = player.getInventory().getItem(i);
-            if(s.getItem() instanceof SpellFuelStorage fs) {
-                SpellFuelQuantity q = fs.getSpellFuelQuantity(s);
-                if(q.type != type) {
+            if(s.has(ModDataComponents.SPELL_BATTERY)) {
+                SpellBatteryComponent batt = s.get(ModDataComponents.SPELL_BATTERY);
+                int stored = batt.stored();
+                SpellFuelQuantity capacity = batt.capacity();
+
+                Main.LOGGER.info(stored + "/" + capacity.quantity() + " of " + capacity.type.id());
+                if(!capacity.type.equals(type) && !capacity.type.equals(SpellFuelTypes.FUEL_COLOURLESS)) {
                     continue;
                 }
-                if(q.quantity > 0) {
-                    remaining[0] -= q.quantity;
+
+                if(stored > 0) {
+                    remaining[0] -= stored;
                     if (remaining[0] <= 0) {
                         return true;
                     }

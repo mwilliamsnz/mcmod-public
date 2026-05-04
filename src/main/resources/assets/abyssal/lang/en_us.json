@@ -261,5 +261,14 @@
   "spell.abyssal.enchant" : "Minor Enchantment",
   "spell.abyssal.heal" : "Heal",
   "spell.abyssal.area_heal" : "Purifying Light",
-  "spell.abyssal.dowsing" : "Dowsing"
+  "spell.abyssal.dowsing" : "Dowsing",
+
+  "spell.abyssal.light": "Glimmer",
+  "spell.abyssal.fire": "Inferno",
+  "spell.abyssal.force": "Pulse",
+  "spell.abyssal.colourless": "Colourless",
+
+  "tooltips.abyssal.fuel_spend": "Costs ",
+  "tooltips.abyssal.fuel_store": "Contains ",
+  "tooltips.abyssal.refuel": "Restores "
 }

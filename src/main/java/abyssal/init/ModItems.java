@@ -2,24 +2,27 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.ModAttributes;
+import abyssal.components.RestoreFuelConsumeEffect;
+import abyssal.components.SpellBatteryComponent;
+import abyssal.components.SpellRefuelComponent;
 import abyssal.items.*;
 import abyssal.items.armour.MobiBootsItem;
 import abyssal.items.armour.WarmogsItem;
 import abyssal.items.curios.CoinPurseBundleContents;
 import abyssal.items.curios.CoinPurseItem;
 import abyssal.items.handheld.*;
-import abyssal.items.spells.BasicStaff;
-import abyssal.items.spells.DualSpellBook;
-import abyssal.items.spells.FuelStorageItem;
-import abyssal.items.spells.FuelSupplyItem;
+import abyssal.items.spells.*;
 import abyssal.spells.SpellFuelQuantity;
 import abyssal.spells.SpellFuelTypes;
 import abyssal.spells.Spells;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -72,6 +75,17 @@ public final class ModItems {
                     new MobEffectInstance(MobEffects.RESISTANCE, 500, 0)
             ))).build();
 
+    private static Consumable baseFuel(SoundEvent sound) {
+        return Consumable.builder().consumeSeconds(1.6F).animation(ItemUseAnimation.BLOCK)
+                .sound(Holder.direct(sound)).hasConsumeParticles(false)
+                .onConsume(new RestoreFuelConsumeEffect())
+                .build();
+    }
+
+    private static final Consumable REFUEL_LIGHT = baseFuel(SoundEvents.SLIME_SQUISH);
+    private static final Consumable REFUEL_FIRE = baseFuel(SoundEvents.BLAZE_BURN);
+    private static final Consumable REFUEL_FORCE = baseFuel(SoundEvents.FIREWORK_ROCKET_BLAST);
+
 
     public static final DeferredItem<Item> CORN = register("corn",
             l -> new Item(defaultPs(l).food((new FoodProperties.Builder()).nutrition(3).saturationModifier(0.5f).build())));
@@ -119,18 +133,30 @@ public final class ModItems {
 
     public static final DeferredItem<Item> SKELETON_STAFF = registerCurio("skeleton_staff", l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.SUMMON_SKELETON));
     public static final DeferredItem<Item> ENCHANTING_STAFF = registerCurio("enchanting_staff", l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.ENCHANT));
-    public static final DeferredItem<Item> KINDLEGEM = registerCurio("kindlegem", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FIRE));
-    public static final DeferredItem<Item> SMOLDERING_TABLET = registerCurio("smoldering_tablet", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FIRE));
-    public static final DeferredItem<Item> RESONATING_STAR = registerCurio("resonating_star", l -> new FuelStorageItem(noStackPs(l).durability(100), SpellFuelTypes.FUEL_FORCE));
-    public static final DeferredItem<Item> REVERBERATING_STAR = registerCurio("reverberating_star", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_FORCE));
-    public static final DeferredItem<Item> OMNISTONE = registerCurio("omnistone", l -> new FuelStorageItem(noStackPs(l).durability(600), SpellFuelTypes.FUEL_COLOURLESS));
+    public static final DeferredItem<Item> KINDLEGEM = registerCurio("kindlegem", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_FIRE, 250, 250))));
+    public static final DeferredItem<Item> SMOLDERING_TABLET = registerCurio("smoldering_tablet", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_FIRE, 250, 250))));
+    public static final DeferredItem<Item> RESONATING_STAR = registerCurio("resonating_star", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_FORCE, 100, 100))));
+    public static final DeferredItem<Item> REVERBERATING_STAR = registerCurio("reverberating_star", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_FORCE, 250, 250))));
+    public static final DeferredItem<Item> OMNISTONE = registerCurio("omnistone", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_COLOURLESS, 600, 600))));
 
-    public static final DeferredItem<Item> GLOWING_PASTE = register("glowing_paste", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20) ));
-    public static final DeferredItem<Item> GRAINS_OF_FORCE = register("grains_of_force", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 20)));
-    public static final DeferredItem<Item> INCENDIARY_POWDER = register("incendiary_powder", l -> new FuelSupplyItem(defaultPs(l), new SpellFuelQuantity(SpellFuelTypes.FUEL_FIRE, 20)));
+    public static final DeferredItem<Item> GLOWING_PASTE = register("glowing_paste", l
+            -> new Item(defaultPs(l).stacksTo(16).component(DataComponents.CONSUMABLE, REFUEL_LIGHT)
+            .component(ModDataComponents.SPELL_FUEL_RECHARGE.get(), new SpellRefuelComponent(new SpellFuelQuantity(SpellFuelTypes.FUEL_LIGHT, 20)))));
+    public static final DeferredItem<Item> GRAINS_OF_FORCE = register("grains_of_force", l
+            -> new Item(defaultPs(l).stacksTo(16).component(DataComponents.CONSUMABLE, REFUEL_FORCE)
+            .component(ModDataComponents.SPELL_FUEL_RECHARGE.get(), new SpellRefuelComponent(new SpellFuelQuantity(SpellFuelTypes.FUEL_FORCE, 20)))));
+    public static final DeferredItem<Item> INCENDIARY_POWDER = register("incendiary_powder", l
+            -> new Item(defaultPs(l).stacksTo(16).component(DataComponents.CONSUMABLE, REFUEL_FIRE)
+            .component(ModDataComponents.SPELL_FUEL_RECHARGE.get(), new SpellRefuelComponent(new SpellFuelQuantity(SpellFuelTypes.FUEL_FIRE, 20)))));
 
     public static final DeferredItem<Item> WACKY_SKULL = registerCurio("wacky_skull", l -> new Item(defaultPs(l)));
-    public static final DeferredItem<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", l -> new FuelStorageItem(noStackPs(l).durability(250), SpellFuelTypes.FUEL_LIGHT));
+    public static final DeferredItem<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", l -> new BatteryBarItem(noStackPs(l)
+            .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_LIGHT, 250, 250))));
     public static final DeferredItem<Item> RUBY_CRYSTAL = registerCurio("ruby_crystal", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> RAGE_TOTEM = registerCurio("rage_totem", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", l -> new Item(noStackPs(l)));

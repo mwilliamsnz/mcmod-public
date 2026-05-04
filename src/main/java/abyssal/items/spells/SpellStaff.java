@@ -1,6 +1,7 @@
 package abyssal.items.spells;
 
 import abyssal.ModAttributes;
+import abyssal.components.SpellComponent;
 import abyssal.init.ModDataComponents;
 import abyssal.spells.*;
 import net.minecraft.world.InteractionHand;
