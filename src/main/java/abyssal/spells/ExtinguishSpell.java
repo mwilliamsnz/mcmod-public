@@ -41,7 +41,7 @@ public class ExtinguishSpell extends SphericalParticleSpell {
                 // TODO (soul) campfires, candles, possibly torches/lanterns
             }
         });
-        level.playSound(player, BlockPos.containing(player.position()), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1.0F, 1.0F);
+        level.playSound(null, BlockPos.containing(player.position()), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1.0F, 1.0F);
         produceParticleInRadius(level, pp, (float) radius);
         return InteractionResult.SUCCESS;
     }

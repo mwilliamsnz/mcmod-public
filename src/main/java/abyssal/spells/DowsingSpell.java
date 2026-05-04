@@ -81,7 +81,7 @@ public class DowsingSpell extends Spell {
                     break;
                 }
             }
-            level.playSound(player, player.blockPosition(), sound, SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, player.blockPosition(), sound, SoundSource.PLAYERS, 1.0F, 1.0F);
             produceColourParticles(level, player.position(), 1.5f, r, g, b);
             player.sendSystemMessage(Component.translatable(here.name()));
         }

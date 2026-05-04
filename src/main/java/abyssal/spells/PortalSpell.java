@@ -39,9 +39,9 @@ public class PortalSpell extends Spell {
             int targety = Mth.lerpInt(yRatio,  12, 110) + randy; // hardcoded values because bedrock ceiling is weird
             int targetz = (int) (player.getZ() * scale + randz);
             Main.LOGGER.debug("targeting " + targetx + "," + targety + "," + targetz);
-            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
+            level.playSound(null, BlockPos.containing(player.position()), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
             player.teleportTo(nether, targetx, targety, targetz, Relative.ALL, player.getYRot(), player.getXRot(), true);
-            level.playSound(player, BlockPos.containing(player.position()), SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
+            level.playSound(null, BlockPos.containing(player.position()), SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 0.8f+level.getRandom().nextFloat()*0.4f);
 
 
             BlockPos.MutableBlockPos target = new BlockPos.MutableBlockPos(targetx, targety, targety);

@@ -50,7 +50,7 @@ public class CharAxe extends AxeItem {
             }
 
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));
-            level.playSound(player, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
             if (player != null) {
                 inHand.hurtAndBreak(superBurn ? 10 : 5, player, ctx.getHand());

@@ -1,4 +1,4 @@
-package abyssal.items;
+package abyssal.items.handheld;
 
 import abyssal.Main;
 import abyssal.generation.OreDist;
