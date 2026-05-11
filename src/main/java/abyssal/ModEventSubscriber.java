@@ -81,31 +81,35 @@ public class ModEventSubscriber {
     public static void addAttributes(EntityAttributeModificationEvent event) {
         event.add(EntityType.PLAYER, ModAttributes.MAGIC_RESIST);
         event.add(EntityType.PLAYER, ModAttributes.ABILITY_POWER);
+        event.add(EntityType.PLAYER, ModAttributes.HEAL_RATE);
+        event.add(EntityType.PLAYER, ModAttributes.REGEN);
+        event.add(EntityType.PLAYER, ModAttributes.TENACITY);
     }
 
     @SubscribeEvent
     public static void registerCapabilities(final RegisterCapabilitiesEvent evt) {
 
-        // Rejuvenation beads
-
-        evt.registerItem(
-                CuriosCapability.ITEM,
-                rejuvCurio(0.0025f),
-                ModItems.REJUVENATION_BEAD.get());
-        evt.registerItem(
-                CuriosCapability.ITEM,
-                rejuvCurio(0.0025f),
-                ModItems.REJUVENATION_RING.get());
-        evt.registerItem(
-                CuriosCapability.ITEM,
-                rejuvCurio(0.0075f),
-                ModItems.REJUVENATION_BELT.get());
-        evt.registerItem(
-                CuriosCapability.ITEM,
-                rejuvCurio(0.0075f),
-                ModItems.REJUVENATION_NECKLACE.get());
-
         // Attribute curios
+
+        evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
+            builder.addModifier(ModAttributes.REGEN,
+                    new AttributeModifier(rl("rejuv_bead"), 0.25f, AttributeModifier.Operation.ADD_VALUE));
+        }), ModItems.REJUVENATION_BEAD.get());
+
+        evt.registerItem(CuriosCapability.ITEM, ringAttributeCurio((builder, slot)->{
+            builder.addModifier(ModAttributes.REGEN,
+                    new AttributeModifier(rl("rejuv_bead_ring"), 0.25f, AttributeModifier.Operation.ADD_VALUE));
+        }), ModItems.REJUVENATION_RING.get());
+
+        evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
+            builder.addModifier(ModAttributes.REGEN,
+                    new AttributeModifier(rl("rejuv_bead_belt"), 0.75f, AttributeModifier.Operation.ADD_VALUE));
+        }), ModItems.REJUVENATION_BELT.get());
+
+        evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
+            builder.addModifier(ModAttributes.REGEN,
+                    new AttributeModifier(rl("rejuv_bead_necklace"), 0.75f, AttributeModifier.Operation.ADD_VALUE));
+        }), ModItems.REJUVENATION_NECKLACE.get());
 
         evt.registerItem(
                 CuriosCapability.ITEM,

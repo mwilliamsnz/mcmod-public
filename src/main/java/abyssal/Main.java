@@ -44,6 +44,7 @@ public class Main {
         ModCreativeTabs.TABS.register(modEventBus);
         ModAttachmentTypes.ATTACHMENT_TYPES.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
+        ModPotionEffectTypes.POTION_EFFECT_TYPES.register(modEventBus);
         modEventBus.addListener(this::gatherData);
 
 

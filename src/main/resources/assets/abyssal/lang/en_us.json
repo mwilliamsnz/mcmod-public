@@ -242,8 +242,14 @@
 
   "item_group.abyssal.misc": "Gamer Items",
   "item_group.abyssal.items": "Magical Trinkets",
-  "attribute.name.generic.magic_resist": "Magic Resistance",
-  "attribute.name.generic.ability_power": "Ability Power",
+
+  "attribute.name.abyssal.magic_resist": "Magic Resistance",
+  "attribute.name.abyssal.ability_power": "Ability Power",
+  "attribute.name.abyssal.regen": "Regeneration per 5s",
+  "attribute.name.abyssal.debuff_duration": "Tenacity",
+  "attribute.name.abyssal.healing_rate": "Healing Rate",
+
+  "effect.abyssal.wounded": "Wounded",
 
   "generator.abyssal.temperate": "Temperate",
   "generator.abyssal.temperate_compat": "Haunted Temperate",

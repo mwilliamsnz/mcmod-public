@@ -74,12 +74,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(ModItems.WARMOGS.get());
         this.tag(ItemTags.CHEST_ARMOR).add(ModItems.SPIRIT_VISAGE.get());
         this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(ModItems.SPIRIT_VISAGE.get());
-        this.tag(ModTags.Items.HEAL_AMPLIFIER).add(ModItems.SPIRIT_VISAGE.get());
         this.tag(ItemTags.FOOT_ARMOR).add(ModItems.MOBI_BOOTS.get());
         this.tag(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(ModItems.MOBI_BOOTS.get());
         this.tag(ItemTags.FOOT_ARMOR).add(ModItems.MERC_TREADS.get());
         this.tag(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(ModItems.MERC_TREADS.get());
-        this.tag(ModTags.Items.TENACITY_ITEMS).add(ModItems.MERC_TREADS.get());
         this.tag(ItemTags.HEAD_ARMOR).add(ModItems.RABADONS.get());
         this.tag(ItemTags.HEAD_ARMOR_ENCHANTABLE).add(ModItems.RABADONS.get());
 

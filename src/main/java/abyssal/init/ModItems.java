@@ -256,12 +256,14 @@ public final class ModItems {
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.MAX_HEALTH, new AttributeModifier(rl("spirit_visage_hp"), 8, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST)
                             .add(ModAttributes.MAGIC_RESIST, new AttributeModifier(rl("spirit_visage_mr"), 50, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST)
+                            .add(ModAttributes.HEAL_RATE, new AttributeModifier(rl("spirit_visage_heal"), 0.3, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST)
                             .build())));
     public static final DeferredItem<Item> MERC_TREADS = registerCurio("merc_treads",
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.MR_ITEMS, ArmorType.BOOTS)
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.MOVEMENT_SPEED, new AttributeModifier(rl("merc_treads_speed"), 0.015, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)
                             .add(ModAttributes.MAGIC_RESIST, new AttributeModifier(rl("merc_treads_mr"), 20, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)
+                            .add(ModAttributes.TENACITY, new AttributeModifier(rl("merc_treads_tenacity"), 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET)
                             .build())));
     public static final DeferredItem<Item> RABADONS = registerCurio("rabadons",
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.MR_ITEMS, ArmorType.HELMET).rarity(Rarity.UNCOMMON)

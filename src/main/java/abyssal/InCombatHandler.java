@@ -1,6 +1,5 @@
 package abyssal;
 
-import abyssal.data.ModTags;
 import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
 import abyssal.items.AttributeHelper;
@@ -9,10 +8,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
@@ -70,25 +67,21 @@ public class InCombatHandler {
 
     @SubscribeEvent
     public static void tick(PlayerTickEvent.Post event) {
-//        if(event == LogicalSide.SERVER) {
-            tickCombat(event.getEntity());
-//        }
+        Player p = event.getEntity();
+        tickCombat(p);
+        double regen = p.getAttributeValue(ModAttributes.REGEN);
+        if(regen > 0) {
+            p.heal((float) regen / 100);
+        }
     }
 
 
     @SubscribeEvent
     public static void healAmplifiers(LivingHealEvent event) {
-        if(event.getEntity() instanceof Player p) {
-            float amp = 1;
-            EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.BODY};
-            for(EquipmentSlot slot : slots) {
-                ItemStack s = p.getItemBySlot(slot);
-                if(s.is(ModTags.Items.HEAL_AMPLIFIER)) { // TODO datamap/attribute this?
-                    amp += 0.25F;
-                }
-            }
+        if (event.getEntity() instanceof Player p) {
             float heal = event.getAmount();
-            event.setAmount(heal * amp);
+            double amp = p.getAttributeValue(ModAttributes.HEAL_RATE);
+            event.setAmount((float) (heal * amp));
         }
     }
 
@@ -118,21 +111,12 @@ public class InCombatHandler {
     @SubscribeEvent
     public static void potionEffectAdded(MobEffectEvent.Added event) {
         if(event.getEntity() instanceof Player p) {
-            boolean tenacity = false;
-
-            EquipmentSlot[] slots = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.BODY};
-            for(EquipmentSlot slot : slots) {
-                ItemStack s = p.getItemBySlot(slot);
-                if(s.is(ModTags.Items.TENACITY_ITEMS)) {
-                    tenacity = true;
-                    break;
-                }
-            }
-            if(tenacity) {
+            double tenacity = p.getAttributeValue(ModAttributes.TENACITY);
+            if(tenacity != 1) {
                 MobEffectInstance unmodified = event.getEffectInstance();
 
                 if(!unmodified.getEffect().value().isBeneficial()) {
-                    unmodified.duration = (int) (unmodified.getDuration() * 0.65);
+                    unmodified.duration = (int) (unmodified.getDuration() / tenacity);
                 }
             }
         }
