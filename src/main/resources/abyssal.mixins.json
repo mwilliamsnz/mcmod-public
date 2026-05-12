@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "abyssal.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ArmorMaterialsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

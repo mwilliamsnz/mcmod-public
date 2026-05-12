@@ -49,8 +49,6 @@ public class Main {
 
 
         Gems.initGems();
-
-        ModArmourMaterials.replaceArmourMaterials();
     }
 
     public void gatherData(GatherDataEvent.Client event) {
