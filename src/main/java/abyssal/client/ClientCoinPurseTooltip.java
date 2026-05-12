@@ -37,7 +37,7 @@ public class ClientCoinPurseTooltip implements ClientTooltipComponent {
     private static final int PROGRESSBAR_MARGIN_Y = 4;
     private static final Component BUNDLE_FULL_TEXT = Component.translatable("item.minecraft.bundle.full");
     private static final Component BUNDLE_EMPTY_TEXT = Component.translatable("item.minecraft.bundle.empty");
-    private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.minecraft.bundle.empty.description");
+    private static final Component BUNDLE_EMPTY_DESCRIPTION = Component.translatable("item.abyssal.coin_purse.empty.description");
     private final CoinPurseBundleContents contents;
 
     public ClientCoinPurseTooltip(CoinPurseBundleContents contents) {

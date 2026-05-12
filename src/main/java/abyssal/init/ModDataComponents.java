@@ -18,6 +18,12 @@ public class ModDataComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, Main.MOD_ID);
     public static final DeferredRegister<ConsumeEffect.Type<?>> CONSUMABLE_TYPES = DeferredRegister.create(BuiltInRegistries.CONSUME_EFFECT_TYPE, Main.MOD_ID);
 
+    public static final Supplier<DataComponentType<DescComponent>> DESC = DATA_COMPONENTS.register(
+            "desc", () -> {
+                DataComponentType.Builder<DescComponent> builder = DataComponentType.builder();
+                return builder.persistent(DescComponent.CODEC).networkSynchronized(DescComponent.STREAM_CODEC).cacheEncoding().build();
+            });
+
     public static final Supplier<DataComponentType<CoinPurseBundleContents>> COIN_PURSE_BUNDLE_CONTENTS = DATA_COMPONENTS.register(
             "coin_purse_bundle_contents", () -> {
                 DataComponentType.Builder<CoinPurseBundleContents> builder = DataComponentType.builder();

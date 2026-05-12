@@ -23,7 +23,7 @@ public class WarmogsItem extends ModTickingArmourItem {
     public void doArmourTick(ItemStack stack, Level level, Entity entity) {
         // Regenerate HP if out of combat
         if(!level.isClientSide() && entity instanceof Player player) {
-            if(player.getData(ModAttachmentTypes.NO_COMBAT_TIME) > 120 && player.getMaxHealth() >= 20 + 26) {
+            if(player.getData(ModAttachmentTypes.NO_COMBAT_TIME) > 160 && player.getMaxHealth() >= 20 + 26) {
                 player.heal(player.getMaxHealth() * 0.005f);
                 ensureBonusActive(stack);
             } else {

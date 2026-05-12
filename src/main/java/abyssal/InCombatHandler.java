@@ -2,13 +2,19 @@ package abyssal;
 
 import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
+import abyssal.init.ModPotionEffectTypes;
 import abyssal.items.AttributeHelper;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,6 +28,8 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosSlotTypes;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import top.theillusivec4.curios.api.type.ISlotType;
+
+import java.util.Optional;
 
 
 @EventBusSubscriber(modid = Main.MOD_ID)
@@ -62,6 +70,27 @@ public class InCombatHandler {
         }
         if(event.getSource().getEntity() instanceof Player attacker) {
             recogniseCombat(attacker);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onGetHit(LivingIncomingDamageEvent event) {
+        LivingEntity defender = event.getEntity();
+        if(defender.level() instanceof ServerLevel level) {
+            Entity srcE = event.getSource().getEntity();
+            if(srcE != null && srcE instanceof LivingEntity attacker) {
+                if(defender.getItemBySlot(EquipmentSlot.BODY).is(ModItems.THORNMAIL)) {
+                    double armour = defender.getAttributeValue(Attributes.ARMOR);
+                    float damage = (float) (1 + armour / 10);
+                    DamageSource s = level.damageSources().cactus();
+                    Optional<Holder.Reference<DamageType>> thornsDamageType = level.damageSources().damageTypes.get(Main.rl("abyssal_thorns"));
+                    if(thornsDamageType.isPresent()) {
+                        s = new DamageSource(thornsDamageType.get());
+                    }
+                    attacker.hurtServer(level, s, damage);
+                    attacker.addEffect(new MobEffectInstance(Holder.direct(ModPotionEffectTypes.WOUNDED.get()), 200, 1), defender);
+                }
+            }
         }
     }
 

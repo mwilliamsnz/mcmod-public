@@ -2,6 +2,7 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.ModAttributes;
+import abyssal.components.DescComponent;
 import abyssal.components.RestoreFuelConsumeEffect;
 import abyssal.components.SpellBatteryComponent;
 import abyssal.components.SpellRefuelComponent;
@@ -53,13 +54,23 @@ public final class ModItems {
     public static final List<DeferredItem<Item>> tab1Items = new ArrayList<>();
     public static final List<DeferredItem<Item>> tab2Items = new ArrayList<>();
 
+    public static final float ONE_REJUV_BEAD_REGEN = 0.25f;
+
     public static Item.Properties defaultPs(Identifier l) {
         return new Item.Properties().setId(ResourceKey.create(Registries.ITEM, l));
+    }
+
+    public static Item.Properties descPsStacking(Identifier l) {
+        return new Item.Properties().setId(ResourceKey.create(Registries.ITEM, l)).component(ModDataComponents.DESC, new DescComponent(l));
     }
 
     // public for InitGems
     public static Item.Properties noStackPs(Identifier l) {
         return new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, l));
+    }
+
+    public static Item.Properties descPs(Identifier l) {
+        return new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, l)).component(ModDataComponents.DESC, new DescComponent(l));
     }
 
     private static final Consumable BAT_WING_SOUP_CONSUME = Consumables.defaultFood()
@@ -103,20 +114,20 @@ public final class ModItems {
     public static final DeferredItem<Item> FISH_PAINTING = register("fish_painting",
             l -> new FishPaintingItem(EntityType.PAINTING, defaultPs(l)));
     public static final DeferredItem<Item> MOVER = registerCurio("mover",
-            l -> new SpawnerMoverItem(defaultPs(l).stacksTo(1)));
+            l -> new SpawnerMoverItem(descPs(l)));
     public static final DeferredItem<Item> BOOSTER = registerCurio("booster",
             l -> new RocketItem(defaultPs(l).stacksTo(1), 3.0f));
     public static final DeferredItem<Item> SKELETON_WAND = registerCurio("skeleton_wand",
             l -> new SkeletonPlacerItem(defaultPs(l).stacksTo(1)));
     public static final DeferredItem<Item> RECALL_STAFF = registerCurio("recall_staff",
-            l -> new RecallStaff(defaultPs(l).stacksTo(1)));
+            l -> new RecallStaff(descPs(l)));
 
     public static final DeferredItem<Item> DOWSING_ROD = registerCurio("dowsing_rod",
-            l -> new BasicStaff(defaultPs(l).stacksTo(1), Spells.DOWSING));
+            l -> new BasicStaff(descPs(l), Spells.DOWSING));
     public static final DeferredItem<Item> DEBUG_DOWSING_ROD = registerCurio("debug_dowsing_rod",
             l -> new DebugDowsingRodItem(defaultPs(l).stacksTo(1)));
     public static final DeferredItem<Item> PORTAL_LIGHTER = registerCurio("portal_lighter",
-            l -> new PortalLighterItem(defaultPs(l).stacksTo(1)));
+            l -> new PortalLighterItem(descPs(l)));
 
     public static final DeferredItem<Item> AMP_TOME = registerCurio("amp_tome", l -> new Item(defaultPs(l).rarity(Rarity.UNCOMMON)
             .attributes(ItemAttributeModifiers.builder()
@@ -158,41 +169,41 @@ public final class ModItems {
     public static final DeferredItem<Item> SAPPHIRE_CRYSTAL = registerCurio("sapphire_crystal", l -> new BatteryBarItem(noStackPs(l)
             .component(ModDataComponents.SPELL_BATTERY, new SpellBatteryComponent(SpellFuelTypes.FUEL_LIGHT, 250, 250))));
     public static final DeferredItem<Item> RUBY_CRYSTAL = registerCurio("ruby_crystal", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> RAGE_TOTEM = registerCurio("rage_totem", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> TOXIC_TOTEM = registerCurio("toxic_totem", l -> new Item(noStackPs(l)));
+    public static final DeferredItem<Item> RAGE_TOTEM = registerCurio("rage_totem", l -> new Item(descPs(l)));
+    public static final DeferredItem<Item> CLEANSING_TOTEM = registerCurio("cleansing_totem", l -> new Item(descPs(l)));
+    public static final DeferredItem<Item> TOXIC_TOTEM = registerCurio("toxic_totem", l -> new Item(descPs(l)));
     public static final DeferredItem<Item> GIANTS_BELT = registerCurio("giants_belt", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> REJUVENATION_BEAD = registerCurio("rejuvenation_bead", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> REJUVENATION_NECKLACE = registerCurio("rejuvenation_necklace", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> REJUVENATION_RING = registerCurio("rejuvenation_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> REJUVENATION_BELT = registerCurio("rejuvenation_belt", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> BELT = registerCurio("belt", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> COIN_PURSE = registerCurio("coin_purse", l -> new CoinPurseItem(noStackPs(l).component(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY)));
+    public static final DeferredItem<Item> COIN_PURSE = registerCurio("coin_purse", l -> new CoinPurseItem(descPs(l).component(ModDataComponents.COIN_PURSE_BUNDLE_CONTENTS, CoinPurseBundleContents.EMPTY)));
     public static final DeferredItem<Item> SKULL_BELT = registerCurio("skull_belt", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> ANCHOR_BELT = registerCurio("anchor_belt", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> TIAMAT = registerCurio("tiamat",
             l -> new TiamatItem(defaultPs(l).stacksTo(1).fireResistant().sword(ModItemTiers.NETHER_BRASS, 3, -3.2f)));
     public static final DeferredItem<Item> TITANIC_HYDRA = registerCurio("titanic_hydra",
-            l -> new TitanicHydraItem(defaultPs(l).stacksTo(1).sword(ModItemTiers.NETHER_BRASS, 2, -3.2f)
+            l -> new TitanicHydraItem(descPs(l).stacksTo(1).sword(ModItemTiers.NETHER_BRASS, 2, -3.2f)
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, 4, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, -3.2, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(Attributes.SWEEPING_DAMAGE_RATIO, new AttributeModifier(rl("hydra_sweep"), 0.25, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .build())));
     public static final DeferredItem<Item> NASHORS_TOOTH = registerCurio("nashors_tooth",
-            l -> new NashorsToothItem(defaultPs(l).stacksTo(1).fireResistant().sword(ModItemTiers.NETHER_BRASS, 2, -1.0f)
+            l -> new NashorsToothItem(descPs(l).fireResistant().sword(ModItemTiers.NETHER_BRASS, 2, -1.0f)
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, -2.1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(ModAttributes.ABILITY_POWER, new AttributeModifier(rl("nashors_ap"), 80, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
                             .build())));
     public static final DeferredItem<Item> NETHER_BRASS_AXE = registerCurio("nether_brass_axe",
-            l -> new CharAxe(ModItemTiers.NETHER_BRASS, 6, -3.2f, defaultPs(l).stacksTo(1).fireResistant(), false, 3));
+            l -> new CharAxe(ModItemTiers.NETHER_BRASS, 6, -3.2f, descPs(l).fireResistant(), false, 3));
     public static final DeferredItem<Item> CHARRING_AXE = registerCurio("charring_axe",
-            l -> new CharAxe(ModItemTiers.NETHER_BRASS, 7, -3.2f, defaultPs(l).stacksTo(1).fireResistant(), true, 5));
+            l -> new CharAxe(ModItemTiers.NETHER_BRASS, 7, -3.2f, descPs(l).fireResistant(), true, 5));
     public static final DeferredItem<Item> GOLD_RING = registerCurio("gold_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> SILVER_RING = registerCurio("silver_ring", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> GLOW_RING = registerCurio("glow_ring", l -> new Item(noStackPs(l)));
+    public static final DeferredItem<Item> GLOW_RING = registerCurio("glow_ring", l -> new Item(descPs(l)));
     public static final DeferredItem<Item> DAMAGE_RING = registerCurio("damage_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> CHAMPIONS_RING = registerCurio("champions_ring", l -> new Item(noStackPs(l).rarity(Rarity.RARE)));
     public static final DeferredItem<Item> DORANS_RING = registerCurio("dorans_ring", l -> new Item(noStackPs(l)));
@@ -200,10 +211,10 @@ public final class ModItems {
     public static final DeferredItem<Item> GLASS_CANNON_RING = registerCurio("glass_cannon_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> FOUR_LEAF_CLOVER = registerCurio("four_leaf_clover", l -> new Item(noStackPs(l).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> LUCK_CHARM = registerCurio("luck_charm", l -> new Item(noStackPs(l).rarity(Rarity.RARE)));
-    public static final DeferredItem<Item> FISH_NECKLACE = registerCurio("fishbone_necklace", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> CLOCKWORK_AMULET = registerCurio("clockwork_amulet", l -> new Item(noStackPs(l).fireResistant()));
+    public static final DeferredItem<Item> FISH_NECKLACE = registerCurio("fishbone_necklace", l -> new Item(descPs(l)));
+    public static final DeferredItem<Item> CLOCKWORK_AMULET = registerCurio("clockwork_amulet", l -> new Item(descPs(l).fireResistant()));
     public static final DeferredItem<Item> CREEPER_JELLY = register("nitro", l -> new Item(defaultPs(l)));
-    public static final DeferredItem<Item> SALTPETRE = register("saltpetre", l -> new BoneMealItem(defaultPs(l)));
+    public static final DeferredItem<Item> SALTPETRE = register("saltpetre", l -> new BoneMealItem(descPsStacking(l)));
     public static final DeferredItem<Item> SULFUR = register("sulfur", l -> new Item(defaultPs(l)));
     public static final DeferredItem<Item> GOLD_COIN = register("gold_coin", l -> new PiglinCurrencyItem(defaultPs(l)));
     public static final DeferredItem<Item> SILVER_COIN = register("silver_coin", l -> new Item(defaultPs(l)));
@@ -234,13 +245,14 @@ public final class ModItems {
     public static final DeferredItem<Item> ALCHEMICAL_FILTER = register("alchemical_filter", l -> new Item(defaultPs(l)));
 
     public static final DeferredItem<Item> WARMOGS = registerCurio("warmogs",
-            l -> new WarmogsItem(noStackPs(l).humanoidArmor(ModArmourMaterials.WARMOGS, ArmorType.CHESTPLATE).rarity(Rarity.UNCOMMON)
+            l -> new WarmogsItem(descPs(l).humanoidArmor(ModArmourMaterials.WARMOGS, ArmorType.CHESTPLATE).rarity(Rarity.UNCOMMON)
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.MAX_HEALTH, new AttributeModifier(rl("warmogs_hp"), 20, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST)
                             .add(Attributes.MOVEMENT_SPEED, new AttributeModifier(rl("warmogs_speed"), 0.04, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.CHEST)
-                            .build())));
+                            .build())
+                    .component(ModDataComponents.DESC, new DescComponent(rl("warmogs")))));
     public static final DeferredItem<Item> MOBI_BOOTS = registerCurio("mobi_boots",
-            l -> new MobiBootsItem(noStackPs(l).humanoidArmor(ModArmourMaterials.WARMOGS, ArmorType.BOOTS).fireResistant()
+            l -> new MobiBootsItem(descPs(l).humanoidArmor(ModArmourMaterials.WARMOGS, ArmorType.BOOTS).fireResistant()
                     .attributes(ItemAttributeModifiers.builder().add(Attributes.MOVEMENT_SPEED, MobiBootsItem.OUT_OF_COMBAT_MODIFIER, EquipmentSlotGroup.FEET).build())));
 
     public static final DeferredItem<Item> NULL_MAGIC_MANTLE = registerCurio("null_magic_mantle",
@@ -250,6 +262,7 @@ public final class ModItems {
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.MAX_HEALTH, new AttributeModifier(rl("spectres_cowl_hp"), 4, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                             .add(ModAttributes.MAGIC_RESIST, new AttributeModifier(rl("spectres_cowl_mr"), 35, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
+                            .add(ModAttributes.REGEN, new AttributeModifier(rl("spectres_cowl_regen"), ONE_REJUV_BEAD_REGEN, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HEAD)
                             .build())));
     public static final DeferredItem<Item> SPIRIT_VISAGE = registerCurio("spirit_visage",
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.MR_ITEMS, ArmorType.CHESTPLATE).rarity(Rarity.UNCOMMON)
@@ -264,6 +277,12 @@ public final class ModItems {
                             .add(Attributes.MOVEMENT_SPEED, new AttributeModifier(rl("merc_treads_speed"), 0.015, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)
                             .add(ModAttributes.MAGIC_RESIST, new AttributeModifier(rl("merc_treads_mr"), 20, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.FEET)
                             .add(ModAttributes.TENACITY, new AttributeModifier(rl("merc_treads_tenacity"), 0.35, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET)
+                            .build())));
+    public static final DeferredItem<Item> THORNMAIL = registerCurio("thornmail",
+            l -> new Item(descPs(l).humanoidArmor(ModArmourMaterials.THORNMAIL, ArmorType.CHESTPLATE)
+                    .attributes(ItemAttributeModifiers.builder()
+                            .add(Attributes.ARMOR, new AttributeModifier(rl("thornmail_armour"), 6, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST)
+                            .add(Attributes.MAX_HEALTH, new AttributeModifier(rl("thornmail_hp"), 3, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST)
                             .build())));
     public static final DeferredItem<Item> RABADONS = registerCurio("rabadons",
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.MR_ITEMS, ArmorType.HELMET).rarity(Rarity.UNCOMMON)
@@ -289,12 +308,6 @@ public final class ModItems {
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.CLOTH, ArmorType.LEGGINGS)), CreativeModeTabs.COMBAT);
     public static final DeferredItem<Item> CLOTH_BOOTS = register("cloth_boots",
             l -> new Item(noStackPs(l).humanoidArmor(ModArmourMaterials.CLOTH, ArmorType.BOOTS)), CreativeModeTabs.COMBAT);
-
-    // should be handled by material replacement now - or not, now they're records...
-//    public static final DeferredItem<Item> LEATHER_HELMET = OVERRIDE_ITEMS.register("leather_helmet", l -> new DyeableArmorItem(ModArmourMaterials.MOD_LEATHER, ArmorItem.Type.HELMET, new Item.Properties()));
-//    public static final DeferredItem<Item> LEATHER_CHESTPLATE = OVERRIDE_ITEMS.register("leather_chestplate", l -> new DyeableArmorItem(ModArmourMaterials.MOD_LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-//    public static final DeferredItem<Item> LEATHER_LEGGINGS = OVERRIDE_ITEMS.register("leather_leggings", l -> new DyeableArmorItem(ModArmourMaterials.MOD_LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-//    public static final DeferredItem<Item> LEATHER_BOOTS = OVERRIDE_ITEMS.register("leather_boots", l -> new DyeableArmorItem(ModArmourMaterials.MOD_LEATHER, ArmorItem.Type.BOOTS, new Item.Properties()));
 
 
     private static <T extends Item> DeferredItem<T> register(String name, Function<Identifier, T> supplier) {

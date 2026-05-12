@@ -87,6 +87,24 @@ public class ModEquipmentInfoProvider implements DataProvider {
         );
         registrar.accept(
                 // Must match Equippable#assetId
+                Main.rl("thornmail"),
+                EquipmentClientInfo.builder()
+                        .addLayers(
+                                EquipmentClientInfo.LayerType.HUMANOID, new EquipmentClientInfo.Layer(
+                                        // Points to assets/<namespace>/textures/entity/equipment/humanoid/<path>.png
+                                        Main.rl("thornmail"), Optional.empty(), false
+                                )
+                        )
+                        .addLayers(
+                                EquipmentClientInfo.LayerType.HUMANOID_LEGGINGS, new EquipmentClientInfo.Layer(
+                                        // Points to assets/<namespace>/textures/entity/equipment/humanoid_leggings/<path>.png
+                                        Main.rl("thornmail"), Optional.empty(), false
+                                )
+                        )
+                        .build()
+        );
+        registrar.accept(
+                // Must match Equippable#assetId
                 Main.rl("mr_items"),
                 EquipmentClientInfo.builder()
                         .addLayers(

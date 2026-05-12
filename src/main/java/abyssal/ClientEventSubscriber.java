@@ -53,6 +53,7 @@ public class ClientEventSubscriber {
         event.getItemStack().addToTooltip(ModDataComponents.SPELLBOOK.get(), event.getContext(), tooltipDisplay, event.getToolTip()::add, event.getFlags());
         event.getItemStack().addToTooltip(ModDataComponents.SPELL_FUEL_RECHARGE.get(), event.getContext(), tooltipDisplay, event.getToolTip()::add, event.getFlags());
         event.getItemStack().addToTooltip(ModDataComponents.SPELL_BATTERY.get(), event.getContext(), tooltipDisplay, event.getToolTip()::add, event.getFlags());
+        event.getItemStack().addToTooltip(ModDataComponents.DESC.get(), event.getContext(), tooltipDisplay, event.getToolTip()::add, event.getFlags());
     }
 
     @SubscribeEvent

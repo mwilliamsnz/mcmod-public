@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static abyssal.Main.rl;
+import static abyssal.init.ModItems.ONE_REJUV_BEAD_REGEN;
 
 @EventBusSubscriber(modid = Main.MOD_ID)
 public class ModEventSubscriber {
@@ -93,22 +94,22 @@ public class ModEventSubscriber {
 
         evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
             builder.addModifier(ModAttributes.REGEN,
-                    new AttributeModifier(rl("rejuv_bead"), 0.25f, AttributeModifier.Operation.ADD_VALUE));
+                    new AttributeModifier(rl("rejuv_bead"), ONE_REJUV_BEAD_REGEN, AttributeModifier.Operation.ADD_VALUE));
         }), ModItems.REJUVENATION_BEAD.get());
 
         evt.registerItem(CuriosCapability.ITEM, ringAttributeCurio((builder, slot)->{
             builder.addModifier(ModAttributes.REGEN,
-                    new AttributeModifier(rl("rejuv_bead_ring"), 0.25f, AttributeModifier.Operation.ADD_VALUE));
+                    new AttributeModifier(rl("rejuv_bead_ring"), ONE_REJUV_BEAD_REGEN, AttributeModifier.Operation.ADD_VALUE));
         }), ModItems.REJUVENATION_RING.get());
 
         evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
             builder.addModifier(ModAttributes.REGEN,
-                    new AttributeModifier(rl("rejuv_bead_belt"), 0.75f, AttributeModifier.Operation.ADD_VALUE));
+                    new AttributeModifier(rl("rejuv_bead_belt"), 3*ONE_REJUV_BEAD_REGEN, AttributeModifier.Operation.ADD_VALUE));
         }), ModItems.REJUVENATION_BELT.get());
 
         evt.registerItem(CuriosCapability.ITEM, attributeCurio((builder, slot)->{
             builder.addModifier(ModAttributes.REGEN,
-                    new AttributeModifier(rl("rejuv_bead_necklace"), 0.75f, AttributeModifier.Operation.ADD_VALUE));
+                    new AttributeModifier(rl("rejuv_bead_necklace"), 3*ONE_REJUV_BEAD_REGEN, AttributeModifier.Operation.ADD_VALUE));
         }), ModItems.REJUVENATION_NECKLACE.get());
 
         evt.registerItem(

@@ -39,6 +39,7 @@
   "item.abyssal.titanic_hydra": "Titanic Hydra",
   "item.abyssal.nashors_tooth": "Nashor's Tooth",
   "item.abyssal.warmogs": "Warmog's Armour",
+  "item.abyssal.thornmail": "Thornmail",
   "item.abyssal.spectres_cowl": "Spectre's Cowl",
   "item.abyssal.spirit_visage": "Spirit Visage",
   "item.abyssal.rabadons": "Rabadon's Deathcap",
@@ -68,6 +69,7 @@
   "item.abyssal.skull_belt": "Necromancer's Belt",
   "item.abyssal.anchor_belt": "Anchoring Belt",
   "item.abyssal.coin_purse": "Coin Purse",
+  "item.abyssal.coin_purse.empty.description": "Can hold four mixed stacks of coins or gems",
 
   "item.abyssal.gold_ring": "Golden Ring",
   "item.abyssal.silver_ring": "Silver Ring",
@@ -276,5 +278,29 @@
 
   "tooltips.abyssal.fuel_spend": "Costs ",
   "tooltips.abyssal.fuel_store": "Contains ",
-  "tooltips.abyssal.refuel": "Restores "
+  "tooltips.abyssal.refuel": "Restores ",
+
+  "ttdesc.collapsed": "§7[§8shift§7] §8§oMore...",
+  "ttdesc.abyssal.mover.1": "§cCURRENTLY NOT FUNCTIONAL§7.",
+  "ttdesc.abyssal.recall_staff.1": "Use for 10s to return to the surface.",
+  "ttdesc.abyssal.dowsing_rod.1": "Determines whether the current chunk has increased ores. Coal, metal, and gemstones echo different sounds.",
+  "ttdesc.abyssal.portal_lighter.1": "Lights a nether portal. Consumes §61 onyx powder§7.",
+  "ttdesc.abyssal.rage_totem.1": "While in combat, you have §9strength§7 and §cpoison II§7.",
+  "ttdesc.abyssal.toxic_totem.1": "On hit, apply §cpoison II§7 for 5s.",
+  "ttdesc.abyssal.cleansing_totem.1": "You cannot be §cpoisoned§7.",
+  "ttdesc.abyssal.coin_purse.1": "Stores gems and coins. Can store up to four full stacks' worth of mixed item types.",
+  "ttdesc.abyssal.titanic_hydra.1": "§9+1 Attack Damage§7 per §94 bonus HP§7.",
+  "ttdesc.abyssal.nashors_tooth.1": "§9+1 Attack Damage§7 per §950 AP§7.",
+  "ttdesc.abyssal.nether_brass_axe.1": "Ignites mobs on hit. Use on logs to char them.",
+  "ttdesc.abyssal.nether_brass_axe.2": "Charred logs break together and drop charcoal.",
+  "ttdesc.abyssal.charring_axe.1": "Ignites mobs on hit. Use on logs to char the entire tree.",
+  "ttdesc.abyssal.charring_axe.2": "Charred logs break together and drop charcoal.",
+  "ttdesc.abyssal.glow_ring.1": "You are §9invisible§7 and §fglowing§7.",
+  "ttdesc.abyssal.fishbone_necklace.1": "While underwater your air supply lasts three times longer, but you have §chunger§7.",
+  "ttdesc.abyssal.clockwork_amulet.1": "When you break a block, gain §9haste§7 and §chunger§7 for 10s.",
+  "ttdesc.abyssal.saltpetre.1": "Can be used to fertilise, like bone meal.",
+  "ttdesc.abyssal.mobi_boots.1": "Provides a speed boost when out of combat.",
+  "ttdesc.abyssal.mobi_boots.2": "When in combat, you have §c-15% speed§7.",
+  "ttdesc.abyssal.warmogs.1": "If your maximum HP is at least §946§7 (23 hearts) and you have have been out of combat for 8s, heal 10% of your HP per second and gain §94% Movement Speed§7.",
+  "ttdesc.abyssal.thornmail.1": "When you are hit by an attack, deal (1 + §910% Armor§7) damage to the attacker and apply §cwounded II§7 for 10s."
 }

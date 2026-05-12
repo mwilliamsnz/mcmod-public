@@ -33,13 +33,11 @@ public class ModTags {
 
         public static final TagKey<Item> NETHER_BRASS_TOOL_MATERIALS = tag("nether_brass_tool_materials");
         public static final TagKey<Item> REPAIRS_MR_ARMOR = tag("repairs_mr_armour");
+        public static final TagKey<Item> REPAIRS_THORNMAIL = tag("repairs_thornmail");
 
         public static final TagKey<Item> COIN_PURSE_ITEMS = tag("coin_purse_items");
         public static final TagKey<Item> GOBBLER_CONSUMABLE = tag("gobbler_consumable");
         public static final TagKey<Item> SHELF_AMPLIFIERS = tag("shelf_amplifiers");
-
-        public static final TagKey<Item> TENACITY_ITEMS = tag("tenacity_item");
-        public static final TagKey<Item> HEAL_AMPLIFIER = tag("heal_amplifier");
 
         public static final TagKey<Item> RINGS = curioTag("ring");
         public static final TagKey<Item> CHARMS = curioTag("charm");
