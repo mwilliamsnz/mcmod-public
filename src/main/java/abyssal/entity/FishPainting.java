@@ -29,10 +29,6 @@ import java.util.Optional;
 
 public class FishPainting extends Painting {
 
-    private static final EntityDataAccessor<Holder<PaintingVariant>> DATA_PAINTING_VARIANT_ID = SynchedEntityData.defineId(
-            FishPainting.class, EntityDataSerializers.PAINTING_VARIANT
-    );
-
     public FishPainting(Level level, BlockPos pos, Direction direction, Holder<PaintingVariant> variant) {
         super(level, pos, direction, variant);
     }
