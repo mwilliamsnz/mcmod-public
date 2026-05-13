@@ -26,32 +26,31 @@ public record SpellFuelQuantity (SpellFuelType type, int quantity) {
     }
 
     public boolean depleteIfSatisfied(Player player) {
-        if(player instanceof ServerPlayer p) {
-            if(!canAfford(p)) {
-                return false;
-            }
-            final int[] remaining = {quantity};
-            CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
-                int slots = itemHandler.getEquippedCurios().getSlots();
-                for (int i = 0; i < slots; i++) {
-                    ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
-                    remaining[0] = withdrawFromStack(s, remaining[0]);
-                    if (remaining[0] <= 0) {
-                        break;
-                    }
+        if(!canAfford(player)) {
+            return false;
+        }
+        final int[] remaining = {quantity};
+        CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
+            int slots = itemHandler.getEquippedCurios().getSlots();
+            for (int i = 0; i < slots; i++) {
+                ItemStack s = itemHandler.getEquippedCurios().getStackInSlot(i);
+                remaining[0] = withdrawFromStack(s, remaining[0]);
+                if (remaining[0] <= 0) {
+                    break;
                 }
-            });
+            }
+        });
+        if (remaining[0] <= 0) {
+            return true;
+        }
+        for(int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack s = player.getInventory().getItem(i);
+            remaining[0] = withdrawFromStack(s, remaining[0]);
             if (remaining[0] <= 0) {
                 return true;
             }
-            for(int i = 0; i < p.getInventory().getContainerSize(); i++) {
-                ItemStack s = p.getInventory().getItem(i);
-                remaining[0] = withdrawFromStack(s, remaining[0]);
-                if (remaining[0] <= 0) {
-                    return true;
-                }
-            }
         }
+
         return false;
     }
 
@@ -88,7 +87,7 @@ public record SpellFuelQuantity (SpellFuelType type, int quantity) {
             int stored = batt.stored();
             SpellFuelQuantity capacity = batt.capacity();
 
-            if((capacity.type == type || capacity.type == SpellFuelTypes.FUEL_COLOURLESS) && stored > 0) {
+            if((capacity.type.equals(type) || capacity.type.equals(SpellFuelTypes.FUEL_COLOURLESS)) && stored > 0) {
                 int d = Math.min(remaining, stored);
                 SpellBatteryComponent newBatt = new SpellBatteryComponent(capacity, stored - d);
                 s.set(ModDataComponents.SPELL_BATTERY, newBatt);
@@ -104,7 +103,7 @@ public record SpellFuelQuantity (SpellFuelType type, int quantity) {
             int stored = batt.stored();
             SpellFuelQuantity capacity = batt.capacity();
 
-            if((capacity.type == type || type == SpellFuelTypes.FUEL_COLOURLESS) && capacity.quantity > stored) {
+            if((capacity.type.equals(type) || type.equals(SpellFuelTypes.FUEL_COLOURLESS)) && capacity.quantity > stored) {
                 int d = Math.min(remaining, capacity.quantity - stored);
                 SpellBatteryComponent newBatt = new SpellBatteryComponent(capacity, stored + d);
                 remaining -= d;
@@ -113,9 +112,8 @@ public record SpellFuelQuantity (SpellFuelType type, int quantity) {
         return remaining;
     }
 
-    public boolean canAfford(ServerPlayer player) {
+    public boolean canAfford(Player player) {
         final int[] remaining = {quantity};
-        Main.LOGGER.info("Checking if we can afford quantity " + remaining[0] + " of " + type.id());
         CuriosApi.getCuriosInventory(player).ifPresent((itemHandler)-> {
             int slots = itemHandler.getEquippedCurios().getSlots();
             for (int i = 0; i < slots; i++) {
@@ -147,8 +145,6 @@ public record SpellFuelQuantity (SpellFuelType type, int quantity) {
                 SpellBatteryComponent batt = s.get(ModDataComponents.SPELL_BATTERY);
                 int stored = batt.stored();
                 SpellFuelQuantity capacity = batt.capacity();
-
-                Main.LOGGER.info(stored + "/" + capacity.quantity() + " of " + capacity.type.id());
                 if(!capacity.type.equals(type) && !capacity.type.equals(SpellFuelTypes.FUEL_COLOURLESS)) {
                     continue;
                 }

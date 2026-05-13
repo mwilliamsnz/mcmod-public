@@ -17,7 +17,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 
 public class PortalSpell extends Spell {
     protected PortalSpell(Identifier key, SpellFuelQuantity cost) {
-        super(key);
+        super(key, cost);
     }
 
     @Override
