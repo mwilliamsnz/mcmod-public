@@ -195,6 +195,11 @@
   "item.abyssal.silvered_onyx_slate": "Silvered Onyx Deepslate",
   "item.abyssal.gilded_onyx_slate": "Gilded Onyx Deepslate",
 
+  "item.abyssal.hellwax": "Hellwax",
+  "item.abyssal.hiveheart": "Hiveheart",
+  "item.abyssal.carapace": "Carapace",
+  "item.abyssal.wasp_port": "Hive Vent",
+
   "death.attack.abyssal_croc": "%1$s ate a snack that bit back!",
   "death.attack.abyssal_croc.message": "%1$s ate a snack that bit back!!",
 
@@ -208,6 +213,7 @@
   "entity.abyssal.tree_spider": "Bush Spider",
   "entity.abyssal.charged_endermite": "Charged Endermite",
   "entity.abyssal.minion": "Skeletal Minion",
+  "entity.abyssal.wasp": "Nether Wasp",
 
   "painting.abyssal.fish_1.author": "Him",
   "painting.abyssal.fish_1.title": "",

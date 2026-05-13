@@ -16,16 +16,11 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CreakingHeartBlock;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.CreakingHeartState;
-import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplate;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.ArrayList;
@@ -140,6 +135,13 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createTrivialCube(ModBlocks.ALCHEMICAL_GOLD_BLOCK.get());
         blockModels.createTrivialCube(ModBlocks.SUPER_SOIL.get());
         blockModels.createTrivialCube(ModBlocks.GOLD_GRAVEL.get());
+
+        blockModels.createTrivialCube(ModBlocks.HATCHERY.get());
+        blockModels.createTrivialCube(ModBlocks.HIVEHEART.get());
+        blockModels.createTrivialCube(ModBlocks.HIVEHEART_DUMMY.get());
+        blockModels.createTrivialCube(ModBlocks.WASP_PORT.get());
+        blockModels.createTrivialCube(ModBlocks.CARAPACE.get());
+        blockModels.createTrivialCube(ModBlocks.HELLWAX.get());
 
         multivariant = plainVariant(blockModels.createSuffixedVariant(ModBlocks.PRISM.get(), "", ModelTemplates.CUBE_ALL, TextureMapping::cube));
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.PRISM.get(), multivariant));

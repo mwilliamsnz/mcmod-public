@@ -97,6 +97,7 @@ public final class ModItems {
     private static final Consumable REFUEL_FIRE = baseFuel(SoundEvents.BLAZE_BURN);
     private static final Consumable REFUEL_FORCE = baseFuel(SoundEvents.FIREWORK_ROCKET_BLAST);
 
+    public static final DeferredItem<Item> DEBUG_WAND = registerCurio("debug_wand", l -> new DebugWand(defaultPs(l).stacksTo(1)));
 
     public static final DeferredItem<Item> CORN = register("corn",
             l -> new Item(defaultPs(l).food((new FoodProperties.Builder()).nutrition(3).saturationModifier(0.5f).build())));

@@ -44,6 +44,12 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.CHARRED_LOG.get());
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.PRISM.get());
 
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.CARAPACE.get());
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.WASP_PORT.get());
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.HIVEHEART_DUMMY.get());
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.HIVEHEART.get());
+        this.tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.HELLWAX.get());
+
 
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.ELDER_PINE_LOG.get());
         this.tag(BlockTags.MINEABLE_WITH_AXE).add(ModBlocks.ELDER_PINE_PLANKS.get());

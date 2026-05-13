@@ -33,6 +33,11 @@ public class ModEntityTypes {
                     .sized(EntityType.CAVE_SPIDER.getWidth(), EntityType.CAVE_SPIDER.getHeight()).build(key("tree_spider"))
     );
 
+    public static final Supplier<EntityType<Wasp>> WASP = ENTITY_TYPES.register("wasp",
+            () -> EntityType.Builder.of(Wasp::new, MobCategory.MONSTER)
+                    .sized(EntityType.BEE.getWidth(), EntityType.BEE.getHeight()).build(key("wasp"))
+    );
+
     public static final Supplier<EntityType<ChargedEndermite>> CHARGED_ENDERMITE = ENTITY_TYPES.register("charged_endermite",
             () -> EntityType.Builder.of(ChargedEndermite::new, MobCategory.MONSTER)
                     .sized(EntityType.ENDERMITE.getWidth(), EntityType.ENDERMITE.getHeight()).build(key("charged_endermite"))

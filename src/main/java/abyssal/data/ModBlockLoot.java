@@ -115,6 +115,14 @@ public class ModBlockLoot extends BlockLootSubProvider {
 
         this.dropWhenSilkTouch(ModBlocks.SPIDER_NEST.get());
 
+        this.dropWhenSilkTouch(ModBlocks.HIVEHEART.get());
+        this.dropWhenSilkTouch(ModBlocks.HATCHERY.get());
+        this.dropWhenSilkTouch(ModBlocks.WASP_PORT.get());
+        this.dropWhenSilkTouch(ModBlocks.HIVEHEART_DUMMY.get());
+        this.dropSelf(ModBlocks.HELLWAX.get());
+        this.dropSelf(ModBlocks.CARAPACE.get());
+
+
         // Manual:
         // [deepslate_]gem_cluster
         // [deepslate_]garnet_cluster

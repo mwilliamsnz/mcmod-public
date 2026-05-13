@@ -98,6 +98,14 @@ public class ModBlocks {
     public static final DeferredHolder<Block, Block> SPIDER_NEST = register("spider_nest", l -> new SpiderNestBlock(pCopy(l, Blocks.MOSS_BLOCK)));
     public static final DeferredHolder<Block, Block> CHARRED_LOG = register("charred_log", l -> new CharredLogBlock(defaultPs(l).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.XYLOPHONE).strength(0.8f, 1f).sound(SoundType.BASALT)));
 
+    public static final DeferredHolder<Block, Block> HIVEHEART = register("hiveheart", l -> new HiveheartBlock(pCopy(l, Blocks.OBSIDIAN)));
+    public static final DeferredHolder<Block, Block> HIVEHEART_DUMMY = register("hiveheart_secondary", l -> new HiveOrganBlock(pCopy(l, Blocks.OBSIDIAN)));
+    public static final DeferredHolder<Block, Block> HELLWAX = register("hellwax", l -> new Block(pCopy(l, Blocks.HONEY_BLOCK).strength(0.6F)));
+    public static final DeferredHolder<Block, Block> CARAPACE = register("carapace", l -> new Block(pCopy(l, Blocks.BLACKSTONE)));
+    public static final DeferredHolder<Block, Block> HATCHERY = register("hatchery", l -> new Block(pCopy(l, Blocks.BLACKSTONE)));
+    public static final DeferredHolder<Block, Block> WASP_PORT = register("wasp_port", l -> new WaspPortBlock(pCopy(l, Blocks.BLACKSTONE).forceSolidOff()));
+
+
     private static <T extends Block> DeferredHolder<Block, T> register(String name, Function<Identifier, T> sup) {
         DeferredHolder<Block, T> r = BLOCKS.register(name, sup);
         DATAGEN_LOOT_TABLE.add(r);

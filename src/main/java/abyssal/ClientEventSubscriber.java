@@ -5,6 +5,8 @@ import abyssal.client.HarmoniserScreen;
 import abyssal.client.LapidaryScreen;
 import abyssal.client.renderer.ChargedEndermiteRenderer;
 import abyssal.client.renderer.TreeSpiderRenderer;
+import abyssal.client.renderer.WaspRenderer;
+import abyssal.entity.WaspModel;
 import abyssal.entity.ChargedEndermiteModel;
 import abyssal.init.ModDataComponents;
 import abyssal.init.ModEntityTypes;
@@ -34,12 +36,14 @@ public class ClientEventSubscriber {
         event.registerEntityRenderer(ModEntityTypes.MINION.get(), SkeletonRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.FISH_PAINTING.get(), PaintingRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.TREE_SPIDER.get(), TreeSpiderRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.WASP.get(), WaspRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.CHARGED_ENDERMITE.get(), ChargedEndermiteRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event){
         event.registerLayerDefinition(CHARGED_ENDERMITE_LAYER, ChargedEndermiteModel::createBodyLayer);
+        event.registerLayerDefinition(WaspModel.LAYER_LOCATION, WaspModel::createBodyLayer);
     }
 
     @SubscribeEvent

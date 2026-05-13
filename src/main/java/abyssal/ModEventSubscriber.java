@@ -3,6 +3,7 @@ package abyssal;
 import abyssal.entity.ChargedEndermite;
 import abyssal.entity.Minion;
 import abyssal.entity.TreeSpider;
+import abyssal.entity.Wasp;
 import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModBlocks;
 import abyssal.init.ModEntityTypes;
@@ -75,6 +76,7 @@ public class ModEventSubscriber {
     public static void onRegisterAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntityTypes.MINION.get(), Minion.buildBaseAttributes());
         event.put(ModEntityTypes.TREE_SPIDER.get(), TreeSpider.createTreeSpider().build());
+        event.put(ModEntityTypes.WASP.get(), Wasp.createWasp().build());
         event.put(ModEntityTypes.CHARGED_ENDERMITE.get(), ChargedEndermite.createAttributes().build());
     }
 
