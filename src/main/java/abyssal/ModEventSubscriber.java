@@ -214,8 +214,10 @@ public class ModEventSubscriber {
                 tickingCurio((ctx) -> {
                     ctx.entity().addEffect(new MobEffectInstance(MobEffects.GLOWING, 10, 0, false, false));
                     ctx.entity().addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 10, 0, false, false));
-                }),
-                ModItems.GLOW_RING.get());
+                },
+                (ctx) -> {if(ctx.entity() instanceof Player p) { p.refreshDisplayName(); }},
+                (ctx) -> {if(ctx.entity() instanceof Player p) { p.refreshDisplayName(); }}),
+                ModItems.GLOWING_CARD.get());
         evt.registerItem(
                 CuriosCapability.ITEM,
                 tickingCurio((ctx) -> {
@@ -330,6 +332,32 @@ public class ModEventSubscriber {
             @Override
             public void curioTick(SlotContext slotContext) {
                 tickAction.accept(slotContext);
+            }
+        };
+    }
+
+    private static ICapabilityProvider<ItemStack, Void, ICurio> tickingCurio(Consumer<SlotContext> tickAction,
+                                                                             Consumer<SlotContext> equip,
+                                                                             Consumer<SlotContext> unequip) {
+        return (ItemStack stack, Void v) -> new ICurio() {
+            @Override
+            public ItemStack getStack() {
+                return stack;
+            }
+
+            @Override
+            public void curioTick(SlotContext slotContext) {
+                tickAction.accept(slotContext);
+            }
+
+            @Override
+            public void onUnequip(SlotContext ctx, ItemStack newStack) {
+                unequip.accept(ctx);
+            }
+
+            @Override
+            public void onEquip(SlotContext ctx, ItemStack prevStack) {
+                equip.accept(ctx);
             }
         };
     }

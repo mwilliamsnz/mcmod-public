@@ -79,9 +79,9 @@
   "item.abyssal.dorans_ring": "Doran's Ring",
   "item.abyssal.light_travel_ring": "Ring of Light Travel",
   "item.abyssal.glass_cannon_ring": "Ring of the Glass Cannon",
-  "item.abyssal.glow_ring": "Glowing Ring",
 
   "item.abyssal.rejuvenation_necklace": "Necklace of Rejuvenation Beads",
+  "item.abyssal.glowing_card": "Glowing Card",
   "item.abyssal.fishbone_necklace": "Necklace of the Ravenous Shark",
   "item.abyssal.null_magic_mantle": "Null-Magic Mantle",
   "item.abyssal.clockwork_amulet": "Clockwork Amulet",
@@ -201,6 +201,7 @@
   "abyssal.mover.empty": "Empty",
   "abyssal.mover.malformed1": "Malformed tag",
   "abyssal.mover.malformed2": "Malformed tag",
+  "abyssal.glowing_card.playername": "Glowing Entity",
   "abyssal.lapidary.name": "Lapidary Table",
   "abyssal.harmoniser.name": "Alchemy Bench",
 
@@ -295,7 +296,7 @@
   "ttdesc.abyssal.nether_brass_axe.2": "Charred logs break together and drop charcoal.",
   "ttdesc.abyssal.charring_axe.1": "Ignites mobs on hit. Use on logs to char the entire tree.",
   "ttdesc.abyssal.charring_axe.2": "Charred logs break together and drop charcoal.",
-  "ttdesc.abyssal.glow_ring.1": "You are §9invisible§7 and §fglowing§7.",
+  "ttdesc.abyssal.glowing_card.1": "You are §9invisible§7 and §aglow in the dark§7.",
   "ttdesc.abyssal.fishbone_necklace.1": "While underwater your air supply lasts three times longer, but you have §chunger§7.",
   "ttdesc.abyssal.clockwork_amulet.1": "When you break a block, gain §9haste§7 and §chunger§7 for 10s.",
   "ttdesc.abyssal.saltpetre.1": "Can be used to fertilise, like bone meal.",

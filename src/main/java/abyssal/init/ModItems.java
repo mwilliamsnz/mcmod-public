@@ -203,7 +203,6 @@ public final class ModItems {
             l -> new CharAxe(ModItemTiers.NETHER_BRASS, 7, -3.2f, descPs(l).fireResistant(), true, 5));
     public static final DeferredItem<Item> GOLD_RING = registerCurio("gold_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> SILVER_RING = registerCurio("silver_ring", l -> new Item(noStackPs(l)));
-    public static final DeferredItem<Item> GLOW_RING = registerCurio("glow_ring", l -> new Item(descPs(l)));
     public static final DeferredItem<Item> DAMAGE_RING = registerCurio("damage_ring", l -> new Item(noStackPs(l)));
     public static final DeferredItem<Item> CHAMPIONS_RING = registerCurio("champions_ring", l -> new Item(noStackPs(l).rarity(Rarity.RARE)));
     public static final DeferredItem<Item> DORANS_RING = registerCurio("dorans_ring", l -> new Item(noStackPs(l)));
@@ -213,6 +212,7 @@ public final class ModItems {
     public static final DeferredItem<Item> LUCK_CHARM = registerCurio("luck_charm", l -> new Item(noStackPs(l).rarity(Rarity.RARE)));
     public static final DeferredItem<Item> FISH_NECKLACE = registerCurio("fishbone_necklace", l -> new Item(descPs(l)));
     public static final DeferredItem<Item> CLOCKWORK_AMULET = registerCurio("clockwork_amulet", l -> new Item(descPs(l).fireResistant()));
+    public static final DeferredItem<Item> GLOWING_CARD = registerCurio("glowing_card", l -> new Item(descPs(l)));
     public static final DeferredItem<Item> CREEPER_JELLY = register("nitro", l -> new Item(defaultPs(l)));
     public static final DeferredItem<Item> SALTPETRE = register("saltpetre", l -> new BoneMealItem(descPsStacking(l)));
     public static final DeferredItem<Item> SULFUR = register("sulfur", l -> new Item(defaultPs(l)));

@@ -112,7 +112,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.NECKLACES).add(ModItems.NULL_MAGIC_MANTLE.get());
         this.tag(ModTags.Items.NECKLACES).add(ModItems.FISH_NECKLACE.get());
         this.tag(ModTags.Items.NECKLACES).add(ModItems.CLOCKWORK_AMULET.get());
-        this.tag(ModTags.Items.RINGS).add(ModItems.GLOW_RING.get());
+        this.tag(ModTags.Items.NECKLACES).add(ModItems.GLOWING_CARD.get());
         this.tag(ModTags.Items.RINGS).add(ModItems.SILVER_RING.get());
         this.tag(ModTags.Items.RINGS).add(ModItems.GOLD_RING.get());
         this.tag(ModTags.Items.RINGS).add(ModItems.DAMAGE_RING.get());

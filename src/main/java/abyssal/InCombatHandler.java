@@ -4,7 +4,9 @@ import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModItems;
 import abyssal.init.ModPotionEffectTypes;
 import abyssal.items.AttributeHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,6 +24,7 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -92,6 +95,15 @@ public class InCombatHandler {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void playerNameEvent(PlayerEvent.NameFormat event) {
+        CuriosApi.getCuriosInventory(event.getEntity()).ifPresent((itemHandler)-> {
+            itemHandler.findFirstCurio(ModItems.GLOWING_CARD.get()).ifPresent((result) -> {
+                event.setDisplayname(Component.translatable("abyssal.glowing_card.playername").withStyle(ChatFormatting.GREEN));
+            });
+        });
     }
 
     @SubscribeEvent
