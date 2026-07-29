@@ -81,7 +81,7 @@ public interface ArmorMaterialsMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/equipment/ArmorMaterial;<init>(ILjava/util/Map;ILnet/minecraft/core/Holder;FFLnet/minecraft/tags/TagKey;Lnet/minecraft/resources/ResourceKey;)V",
-                    ordinal = 0
+                    ordinal = 3
             ),
             index = 0,
             require = 1
