@@ -117,9 +117,9 @@ public class HiveheartBlockEntity extends BlockEntity {
         BlockPos closest = rootPos;
         // TODO spatial hash
         for (BlockPos heartPos : slaves) {
-            float d2 = dsq(pos, heartPos);
-            if (d < d2) {
-                d = d2;
+            float newDist = dsq(pos, heartPos);
+            if (newDist < d) {
+                d = newDist;
                 closest = heartPos;
             }
 
@@ -289,7 +289,7 @@ public class HiveheartBlockEntity extends BlockEntity {
                     BlockPos probePos = here.relative(probeDir);
                     BlockState probeState = level.getBlockState(probePos);
                     if (canExpandTo(probeState)) {
-                        float v = expandValue(here, currentRoot, level);
+                        float v = expandValue(probePos, currentRoot, level);
                         if(v > bestExpandV) {
                             bestExpandPos = probePos.immutable();
                             bestExpandV = v;
