@@ -72,7 +72,6 @@ public class AlchemyState {
         Alchemy.Category category = getMaterialHere().getCategory();
         AlchemyReagentEffect effect = reagent.getEffect(temperature, category);
         Alchemy.BoardPosition candidatePosition = position.add(effect.dx, effect.dy);
-        Main.LOGGER.info("Trying change: " + effect.dx + ", " + effect.dy);
         Alchemy.Category destinationCategory = Alchemy.materialGroupAt(candidatePosition).getCategory();
         if(destinationCategory != Alchemy.Category.BLOCKER) {
             double loss = (1 - ( destinationCategory == category ? effect.intraEfficiency : effect.interEfficiency)) * quantity;

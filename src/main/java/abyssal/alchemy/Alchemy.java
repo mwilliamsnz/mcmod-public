@@ -13,7 +13,7 @@ public class Alchemy {
 
     private static final long SALT = 495104;
 
-    private static long currentSeed;
+    private static Long currentSeed; // null -> no seed
 
     private static Map<BoardPosition, AlchemyMaterialGroup> board;
     private static Map<AlchemyMaterial, BoardPosition> boardReverse;
@@ -57,7 +57,7 @@ public class Alchemy {
     }
 
     public static void initAlchemy(long seed) {
-        if(currentSeed == seed) {
+        if(currentSeed != null && currentSeed == seed) {
             return;
         }
         currentSeed = seed;
@@ -74,7 +74,6 @@ public class Alchemy {
         List<AlchemyMaterialGroup> allMaterials = AlchemyMaterials.makeMaterials();
 
         int blockers = xsize*ysize - allMaterials.size();
-        //Main.LOGGER.info(blockers + " blockers needed");
 
         if(blockers < 0) {
             Main.LOGGER.error("Too many materials (" + allMaterials.size() + ") for grid size " + xsize + " * " + ysize);
@@ -122,7 +121,6 @@ public class Alchemy {
                 }
                 indexInLevel++;
                 if(indexInLevel >= materialLevels.get(level).size()) {
-                    //Main.LOGGER.info("dropping to level " + (level-1));
                     indexInLevel = 0;
                     level--;
                 }
@@ -131,23 +129,13 @@ public class Alchemy {
             materialRanks.add(thisRank);
         }
 
-        // Debug print + assign board
+        // assign board
         for(int i = ysize-1; i >= 0; i--) {
-//            for(int j = 0; j < xsize; j++) {
-//                System.out.print("      | ");
-//            }
-//            System.out.println();
             for(int j = 0; j < xsize; j++) {
                 AlchemyMaterialGroup m = materialRanks.get(i).get(j);
                 BoardPosition pos = new BoardPosition(j,ysize-i-1);
                 board.put(pos, m);
-//                System.out.print(m.name + " | ");
             }
-//            System.out.println();
-//            for(int j = 0; j < xsize; j++) {
-//                System.out.print("      | ");
-//            }
-//            System.out.println();
         }
     }
 

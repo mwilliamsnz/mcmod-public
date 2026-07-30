@@ -23,37 +23,39 @@ public class AlchemyReagents {
         return reagentMap.getOrDefault(item, null);
     }
 
+    // Replacing the ModItems lambdas with method refs here will evaluate ModItems. If this happens, we cannot perform
+    // unit tests because it will hit unloaded registries
+    @SuppressWarnings({"Convert2MethodRef", "LambdaCanBeMethodCall"})
     public static List<AlchemyReagent> makeReagents(Random rand) {
         reagentMap.clear();
         reagentToItem.clear();
         list = new ArrayList<>();
 
         // Declare reagents
-        // Do NOT use .get on modded items, just give the reg obj
-        reagent( "Redstone", Items.REDSTONE);
-        reagent( "Glowstone", Items.GLOWSTONE_DUST);
-        reagent( "Ghast tear", Items.GHAST_TEAR);
-        reagent( "Sulfur", ModItems.SULFUR);
-        reagent( "Nitre", ModItems.SALTPETRE);
-        reagent( "Prismatic powder", ModItems.PRISMATIC_POWDER);
-        reagent( "Charcoal", Items.CHARCOAL);
-        reagent( "Blaze powder", Items.BLAZE_POWDER);
-        reagent( "Creeper jelly", ModItems.CREEPER_JELLY);
-        reagent( "Slime ball", Items.SLIME_BALL);
+        reagent( "Redstone", () -> Items.REDSTONE);
+        reagent( "Glowstone", () -> Items.GLOWSTONE_DUST);
+        reagent( "Ghast tear", () -> Items.GHAST_TEAR);
+        reagent( "Sulfur", () -> ModItems.SULFUR.get());
+        reagent( "Nitre", () -> ModItems.SALTPETRE.get());
+        reagent( "Prismatic powder", () -> ModItems.PRISMATIC_POWDER.get());
+        reagent( "Charcoal", () -> Items.CHARCOAL);
+        reagent( "Blaze powder", () -> Items.BLAZE_POWDER);
+        reagent( "Creeper jelly", () -> ModItems.CREEPER_JELLY.get());
+        reagent( "Slime ball", () -> Items.SLIME_BALL);
         // above this line: can be made through alchemy directly
-        reagent( "Magma cream", Items.MAGMA_CREAM);
+        reagent( "Magma cream", () -> Items.MAGMA_CREAM);
         // below this line: cannot be made through alchemy alone
-        reagent( "Ink sac", Items.INK_SAC);
-        reagent( "Glow ink", Items.GLOW_INK_SAC);
-        reagent( "Sugar", Items.SUGAR );
-        reagent( "Honeycomb", Items.HONEYCOMB);
-        reagent( "Cocoa beans", Items.COCOA_BEANS);
-        reagent( "Fermented spider eye", Items.FERMENTED_SPIDER_EYE);
-        reagent( "Lichen", Items.GLOW_LICHEN);
-        reagent( "Moss", Items.MOSS_BLOCK);
-        reagent( "Nether wart", Items.NETHER_WART);
-        reagent( "Red mushroom", Items.RED_MUSHROOM);
-        reagent( "Brown mushroom", Items.BROWN_MUSHROOM);
+        reagent( "Ink sac", () -> Items.INK_SAC);
+        reagent( "Glow ink", () -> Items.GLOW_INK_SAC);
+        reagent( "Sugar", () -> Items.SUGAR);
+        reagent( "Honeycomb", () -> Items.HONEYCOMB);
+        reagent( "Cocoa beans", () -> Items.COCOA_BEANS);
+        reagent( "Fermented spider eye", () -> Items.FERMENTED_SPIDER_EYE);
+        reagent( "Lichen", () -> Items.GLOW_LICHEN);
+        reagent( "Moss", () -> Items.MOSS_BLOCK);
+        reagent( "Nether wart", () -> Items.NETHER_WART);
+        reagent( "Red mushroom", () -> Items.RED_MUSHROOM);
+        reagent( "Brown mushroom", () -> Items.BROWN_MUSHROOM);
 
         List<AlchemyReagentEffect> effects = generateEffectsList(list.size()*3, rand);
 
@@ -83,9 +85,6 @@ public class AlchemyReagents {
     }
 
 
-    private static void reagent(String name, Item vanillaItem) {
-        reagent(name, ()->vanillaItem);
-    }
     private static void reagent(String name, Supplier<Item> item) {
         AlchemyReagent r = new AlchemyReagent(); // effects assigned later
         reagentToItem.put(r, item);
