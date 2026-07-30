@@ -1,12 +1,9 @@
 package abyssal;
 
-import abyssal.alchemy.Alchemy;
 import abyssal.data.*;
-import abyssal.generation.OreDist;
 import abyssal.init.*;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -42,6 +39,7 @@ public class Main {
         ModCreativeTabs.TABS.register(modEventBus);
         ModAttachmentTypes.ATTACHMENT_TYPES.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
+        ModDataComponents.CONSUMABLE_TYPES.register(modEventBus);
         ModPotionEffectTypes.POTION_EFFECT_TYPES.register(modEventBus);
         modEventBus.addListener(this::gatherData);
         ModPOIs.POI_TYPES.register(modEventBus);

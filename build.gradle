@@ -71,7 +71,7 @@ runs {
         // workingDirectory project.file('run-data')
 
         // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -104,8 +104,9 @@ dependencies {
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
-    implementation "blank:callofthecorn-${minecraft_version}:1.1.0"
+//    implementation "blank:callofthecorn-${minecraft_version}:1.1.0"
 //    implementation "blank:pumkinpie-${minecraft_version}:0.0.3"
+
 
     testImplementation platform("org.junit:junit-bom:5.12.2")
     testImplementation "org.junit.jupiter:junit-jupiter"
@@ -120,6 +121,15 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+// Optional dependency
+def cotcJar = file("libs/callofthecorn-${minecraft_version}-1.1.0.jar")
+
+if (cotcJar.exists()) {
+    dependencies {
+        localRuntime files(cotcJar)
+    }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

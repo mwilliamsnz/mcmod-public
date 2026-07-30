@@ -1,3 +1,7 @@
+/libs/
+/src/generated/
+/logs/
+
 # eclipse
 bin
 *.launch

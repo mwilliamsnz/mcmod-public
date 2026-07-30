@@ -1,6 +1,9 @@
 {
   "values": [
     "abyssal:temperate",
-    "abyssal:temperate_compat"
+    {
+      "id": "abyssal:temperate_compat",
+      "required": false
+    }
   ]
 }

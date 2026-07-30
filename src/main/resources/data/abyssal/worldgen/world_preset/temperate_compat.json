@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "callofthecorn"
+    }
+  ],
   "dimensions": {
     "minecraft:overworld": {
   "type": "minecraft:overworld",
