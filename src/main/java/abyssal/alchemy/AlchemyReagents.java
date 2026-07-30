@@ -24,6 +24,8 @@ public class AlchemyReagents {
     }
 
     public static List<AlchemyReagent> makeReagents(Random rand) {
+        reagentMap.clear();
+        reagentToItem.clear();
         list = new ArrayList<>();
 
         // Declare reagents
@@ -40,7 +42,7 @@ public class AlchemyReagents {
         reagent( "Slime ball", Items.SLIME_BALL);
         // above this line: can be made through alchemy directly
         reagent( "Magma cream", Items.MAGMA_CREAM);
-        // below this lineL cannot be made through alchemy alone
+        // below this line: cannot be made through alchemy alone
         reagent( "Ink sac", Items.INK_SAC);
         reagent( "Glow ink", Items.GLOW_INK_SAC);
         reagent( "Sugar", Items.SUGAR );
@@ -76,7 +78,6 @@ public class AlchemyReagents {
             }
             i += 3;
         }
-
 
         return list;
     }
