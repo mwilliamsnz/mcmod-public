@@ -1,5 +1,6 @@
 package abyssal.items.curios;
 
+import abyssal.components.CoinPurseBundleContents;
 import abyssal.data.ModTags;
 import abyssal.init.ModDataComponents;
 import abyssal.inventory.CoinPurseTooltip;

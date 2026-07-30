@@ -1,7 +1,7 @@
 package abyssal.client;
 
 import abyssal.inventory.CoinPurseTooltip;
-import abyssal.items.curios.CoinPurseBundleContents;
+import abyssal.components.CoinPurseBundleContents;
 import com.mojang.serialization.DataResult;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

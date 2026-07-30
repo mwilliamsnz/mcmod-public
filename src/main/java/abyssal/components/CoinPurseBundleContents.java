@@ -1,4 +1,4 @@
-package abyssal.items.curios;
+package abyssal.components;
 
 import abyssal.init.ModDataComponents;
 import com.google.common.base.Suppliers;
