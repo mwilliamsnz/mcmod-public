@@ -1,12 +1,13 @@
 package abyssal.generation.features;
 
-import abyssal.Main;
 import abyssal.generation.OreDist;
+import abyssal.init.ModAttachmentTypes;
 import abyssal.init.ModGeneration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
@@ -38,7 +39,8 @@ public class ChunkDistributionFilter extends PlacementFilter {
         if(type == OreDist.OreChunkType.NONE) {
             return true;
         }
-        OreDist.OreChunkType here = Main.oreDist.at(ChunkPos.containing(pos), context.getLevel().getSeed());
+        ServerLevel serverLevel = context.getLevel().getLevel();
+        OreDist.OreChunkType here = serverLevel.getData(ModAttachmentTypes.ORE_DIST).at(ChunkPos.containing(pos));
         return here == type;
     }
 

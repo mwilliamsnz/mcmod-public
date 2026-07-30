@@ -107,6 +107,10 @@ dependencies {
     implementation "blank:callofthecorn-${minecraft_version}:1.1.0"
 //    implementation "blank:pumkinpie-${minecraft_version}:0.0.3"
 
+    testImplementation platform("org.junit:junit-bom:5.12.2")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+
     // Example mod dependency using a file as dependency
     // implementation files("libs/callofthecorn-${minecraft_version}:1.1.0.jar")
 
@@ -159,6 +163,10 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.

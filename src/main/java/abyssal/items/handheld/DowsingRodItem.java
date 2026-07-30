@@ -2,6 +2,7 @@ package abyssal.items.handheld;
 
 import abyssal.Main;
 import abyssal.generation.OreDist;
+import abyssal.init.ModAttachmentTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -28,8 +29,7 @@ public class DowsingRodItem extends Item {
             Player p = ctx.getPlayer();
             Block block = ctx.getLevel().getBlockState(ctx.getClickedPos()).getBlock();
             if(block == Blocks.STONE || block == Blocks.DEEPSLATE) {
-                long seed = ((ServerLevel)ctx.getLevel()).getSeed();
-                OreDist.OreChunkType here = Main.oreDist.at(ChunkPos.containing(ctx.getClickedPos()), seed);
+                OreDist.OreChunkType here = ctx.getLevel().getData(ModAttachmentTypes.ORE_DIST).at(ChunkPos.containing(ctx.getClickedPos()));
                 p.sendSystemMessage(Component.translatable(here.name()));
                 return InteractionResult.SUCCESS;
             }

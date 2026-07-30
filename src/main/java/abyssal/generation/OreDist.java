@@ -21,12 +21,14 @@ public class OreDist {
 
     private int totalWeight = 0;
 
-    private Map<ChunkPos, Float> masses;
-    private Map<ChunkPos, OreChunkType> seeds;
-    private Map<ChunkPos, OreChunkType> ores;
+    private final long levelSeed;
+    private Map<OrePos, Float> masses;
+    private Map<OrePos, OreChunkType> seeds;
+    private Map<OrePos, OreChunkType> ores;
 
 
-    public OreDist() {
+    public OreDist(long seed) {
+        levelSeed = seed;
         for(OreChunkType ore : OreChunkType.values()) {
             totalWeight += ore.weight;
             ore.cumulativeSum = totalWeight;
@@ -35,55 +37,65 @@ public class OreDist {
     }
 
     private void clearCache() {
-        masses = new HashMap<ChunkPos, Float>();
-        seeds = new HashMap<ChunkPos, OreChunkType>();
-        ores = new HashMap<ChunkPos, OreChunkType>();
+        masses = new HashMap<OrePos, Float>();
+        seeds = new HashMap<OrePos, OreChunkType>();
+        ores = new HashMap<OrePos, OreChunkType>();
     }
 
-    public OreChunkType at(ChunkPos pos, long seed) {
-        if(!ores.containsKey(pos)) {
-            ores.put(pos, findOre(pos, seed));
+    public OreChunkType at(ChunkPos pos) {
+        return at(pos.x(), pos.z());
+    }
+
+    // This is synchronised because worldgen is multithreaded and so it is
+    // possible hit this while the cache is being cleared on another thread
+    // See OreDistTest, gives NPE if not synchronised. Shouldn't be too much
+    // contention as this is pretty fast while worldgen is very slow.
+    synchronized OreChunkType at(int x, int z) {
+        OrePos pos = new OrePos(x, z);
+        if(!ores.containsKey(pos)) { // cache miss
+            if(ores.size() >= CACHE_SIZE) {
+                clearCache();
+            }
+            ores.put(pos, findOre(pos));
         }
+
         return ores.get(pos);
     }
 
-    private OreChunkType findOre(ChunkPos pos, long seed) {
+    private OreChunkType findOre(OrePos pos) {
         OreChunkType oreNear = OreChunkType.NONE;
         float massNear = 0;
-        OreChunkType centre = findSeedType(pos, seed);
+        OreChunkType centre = findSeedType(pos);
         if(centre != OreChunkType.NONE) {
             return centre;
         }
         for(int x = -RADIUS; x <= RADIUS; x++) {
             for(int z = -RADIUS; z <= RADIUS; z++) {
-                ChunkPos there = new ChunkPos(pos.x()+x,pos.z()+z);
-                OreChunkType oreThere = findSeedType(there, seed);
+                OrePos there = new OrePos(pos.x()+x,pos.z()+z);
+                OreChunkType oreThere = findSeedType(there);
                 if(oreNear == OreChunkType.NONE) {
                     oreNear = oreThere;
                 } else if(oreThere != OreChunkType.NONE && oreNear != oreThere) {
                     return OreChunkType.NONE;
                 }
-                massNear += massAt(there, seed) / (2*Math.abs(x) + 2*Math.abs(z) + 1);
+                massNear += massAt(there) / (2*Math.abs(x) + 2*Math.abs(z) + 1);
             }
         }
         if(massNear >= oreNear.threshold) {
             return oreNear;
         }
-        if(ores.size() > CACHE_SIZE) {
-            clearCache();
-        }
         return OreChunkType.NONE;
     }
 
-    private OreChunkType seedType(ChunkPos pos, long seed) {
+    private OreChunkType seedType(OrePos pos) {
         if(!seeds.containsKey(pos)) {
-            seeds.put(pos, findSeedType(pos, seed));
+            seeds.put(pos, findSeedType(pos));
         }
         return seeds.get(pos);
     }
 
-    private OreChunkType findSeedType(ChunkPos pos, long seed) {
-        Random r = new Random(seed + pos.hashCode());
+    private OreChunkType findSeedType(OrePos pos) {
+        Random r = new Random(levelSeed + pos.hashCode());
         if(r.nextFloat() < 0.95) {
             return OreChunkType.NONE;
         }
@@ -97,20 +109,29 @@ public class OreDist {
         return OreChunkType.NONE;
     }
 
-    private float massAt(ChunkPos pos, long seed) {
+    private float massAt(OrePos pos) {
         if(!masses.containsKey(pos)) {
-            masses.put(pos, findMass(pos, seed));
+            masses.put(pos, findMass(pos));
         }
         return masses.get(pos);
     }
 
-    private float findMass(ChunkPos pos, long seed) {
-        OreChunkType ore = seedType(pos, seed);
+    private float findMass(OrePos pos) {
+        OreChunkType ore = seedType(pos);
         if(ore == OreChunkType.NONE) {
-            Random r = new Random(seed + 1 + pos.hashCode());
+            Random r = new Random(levelSeed + 1 + pos.hashCode());
             return r.nextFloat();
         }
         return MASS_OF_ORE;
+    }
+
+    private record OrePos(int x, int z) {
+        @Override
+        public int hashCode() {
+            int xTransform = 1664525 * x + 1013904223;
+            int zTransform = 1664525 * (z ^ -559038737) + 1013904223;
+            return xTransform ^ zTransform;
+        }
     }
 
     public enum OreChunkType {

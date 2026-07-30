@@ -1,8 +1,7 @@
 package abyssal.spells;
 
-import abyssal.Main;
 import abyssal.generation.OreDist;
-import net.minecraft.core.BlockPos;
+import abyssal.init.ModAttachmentTypes;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -26,8 +25,7 @@ public class DowsingSpell extends Spell {
     @Override
     public InteractionResult cast(Level level, Player player, ItemStack staff, ItemStack book, double ap) {
         if (level instanceof ServerLevel serverLevel) {
-            long seed = serverLevel.getSeed();
-            OreDist.OreChunkType here = Main.oreDist.at(ChunkPos.containing(player.blockPosition()), seed);
+            OreDist.OreChunkType here = serverLevel.getData(ModAttachmentTypes.ORE_DIST).at(ChunkPos.containing(player.blockPosition()));
             SoundEvent sound = SoundEvents.DEEPSLATE_HIT;
             float r = 0, g = 0, b = 0;
             switch (here) {

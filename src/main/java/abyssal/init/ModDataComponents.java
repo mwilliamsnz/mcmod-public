@@ -2,7 +2,7 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.components.*;
-import abyssal.items.curios.CoinPurseBundleContents;
+import abyssal.components.CoinPurseBundleContents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;

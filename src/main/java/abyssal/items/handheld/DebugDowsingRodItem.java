@@ -2,6 +2,7 @@ package abyssal.items.handheld;
 
 import abyssal.Main;
 import abyssal.generation.OreDist;
+import abyssal.init.ModAttachmentTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -33,7 +34,7 @@ public class DebugDowsingRodItem extends Item {
             for(int i = -5; i <= 5; i++) {
                 StringBuilder s = new StringBuilder();
                 for(int j = -5; j <= 5; j++) {
-                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x() - i, pos.z() + j), seed);
+                    OreDist.OreChunkType here = ctx.getLevel().getData(ModAttachmentTypes.ORE_DIST).at(new ChunkPos(pos.x() - i, pos.z() + j));
                     s.append(here.debugSymbol);
                     s.append(" ");
                 }
@@ -44,7 +45,7 @@ public class DebugDowsingRodItem extends Item {
             for(int i = -50; i <= 50; i++) {
                 s.append("\n");
                 for(int j = -50; j <= 50; j++) {
-                    OreDist.OreChunkType here = Main.oreDist.at(new ChunkPos(pos.x() - i, pos.z() + j), seed);
+                    OreDist.OreChunkType here = ctx.getLevel().getData(ModAttachmentTypes.ORE_DIST).at(new ChunkPos(pos.x() - i, pos.z() + j));
                     if(here == null) {
                         here = OreDist.OreChunkType.NONE;
                     }

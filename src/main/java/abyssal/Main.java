@@ -25,8 +25,6 @@ public class Main {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static OreDist oreDist = new OreDist();
-
     public Main(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.ITEMS.register(modEventBus);
         ModItems.OVERRIDE_ITEMS.register(modEventBus);

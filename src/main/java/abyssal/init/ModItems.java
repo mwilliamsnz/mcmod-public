@@ -2,14 +2,10 @@ package abyssal.init;
 
 import abyssal.Main;
 import abyssal.ModAttributes;
-import abyssal.components.DescComponent;
-import abyssal.components.RestoreFuelConsumeEffect;
-import abyssal.components.SpellBatteryComponent;
-import abyssal.components.SpellRefuelComponent;
+import abyssal.components.*;
 import abyssal.items.*;
 import abyssal.items.armour.MobiBootsItem;
 import abyssal.items.armour.WarmogsItem;
-import abyssal.items.curios.CoinPurseBundleContents;
 import abyssal.items.curios.CoinPurseItem;
 import abyssal.items.handheld.*;
 import abyssal.items.spells.*;
