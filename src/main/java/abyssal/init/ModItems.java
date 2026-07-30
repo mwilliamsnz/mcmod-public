@@ -130,11 +130,11 @@ public final class ModItems {
             .attributes(ItemAttributeModifiers.builder()
                     .add(ModAttributes.ABILITY_POWER, new AttributeModifier(rl("amp_tome_ap"), 20, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
                     .build())));
-    public static final DeferredItem<Item> LOST_CHAPTER = registerCurio("lost_chapter", l -> new DualSpellBook(defaultPs(l).stacksTo(1).rarity(Rarity.RARE)
+    public static final DeferredItem<Item> LOST_CHAPTER = registerCurio("lost_chapter", l -> new Item(defaultPs(l).stacksTo(1).rarity(Rarity.RARE)
             .attributes(ItemAttributeModifiers.builder()
                     .add(ModAttributes.ABILITY_POWER, new AttributeModifier(rl("lost_chapter_ap"), 40, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
                     .build())));
-    public static final DeferredItem<Item> FIENDISH_CODEX = registerCurio("fiendish_codex", l -> new DualSpellBook(defaultPs(l).stacksTo(1).rarity(Rarity.RARE)
+    public static final DeferredItem<Item> FIENDISH_CODEX = registerCurio("fiendish_codex", l -> new Item(defaultPs(l).stacksTo(1).rarity(Rarity.RARE)
             .attributes(ItemAttributeModifiers.builder()
                     .add(ModAttributes.ABILITY_POWER, new AttributeModifier(rl("fiendish_codex_ap"), 25, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND)
                     .build())));
